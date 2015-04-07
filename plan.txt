@@ -1,0 +1,6 @@
+// Plan :
+
+
+1. create link from home to todo page
+
+2. create todo page (is this a directive or a fragment or  both?)
