@@ -33,7 +33,7 @@ app.get('/', function(req, res, next){
 
   //res.sendFile('./public/modules/home/views/home.html');
   //res.sendFile('./public/home.html');
-  res.sendFile(path.join(__dirname, 'public/ang/home.html'));
+  res.sendFile(path.join(__dirname, 'public/ang/app.html'));
 });
 
 // catch 404 and forward to error handler
