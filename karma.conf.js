@@ -23,7 +23,7 @@ module.exports = function(config) {
       './public/ang/app.module.js',
       './public/ang/app.controllers.js',
 
-      './public/ang/*.spec.js'
+      './public/ang/*.test-unit.js'
     ],
 
 
