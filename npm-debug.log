@@ -1,9 +1,9 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '-g', 'node-codekit' ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '-g', 'karma-cli' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.33
-4 verbose cache add [ 'node-codekit', null ]
-5 verbose cache add name=undefined spec="node-codekit" args=["node-codekit",null]
+4 verbose cache add [ 'karma-cli', null ]
+5 verbose cache add name=undefined spec="karma-cli" args=["karma-cli",null]
 6 verbose parsed url { protocol: null,
 6 verbose parsed url   slashes: null,
 6 verbose parsed url   auth: null,
@@ -13,116 +13,126 @@
 6 verbose parsed url   hash: null,
 6 verbose parsed url   search: null,
 6 verbose parsed url   query: null,
-6 verbose parsed url   pathname: 'node-codekit',
-6 verbose parsed url   path: 'node-codekit',
-6 verbose parsed url   href: 'node-codekit' }
-7 silly lockFile 7296a152-node-codekit node-codekit
-8 verbose lock node-codekit /Users/justin/.npm/7296a152-node-codekit.lock
-9 silly lockFile 7296a152-node-codekit node-codekit
-10 silly lockFile 7296a152-node-codekit node-codekit
-11 verbose addNamed [ 'node-codekit', '' ]
+6 verbose parsed url   pathname: 'karma-cli',
+6 verbose parsed url   path: 'karma-cli',
+6 verbose parsed url   href: 'karma-cli' }
+7 silly lockFile aa100f68-karma-cli karma-cli
+8 verbose lock karma-cli /Users/justin/.npm/aa100f68-karma-cli.lock
+9 silly lockFile aa100f68-karma-cli karma-cli
+10 silly lockFile aa100f68-karma-cli karma-cli
+11 verbose addNamed [ 'karma-cli', '' ]
 12 verbose addNamed [ null, '*' ]
-13 silly lockFile b8133387-node-codekit node-codekit@
-14 verbose lock node-codekit@ /Users/justin/.npm/b8133387-node-codekit.lock
-15 silly addNameRange { name: 'node-codekit', range: '*', hasData: false }
-16 verbose request where is /node-codekit
+13 silly lockFile 8f6f2c72-karma-cli karma-cli@
+14 verbose lock karma-cli@ /Users/justin/.npm/8f6f2c72-karma-cli.lock
+15 silly addNameRange { name: 'karma-cli', range: '*', hasData: false }
+16 verbose request where is /karma-cli
 17 verbose request registry https://registry.npmjs.org/
-18 verbose request id 5b5d863e0b7cb0cc
-19 verbose url raw /node-codekit
-20 verbose url resolving [ 'https://registry.npmjs.org/', './node-codekit' ]
-21 verbose url resolved https://registry.npmjs.org/node-codekit
-22 verbose request where is https://registry.npmjs.org/node-codekit
-23 info trying registry request attempt 1 at 15:10:24
-24 http GET https://registry.npmjs.org/node-codekit
-25 http 200 https://registry.npmjs.org/node-codekit
+18 verbose request id ca6903f6a4e3d3b7
+19 verbose url raw /karma-cli
+20 verbose url resolving [ 'https://registry.npmjs.org/', './karma-cli' ]
+21 verbose url resolved https://registry.npmjs.org/karma-cli
+22 verbose request where is https://registry.npmjs.org/karma-cli
+23 info trying registry request attempt 1 at 15:29:56
+24 http GET https://registry.npmjs.org/karma-cli
+25 http 200 https://registry.npmjs.org/karma-cli
 26 silly registry.get cb [ 200,
-26 silly registry.get   { date: 'Sun, 05 Apr 2015 22:10:24 GMT',
+26 silly registry.get   { date: 'Tue, 07 Apr 2015 22:29:56 GMT',
 26 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
-26 silly registry.get     etag: '"DL80YWXMHN1G9IX9HDGO9I2KL"',
+26 silly registry.get     etag: '"2MUL3QTCNLCIC861L5ENX5IQI"',
 26 silly registry.get     'content-type': 'application/json',
 26 silly registry.get     'cache-control': 'max-age=60',
-26 silly registry.get     'content-length': '28519',
+26 silly registry.get     'content-length': '5965',
 26 silly registry.get     'accept-ranges': 'bytes',
 26 silly registry.get     via: '1.1 varnish',
-26 silly registry.get     age: '0',
-26 silly registry.get     'x-served-by': 'cache-sjc3134-SJC',
-26 silly registry.get     'x-cache': 'MISS',
-26 silly registry.get     'x-cache-hits': '0',
-26 silly registry.get     'x-timer': 'S1428271824.257270,VS0,VE69',
+26 silly registry.get     age: '19',
+26 silly registry.get     'x-served-by': 'cache-sjc3129-SJC',
+26 silly registry.get     'x-cache': 'HIT',
+26 silly registry.get     'x-cache-hits': '1',
+26 silly registry.get     'x-timer': 'S1428445796.915572,VS0,VE0',
 26 silly registry.get     vary: 'Accept',
 26 silly registry.get     'keep-alive': 'timeout=10, max=50',
 26 silly registry.get     connection: 'Keep-Alive' } ]
-27 silly addNameRange number 2 { name: 'node-codekit', range: '*', hasData: true }
-28 silly addNameRange versions [ 'node-codekit',
-28 silly addNameRange   [ '0.0.0', '0.0.1', '0.0.2', '0.0.3', '0.0.4', '0.0.5' ] ]
-29 verbose addNamed [ 'node-codekit', '0.0.5' ]
-30 verbose addNamed [ '0.0.5', '0.0.5' ]
-31 silly lockFile f2165aee-node-codekit-0-0-5 node-codekit@0.0.5
-32 verbose lock node-codekit@0.0.5 /Users/justin/.npm/f2165aee-node-codekit-0-0-5.lock
-33 silly lockFile cb058acf-e-codekit-node-codekit-0-0-5-tgz https://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz
-34 verbose lock https://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz /Users/justin/.npm/cb058acf-e-codekit-node-codekit-0-0-5-tgz.lock
-35 verbose addRemoteTarball [ 'https://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz',
-35 verbose addRemoteTarball   '91430b85cd83c269c701a0c3783a22f3fb85ba51' ]
-36 info retry fetch attempt 1 at 15:10:24
-37 verbose fetch to= /var/folders/nk/8t70fq114pv9sw3jrx14ck_80000gn/T/npm-82617-4TYHZ1jH/registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz
-38 http GET https://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz
-39 http 200 https://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz
-40 silly lockFile cb058acf-e-codekit-node-codekit-0-0-5-tgz https://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz
-41 silly lockFile cb058acf-e-codekit-node-codekit-0-0-5-tgz https://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz
-42 silly lockFile f2165aee-node-codekit-0-0-5 node-codekit@0.0.5
-43 silly lockFile f2165aee-node-codekit-0-0-5 node-codekit@0.0.5
-44 silly lockFile b8133387-node-codekit node-codekit@
-45 silly lockFile b8133387-node-codekit node-codekit@
-46 silly resolved [ { name: 'node-codekit',
-46 silly resolved     version: '0.0.5',
-46 silly resolved     description: 'CodeKit alternative on Node.JS',
-46 silly resolved     bin: { 'node-codekit': 'bin/nodekit', nodekit: 'bin/nodekit' },
-46 silly resolved     scripts: { test: 'echo "Error: no test specified" && exit 1' },
-46 silly resolved     dependencies:
-46 silly resolved      { growl: '*',
-46 silly resolved        g15composer: '*',
-46 silly resolved        commander: '*',
-46 silly resolved        prompt: '*',
-46 silly resolved        colors: '*',
-46 silly resolved        watchr: '*',
-46 silly resolved        less: '*',
-46 silly resolved        'socket.io': '*',
-46 silly resolved        'node-minify': '*' },
+27 silly addNameRange number 2 { name: 'karma-cli', range: '*', hasData: true }
+28 silly addNameRange versions [ 'karma-cli', [ '0.0.1', '0.0.2', '0.0.3', '0.0.4' ] ]
+29 verbose addNamed [ 'karma-cli', '0.0.4' ]
+30 verbose addNamed [ '0.0.4', '0.0.4' ]
+31 silly lockFile 0ef08b95-karma-cli-0-0-4 karma-cli@0.0.4
+32 verbose lock karma-cli@0.0.4 /Users/justin/.npm/0ef08b95-karma-cli-0-0-4.lock
+33 silly lockFile ad31c554-rg-karma-cli-karma-cli-0-0-4-tgz https://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz
+34 verbose lock https://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz /Users/justin/.npm/ad31c554-rg-karma-cli-karma-cli-0-0-4-tgz.lock
+35 verbose addRemoteTarball [ 'https://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz',
+35 verbose addRemoteTarball   '1840a6a2545754bb02100f09229cdd9963a6cf68' ]
+36 info retry fetch attempt 1 at 15:29:56
+37 verbose fetch to= /var/folders/nk/8t70fq114pv9sw3jrx14ck_80000gn/T/npm-56423-pw4Cd8-P/registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz
+38 http GET https://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz
+39 http 200 https://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz
+40 silly lockFile ad31c554-rg-karma-cli-karma-cli-0-0-4-tgz https://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz
+41 silly lockFile ad31c554-rg-karma-cli-karma-cli-0-0-4-tgz https://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz
+42 silly lockFile 0ef08b95-karma-cli-0-0-4 karma-cli@0.0.4
+43 silly lockFile 0ef08b95-karma-cli-0-0-4 karma-cli@0.0.4
+44 silly lockFile 8f6f2c72-karma-cli karma-cli@
+45 silly lockFile 8f6f2c72-karma-cli karma-cli@
+46 silly resolved [ { name: 'karma-cli',
+46 silly resolved     description: 'The Karma command line interface.',
+46 silly resolved     homepage: 'http://karma-runner.github.io/',
 46 silly resolved     repository:
 46 silly resolved      { type: 'git',
-46 silly resolved        url: 'https://github.com/Illizian/node-codekit.git' },
-46 silly resolved     author: { name: 'Alex Scotton' },
-46 silly resolved     license: 'open',
-46 silly resolved     readmeFilename: 'readme.md',
-46 silly resolved     gitHead: '701fc40d697de1cf54c0a41812144f3622c31bdd',
-46 silly resolved     readme: 'NodeKit\n==============\n1. **Intro**\n2. **Features**\n3. **How to Use**\n4. **Credits**\n\n## CodeKit Alternative built on Node.JS\n\nAn attempt at replicating some of the awesome power in [CodeKit](http://incident57.com/codekit/).\n\nThank you, incident57 for providing the inspiration!\n\n>PLEASE NOTE: This has not been thoroughly tested! This is a prototype!\n>\n> I do not take responsibility for ruining your working directory, use with caution...\n>\n> Make sure to backup any directory before starting the Node Server!\n\nFeatures\n--------\n\n1. **Live Reload**\n\t\n\tPlace a small snippet of code into your "views":\n\n\t\t<script src="./jquery.js"></script>\n\t\t<script src="./node-codekit-display.js"></script>\n\n    ... and everytime you create or change a file in your project directory, NodeKit \n    will instruct every instance of your page to refresh, ensuring every device is\n    in sync. (it\'s compatible with:- Chrome, Safari, Firefox on Mac, Windows or Unix and\n    Android and iOS devices)\n\n2. **CSS Wizardry**\n\n    We\'ve all been there, you just can\'t get the site to look quite right, you\'re\n    playing with rules, and sometimes it\'s not convenient to do it in Debugging\n    Tools, or maybe you\'re designing for a tablet or mobile device and don\'t have such luxuries.\n\n    Well with NodeKit, Everytime a Stylesheet changes, it instructs all your\n    browsers/displays (inc. Mobiles/Tablets) to reload the stylesheets, no refresh of the page needed!\n\n3.  **LESS Compiler**\n\t\n\tWorking with LESS? These will be compiled automatically for you!\n\n\t\texample: style.less => style.less.css\n\n4.\t**CSS & JS Minifier/Compressor**\n\t\n\tUsing a YUI library, it compresses all of your CSS and Javascript files, to ensure\n\tpeak performance on your webpage.\n\n\t\texample: style.less.css => style.less-min-yui.css\n\t\texample: jquery.js => jquery-min-yui.js\n\n5.  **Notifications**\n\n\tSupport for the desktop notifications via [Growl](https://github.com/visionmedia/node-growl)\n\n\tPlease refer to their installation how to, for OS specific dependancies.\n\n\t\tnodekit -n growl\n\n5.\t**Cross-Platform**\n\t\n\tUsing only NodeJS and Node libraries (npm modules); it is truely cross platform; \n\tall you need is NodeJS and you\'re ready to go!\n\nHow to Use\n--------\n\n1. **INSTALL**\n\t\n\tInstall from NPM\n\n\t\tnpm install -g node-codekit\n\t> [https://npmjs.org/package/node-codekit](https://npmjs.org/package/node-codekit)\n\n2. **CONFIGURE YOUR WORKING DIRECTORY**\n\t\n\tNavigate to the directory you want to watch and start node-codekit with the -i flag to setup your directory\n \t\t\n \t\tcd myProject/\n \t\tnodekit -i\n\n \tFollow the on-screen prompts.\n\n3. **RUN SERVER**\n\n\t\tnodekit\n\n--------\n| email: [alex@alexscotton.com](mailto:alex@alexscotton.com) | www: [www.alexscotton.com](http://www.alexscotton.com) |',
-46 silly resolved     _id: 'node-codekit@0.0.5',
+46 silly resolved        url: 'git://github.com/karma-runner/karma-cli.git' },
+46 silly resolved     bugs: { url: 'https://github.com/karma-runner/karma-cli/issues' },
+46 silly resolved     keywords:
+46 silly resolved      [ 'karma',
+46 silly resolved        'spectacular',
+46 silly resolved        'runner',
+46 silly resolved        'karma',
+46 silly resolved        'js',
+46 silly resolved        'javascript',
+46 silly resolved        'testing',
+46 silly resolved        'test',
+46 silly resolved        'remote',
+46 silly resolved        'execution' ],
+46 silly resolved     author: { name: 'Vojta Jína', email: 'vojta.jina@gmail.com' },
+46 silly resolved     contributors: [ [Object] ],
+46 silly resolved     dependencies: { resolve: '~0.5.1' },
+46 silly resolved     peerDependencies: {},
+46 silly resolved     devDependencies:
+46 silly resolved      { grunt: '~0.4.1',
+46 silly resolved        'grunt-contrib-jshint': '~0.7.2',
+46 silly resolved        'grunt-coffeelint': '0.0.7',
+46 silly resolved        'grunt-bump': '0.0.11',
+46 silly resolved        'grunt-npm': '0.0.2',
+46 silly resolved        'grunt-auto-release': '0.0.4',
+46 silly resolved        'grunt-conventional-changelog': '~1.0.0' },
+46 silly resolved     preferGlobal: true,
+46 silly resolved     bin: { karma: './bin/karma' },
+46 silly resolved     engines: { node: '~0.8 || ~0.10' },
+46 silly resolved     version: '0.0.4',
+46 silly resolved     _id: 'karma-cli@0.0.4',
 46 silly resolved     dist:
-46 silly resolved      { shasum: '91430b85cd83c269c701a0c3783a22f3fb85ba51',
-46 silly resolved        tarball: 'http://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz' },
-46 silly resolved     _from: 'node-codekit@',
-46 silly resolved     _npmVersion: '1.2.17',
-46 silly resolved     _npmUser: { name: 'illizian', email: 'alex@alexscotton.com' },
+46 silly resolved      { shasum: '1840a6a2545754bb02100f09229cdd9963a6cf68',
+46 silly resolved        tarball: 'http://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz' },
+46 silly resolved     _from: 'karma-cli@',
+46 silly resolved     _npmVersion: '1.3.21',
+46 silly resolved     _npmUser: { name: 'vojtajina', email: 'vojta.jina@gmail.com' },
 46 silly resolved     maintainers: [ [Object] ],
 46 silly resolved     directories: {},
-46 silly resolved     _shasum: '91430b85cd83c269c701a0c3783a22f3fb85ba51',
-46 silly resolved     _resolved: 'https://registry.npmjs.org/node-codekit/-/node-codekit-0.0.5.tgz' } ]
-47 info install node-codekit@0.0.5 into /usr/local/lib
-48 info installOne node-codekit@0.0.5
-49 verbose lib/node_modules/node-codekit unbuild
-50 verbose tar unpack /Users/justin/.npm/node-codekit/0.0.5/package.tgz
-51 silly lockFile d786f66e-al-lib-node-modules-node-codekit tar:///usr/local/lib/node_modules/node-codekit
-52 verbose lock tar:///usr/local/lib/node_modules/node-codekit /Users/justin/.npm/d786f66e-al-lib-node-modules-node-codekit.lock
-53 silly lockFile 1dcc5d70-m-node-codekit-0-0-5-package-tgz tar:///Users/justin/.npm/node-codekit/0.0.5/package.tgz
-54 verbose lock tar:///Users/justin/.npm/node-codekit/0.0.5/package.tgz /Users/justin/.npm/1dcc5d70-m-node-codekit-0-0-5-package-tgz.lock
+46 silly resolved     _shasum: '1840a6a2545754bb02100f09229cdd9963a6cf68',
+46 silly resolved     _resolved: 'https://registry.npmjs.org/karma-cli/-/karma-cli-0.0.4.tgz' } ]
+47 info install karma-cli@0.0.4 into /usr/local/lib
+48 info installOne karma-cli@0.0.4
+49 verbose lib/node_modules/karma-cli unbuild
+50 verbose tar unpack /Users/justin/.npm/karma-cli/0.0.4/package.tgz
+51 silly lockFile f15a2687-local-lib-node-modules-karma-cli tar:///usr/local/lib/node_modules/karma-cli
+52 verbose lock tar:///usr/local/lib/node_modules/karma-cli /Users/justin/.npm/f15a2687-local-lib-node-modules-karma-cli.lock
+53 silly lockFile 576598b4--npm-karma-cli-0-0-4-package-tgz tar:///Users/justin/.npm/karma-cli/0.0.4/package.tgz
+54 verbose lock tar:///Users/justin/.npm/karma-cli/0.0.4/package.tgz /Users/justin/.npm/576598b4--npm-karma-cli-0-0-4-package-tgz.lock
 55 silly gunzTarPerm modes [ '755', '644' ]
-56 error Error: EACCES, mkdir '/usr/local/lib/node_modules/node-codekit'
-56 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/node-codekit']
+56 error Error: EACCES, mkdir '/usr/local/lib/node_modules/karma-cli'
+56 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/karma-cli']
 56 error   errno: 3,
 56 error   code: 'EACCES',
-56 error   path: '/usr/local/lib/node_modules/node-codekit',
+56 error   path: '/usr/local/lib/node_modules/karma-cli',
 56 error   fstream_type: 'Directory',
-56 error   fstream_path: '/usr/local/lib/node_modules/node-codekit',
+56 error   fstream_path: '/usr/local/lib/node_modules/karma-cli',
 56 error   fstream_class: 'DirWriter',
 56 error   fstream_stack:
 56 error    [ '/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
@@ -130,17 +140,17 @@
 56 error      'Object.oncomplete (fs.js:107:15)' ] }
 57 error Please try running this command again as root/Administrator.
 58 error System Darwin 14.1.0
-59 error command "node" "/usr/local/bin/npm" "install" "-g" "node-codekit"
+59 error command "node" "/usr/local/bin/npm" "install" "-g" "karma-cli"
 60 error cwd /Users/justin/Documents/Dev/Ang/Todo/todo
 61 error node -v v0.10.33
 62 error npm -v 1.4.28
-63 error path /usr/local/lib/node_modules/node-codekit
-64 error fstream_path /usr/local/lib/node_modules/node-codekit
+63 error path /usr/local/lib/node_modules/karma-cli
+64 error fstream_path /usr/local/lib/node_modules/karma-cli
 65 error fstream_type Directory
 66 error fstream_class DirWriter
 67 error code EACCES
 68 error errno 3
-69 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/node-codekit'
+69 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/karma-cli'
 70 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
 70 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
 70 error fstream_stack Object.oncomplete (fs.js:107:15)
