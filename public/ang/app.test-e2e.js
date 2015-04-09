@@ -1,8 +1,9 @@
-'use strict';
+
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
 describe('Todo App', function() {
+  'use strict';
 
   it('/ should redirect to #/home', function() {
     browser.get('/');
@@ -16,6 +17,7 @@ describe('Todo App', function() {
 
 
 describe('Menu Navigation', function(){
+  'use strict';
 
   it('should have 3 menu items', function(){
     // start page

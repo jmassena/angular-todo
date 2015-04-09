@@ -17,16 +17,11 @@ var filePaths = {
 }
 // jshint
 gulp.task('jshint-run', function(){
+  console.log('jshint completed');
+
   return gulp.src(filePaths.appJS)
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(jshint.reporter('jshint-summary', {
-      verbose: false,
-      reasonCol: 'cyan,bold'
-    }));
-
-    console.log('jshint completed');
-
+    .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('jshint-watch', function(){
