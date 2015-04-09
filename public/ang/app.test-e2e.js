@@ -8,10 +8,11 @@ describe('Todo App', function() {
     browser.get('/');
     //http://localhost:3000/#/home
     browser.getLocationAbsUrl().then(function(url) {
-      expect(url.split('#')[0]).toBe('/homee');
+      expect(url.split('#')[0]).toBe('/home');
     });
   });
 });
+
 
 
 describe('Menu Navigation', function(){

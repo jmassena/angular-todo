@@ -21,7 +21,7 @@ gulp.task('jshint-run', function(){
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('jshint-summary', {
-      verbose: true,
+      verbose: false,
       reasonCol: 'cyan,bold'
     }));
 
@@ -38,7 +38,7 @@ gulp.task('jshint-watch', function(){
 gulp.task('karma-run', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
-    singleRun: true
+    singleRun: false
   }, done);
 
   console.log('karma completed');
@@ -69,7 +69,9 @@ gulp.task('protractor-run', function(){
     .pipe(protractor({
       'configFile': 'protractor.conf.js'
     }))
-    .on('error', function(e) { throw e });
+    // .on('error', function(e) { throw e });
+    .on('error', function(e) { gutil.log(e.message) });
+
 });
 
 gulp.task('protractor-watch', function(){

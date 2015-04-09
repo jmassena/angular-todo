@@ -15,7 +15,7 @@ describe('Controller: HomeCtrl', function() {
 
     it('should set title to "Home Page"', function() {
       //log.info(JSON.stringify(ctrl));
-      console.log(ctrl);
+      // console.log(ctrl);
       expect(ctrl.title).toEqual('Home Page');
     });
 
