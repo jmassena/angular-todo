@@ -24,6 +24,6 @@
           templateUrl: 'ang/todo.html',
           controller: 'TodoCtrl',
           controllerAs: 'vm'
-        })
+        });
     }
 })();

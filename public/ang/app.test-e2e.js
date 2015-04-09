@@ -8,11 +8,10 @@ describe('Todo App', function() {
     browser.get('/');
     //http://localhost:3000/#/home
     browser.getLocationAbsUrl().then(function(url) {
-      expect(url.split('#')[0]).toBe('/home');
+      expect(url.split('#')[0]).toBe('/homee');
     });
   });
 });
-
 
 
 describe('Menu Navigation', function(){
@@ -21,7 +20,7 @@ describe('Menu Navigation', function(){
     // start page
     browser.get('/');
 
-    var count = element.all(by.css('ul.navbar-nav>li')).count()
+    var count = element.all(by.css('ul.navbar-nav>li')).count();
     expect(count).toEqual(3);
   });
 
@@ -37,7 +36,7 @@ describe('Menu Navigation', function(){
       var link;
 
       beforeEach(function(){
-        browser.get('/')
+        browser.get('/');
         link = element(by.css('ul.navbar-nav')).element(by.linkText(menuItem.linkText));
       });
 
@@ -56,6 +55,6 @@ describe('Menu Navigation', function(){
       });
     });
 
-  })
+  });
 
-})
+});
