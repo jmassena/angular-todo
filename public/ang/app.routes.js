@@ -17,7 +17,7 @@
           url: '/home',
 
           views:{
-            'topnav':{
+            'top-nav':{
               templateUrl: 'ang/navbar.html'
             },
             'main-content': {
@@ -29,9 +29,17 @@
         })
         .state('todo',{
           url: '/todo',
-          templateUrl: 'ang/todo.html',
-          controller: 'TodoCtrl',
-          controllerAs: 'vm'
+          views:{
+            'top-nav':{
+              templateUrl: 'ang/navbar.html'
+            },
+            'main-content': {
+              templateUrl: 'ang/todo.html',
+              controller: 'TodoCtrl',
+              controllerAs: 'vm',
+            }
+          }
+
         });
     }
 })();
