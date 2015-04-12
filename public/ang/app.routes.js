@@ -15,9 +15,17 @@
       $stateProvider
         .state('home', {
           url: '/home',
-          templateUrl: 'ang/home.html',
-          controller: 'HomeCtrl',
-          controllerAs: 'vm'
+
+          views:{
+            'topnav':{
+              templateUrl: 'ang/navbar.html'
+            },
+            'main-content': {
+              templateUrl: 'ang/home.html',
+              controller: 'HomeCtrl',
+              controllerAs: 'vm',
+            }
+          }
         })
         .state('todo',{
           url: '/todo',
@@ -27,3 +35,19 @@
         });
     }
 })();
+
+
+//
+// $stateProvider
+//   .state('home', {
+//     url: '/home',
+//     templateUrl: 'ang/home.html',
+//     controller: 'HomeCtrl',
+//     controllerAs: 'vm'
+//   })
+//   .state('todo',{
+//     url: '/todo',
+//     templateUrl: 'ang/todo.html',
+//     controller: 'TodoCtrl',
+//     controllerAs: 'vm'
+//   });
