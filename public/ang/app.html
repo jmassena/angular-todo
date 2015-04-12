@@ -1,7 +1,7 @@
 <!-- public/modules/home/views/home.html -->
 
 <!doctype html>
-<html lang="en" ng-app="app">
+<html lang="en" ng-app="app" ng-strict-di>
 
 <head>
   <meta charset="UTF-8">
@@ -16,18 +16,12 @@
 </head>
 
 <body>
-  
+
 
   <div ui-view="top-nav"></div>
 
-  <div class="main-content">
-
-
-    <!-- renders partial selected by controller -->
-    <div ui-view="main-content"></div>
-
-
-  </div>
+  <!-- renders partial selected by controller -->
+  <div ui-view="main-content"></div>
 
   <!-- placed at end of document so document loads faster -->
   <!-- jquery has to be before bootstrap -->
@@ -48,6 +42,7 @@
   <script type="text/javascript" src="/ang/app.module.js" ></script>
   <script type="text/javascript" src="/ang/app.controllers.js" ></script>
   <script type="text/javascript" src="/ang/app.routes.js" ></script>
+  <script type="text/javascript" src="/ang/navbar.controller.js" ></script>
 
 
 </body>

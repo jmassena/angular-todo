@@ -1,7 +1,7 @@
 // public/ang/app.js
 
 
-(function() {
+(function(angular) {
     'use strict';
 
     angular
@@ -24,4 +24,4 @@
       vm.title = 'To-Do Page';
       //return vm;
     }
-})();
+})(this.angular);

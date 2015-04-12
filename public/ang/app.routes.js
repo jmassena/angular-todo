@@ -1,4 +1,4 @@
-(function () {
+(function (angular) {
     'use strict';
 
     angular
@@ -23,7 +23,7 @@
             'main-content': {
               templateUrl: 'ang/home.html',
               controller: 'HomeCtrl',
-              controllerAs: 'vm',
+              controllerAs: 'vm'
             }
           }
         })
@@ -36,13 +36,12 @@
             'main-content': {
               templateUrl: 'ang/todo.html',
               controller: 'TodoCtrl',
-              controllerAs: 'vm',
+              controllerAs: 'vm'
             }
           }
-
         });
     }
-})();
+})(this.angular);
 
 
 //
