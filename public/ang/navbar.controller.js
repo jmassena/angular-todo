@@ -21,6 +21,7 @@
 
     vm.states = navStates;
     vm.isSelected = isSelected;
+    vm.test =  'helllo';
 
     function isSelected(sref){
 
@@ -32,8 +33,6 @@
 
       return false;
     }
-
-
 
   }
 
