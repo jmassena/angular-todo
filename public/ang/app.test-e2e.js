@@ -19,12 +19,12 @@ describe('Todo App', function() {
 describe('Menu Navigation', function(){
   'use strict';
 
-  it('should have 3 menu items', function(){
+  it('should have 4 menu items', function(){
     // start page
     browser.get('/');
 
     var count = element.all(by.css('ul.navbar-nav>li')).count();
-    expect(count).toEqual(3);
+    expect(count).toEqual(4);
   });
 
   var menuItems = [
