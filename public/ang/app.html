@@ -40,7 +40,9 @@
   <script type="text/javascript" src="/lib/angular/angular-ui-router.js" ></script>
 
   <!-- app angular scripts -->
+  <!-- I read you should import modules first. ?but what if they depend on services not loaded yet? -->
   <script type="text/javascript" src="/ang/app.module.js" ></script>
+  <script type="text/javascript" src="/ang/data.service.js" ></script>
   <script type="text/javascript" src="/ang/app.controllers.js" ></script>
   <script type="text/javascript" src="/ang/app.routes.js" ></script>
   <script type="text/javascript" src="/ang/navbar.controller.js" ></script>
