@@ -1,7 +1,10 @@
 // Karma configuration
 // Generated on Tue Apr 07 2015 15:31:55 GMT-0700 (PDT)
 
+
 module.exports = function(config) {
+  'use strict';
+
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -21,16 +24,20 @@ module.exports = function(config) {
       './bower_components/angular-mocks/angular-mocks.js',
 
       './public/ang/app.module.js',
+      './public/ang/data.service.js',
       './public/ang/app.controllers.js',
+      './public/ang/app.routes.js',
+      './public/ang/navbar.controller.js',
+      './public/ang/navbar.filters.js',
 
-      './public/ang/*.test-unit.js'
+      './public/ang/test/unit/*.test-unit.js'
     ],
 
+    //'./public/ang/test/unit/*.test-unit.js'
 
     // list of files to exclude
     exclude: [
     ],
-
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -39,9 +46,12 @@ module.exports = function(config) {
 
 
     // test results reporter to use
-    // possible values: 'dots', 'progress'
+    // possible values: 'dots', 'progress', 'spec'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+    //reporters: ['spec'],
     reporters: ['progress'],
+
+    //plugins: ['karma-chrome-launcher', 'karma-jasmine', 'karma-spec-reporter'],
 
 
     // web server port
