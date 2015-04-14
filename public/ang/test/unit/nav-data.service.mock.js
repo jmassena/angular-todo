@@ -1,26 +1,23 @@
-(function () {
+
+var mockNavDataService = (function(){
     'use strict';
 
-    angular
-        .module('app')
-        .factory('navDataFactory', navDataFactory);
+    return{
+      get: get
+    };
 
-    //dataservice.$inject = ['$http'];
+    // this 'get' represents a factory method on the global mockNavDat object
+    // this 'get' mocks the navDataFatory factory function
+    function get(){
+      var data = {};
+      data.getMenu = getMenu;
 
-    // services are 'new'ed
-    // factory, provider are singletons
-    function navDataFactory() {
-
-      return {
-        getMenu:getMenu
-      };
+      return data;
 
 
-      // static data for now but service decouples data from controller for now.
-      // later we wil pass in $http so we can get this data from the database or file.
-      function getMenu() {
+      function getMenu(){
         return {
-          brand: {text: 'Justin\'s Demo', sref: 'home'},
+          brand: {text: 'My Demo', sref: 'home'},
           tabs: [
             {type: 'static', text: 'Home', sref: 'home', paths: ['/home']},
             {type: 'static', text: 'To Do', sref: 'todo', paths: ['/todo']},
@@ -40,9 +37,23 @@
                 {type: 'link', text: 'Karma'},
                 {type: 'link', text: 'Protractor'},
                 {type: 'link', text: 'Gulp'}
-                ]}
-          ]};
+              ]},
+            {type: 'dropdown', text: 'Animals',
+              items:[
+                {type: 'header', text: 'Large'},
+                {type: 'link', text: 'Cow'},
+                {type: 'link', text: 'Llama'},
+                {type: 'divider'},
+                {type: 'header', text: 'Small'},
+                {type: 'link', text: 'Chicken'},
+                {type: 'link', text: 'Cat'}
+              ]}
 
-      }
+          ] // end tabs
+        }; // end json
+      } // end getMenu
+
     }
-})();
+
+
+}());

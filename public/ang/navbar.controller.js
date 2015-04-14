@@ -10,13 +10,13 @@
 
   /* @ngInject */
 
-  NavBarCtrl.$inject = ['$location','navDataFactory'];
-  function NavBarCtrl($location, navDataFactory){
+  NavBarCtrl.$inject = ['$location','navDataService'];
+  function NavBarCtrl($location, navDataService){
 
     var vm = this;
     // TODO: add navData directly to vm.data property.
     // Not sure about this, I want a chance to expose data as I choose.
-    var navData = navDataFactory.getMenu();
+    var navData = navDataService.getMenu();
     vm.brand = navData.brand;
     vm.tabs = navData.tabs;
     vm.isSelected = isSelected;

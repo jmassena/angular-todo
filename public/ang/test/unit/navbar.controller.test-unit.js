@@ -10,17 +10,17 @@ describe('navbar controller: NavBarCtrl', function() {
 
       module(function($provide){
         /* global mockNavData */
-        $provide.factory('navDataFactory', mockNavData.get);
+        $provide.factory('navDataService', mockNavDataService.get);
       });
     });
 
-    beforeEach(inject(function(_$controller_, _$location_, _navDataFactory_){
+    beforeEach(inject(function(_$controller_, _$location_, _navDataService_){
 
       var controller = _$controller_;
       var location = _$location_;
-      var navDataFactory = _navDataFactory_;
+      var navDataService = _navDataService_;
 
-      vm = controller('NavBarCtrl', {$location: location, navDataFactory: navDataFactory});
+      vm = controller('NavBarCtrl', {$location: location, navDataService: navDataService});
 
     }));
 
