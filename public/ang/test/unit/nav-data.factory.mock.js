@@ -10,8 +10,12 @@ var mockNavData = (function(){
     // this 'get' mocks the navDataFatory factory function
     function get(){
       var data = {};
+      data.getMenu = getMenu;
 
-      data.getMenu = function (){
+      return data;
+
+
+      function getMenu(){
         return {
           brand: {text: 'My Demo', sref: 'home'},
           tabs: [
@@ -47,9 +51,8 @@ var mockNavData = (function(){
 
           ] // end tabs
         }; // end json
-      }; // end getMenu
+      } // end getMenu
 
-      return data;
     }
 
 
