@@ -8,41 +8,15 @@
       .module('app')
       .controller('NavBarCtrl', NavBarCtrl);
 
-
-  // var navData = {
-  //   brand: {text: 'Justin\'s Demo', sref: 'home'},
-  //   tabs: [
-  //     {type: 'static', text: 'Home', sref: 'home', paths: ['/home']},
-  //     {type: 'static', text: 'To Do', sref: 'todo', paths: ['/todo']},
-  //     {type: 'static', text: 'About', sref: 'about', paths: ['/about']},
-  //
-  //     {type: 'dropdown', text: 'Tech',
-  //       items:[
-  //         {type: 'header', text: 'Main'},
-  //         {type: 'link', text: 'Bootstrap'},
-  //         {type: 'link', text: 'AngularJS'},
-  //         {type: 'link', text: 'NodeJS'},
-  //         {type: 'link', text: 'Mongo'},
-  //         {type: 'divider'},
-  //         {type: 'header', text: 'Misc'},
-  //         {type: 'link', text: 'Jasmine'},
-  //         {type: 'link', text: 'Mocha'},
-  //         {type: 'link', text: 'Karma'},
-  //         {type: 'link', text: 'Protractor'},
-  //         {type: 'link', text: 'Gulp'}
-  //         ]}
-  //   ]};
-
-
   /* @ngInject */
 
-  NavBarCtrl.$inject = ['$location','dataService'];
-  function NavBarCtrl($location, dataService){
+  NavBarCtrl.$inject = ['$location','navDataFactory'];
+  function NavBarCtrl($location, navDataFactory){
 
     var vm = this;
     // TODO: add navData directly to vm.data property.
     // Not sure about this, I want a chance to expose data as I choose.
-    var navData = dataService.getMenu();
+    var navData = navDataFactory.getMenu();
     vm.brand = navData.brand;
     vm.tabs = navData.tabs;
     vm.isSelected = isSelected;

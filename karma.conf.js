@@ -23,14 +23,16 @@ module.exports = function(config) {
       './bower_components/angular-ui-router/release/angular-ui-router.js',
       './bower_components/angular-mocks/angular-mocks.js',
 
-      './public/ang/app.module.js',
-      './public/ang/data.service.js',
-      './public/ang/app.controllers.js',
-      './public/ang/app.routes.js',
-      './public/ang/navbar.controller.js',
-      './public/ang/navbar.filters.js',
+      // './public/ang/app.module.js',
+      // './public/ang/data.service.js',
+      // './public/ang/app.controllers.js',
+      // './public/ang/app.routes.js',
+      // './public/ang/navbar.controller.js',
+      // './public/ang/navbar.filters.js',
+      './public/ang/*.module.js',
+      './public/ang/*.js',
 
-      './public/ang/test/unit/*.test-unit.js'
+      './public/ang/test/unit/*.js'
     ],
 
     //'./public/ang/test/unit/*.test-unit.js'
@@ -63,7 +65,7 @@ module.exports = function(config) {
 
 
     // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    // LOG_DISABLE, LOG_ERROR, LOG_WARN, LOG_INFO, LOG_DEBUG
     logLevel: config.LOG_INFO,
 
 
