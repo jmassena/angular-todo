@@ -12,7 +12,30 @@ router.get('/todos', function(req, res, next) {
 
   Todo.find(function(err, data){
     if(err){
-      next(err);
+      res.json({error: err});
+    }
+    else{
+      res.json(data);
+    }
+  });
+});
+
+
+router.post('/todos', function(req, res, next) {
+  'use strict';
+
+  //console.log('posting body /todo: ' + JSON.stringify(req));
+
+  //console.log('posting body /todo: ' + JSON.stringify(req.body));
+
+  
+  var todo = new Todo(req.body);
+
+  //console.log('posting /todo: ' + JSON.stringify(todo));
+
+  todo.save(function(err, data){
+    if(err){
+      res.json({error: err});
     }
     else{
       res.json(data);
