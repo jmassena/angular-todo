@@ -15,7 +15,7 @@ describe('Todo App', function() {
 });
 
 
-
+/* Testing real navbar, not mock navbar */
 describe('Menu Navigation', function(){
   'use strict';
 

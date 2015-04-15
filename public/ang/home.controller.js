@@ -6,8 +6,7 @@
 
     angular
         .module('app')
-        .controller('HomeCtrl', HomeCtrl)
-        .controller('TodoCtrl', TodoCtrl);
+        .controller('HomeCtrl', HomeCtrl);
 
 
     /* @ngInject */
@@ -18,10 +17,5 @@
         //return vm;
     }
 
-    //TodoCtrl.$inject = ['$scope', 'greeter'];
-    function TodoCtrl(){
-      var vm = this;
-      vm.title = 'To-Do Page';
-      //return vm;
-    }
+
 })(this.angular);

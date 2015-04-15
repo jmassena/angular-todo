@@ -29,7 +29,7 @@ module.exports = function(config) {
       // './public/ang/app.routes.js',
       // './public/ang/navbar.controller.js',
       // './public/ang/navbar.filters.js',
-      './public/ang/*.module.js',
+      './public/ang/*.module.js', // need to load the module first
       './public/ang/*.js',
 
       './public/ang/test/unit/*.js'
