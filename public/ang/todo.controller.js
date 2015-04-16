@@ -8,14 +8,52 @@
       .module('app')
       .controller('TodoCtrl', TodoCtrl);
 
+      TodoCtrl.$inject = ['todoService'];
+      function TodoCtrl(todoService){
 
-      function TodoCtrl(){
-
-        // get todos from database for now person id is always 9999
-        // we need a todo.service
+        var userId = 777;  // hard coded for now
+        var data;
+        var initialized;
 
         var vm = this;
-        vm.title = 'To-Do Page';
+            vm.userId = userId;
+            // done in getTodos()
+            //vm.todos = data? data.todos: null;
+            vm.pageTitle = 'To-Do Page';
+            vm.getTodos = getTodos;
+            vm.createTodo = createTodo;
+            vm.updateTodo = updateTodo;
+            vm.deleteTodo = deleteTodo;
+
+        if(!initialized){
+          getTodos();
+          initialized = true;
+        }
+
+        function setDataFromService(){
+          data = todoService.data;
+          vm.todos = data? data.todos: null;
+        }
+
+        function getTodos(){
+          todoService.getTodos(vm.userId)
+            .then(setDataFromService);
+        }
+
+        function createTodo(todo){
+          todoService.createTodo(vm.userId, todo)
+            .then(setDataFromService);
+        }
+
+        function updateTodo(todo){
+          todoService.updateTodo(vm.userId, todo)
+            .then(setDataFromService);
+        }
+
+        function deleteTodo(todoId){
+          todoService.updateTodo(vm.userId, todoId)
+            .then(setDataFromService);
+        }
       }
 
 })(this.angular);

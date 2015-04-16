@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
   var appHtmlPath = path.join(__dirname, '../../public/ang/app.html');
   res.sendFile(appHtmlPath);
-  
+
 });
 
 module.exports = router;

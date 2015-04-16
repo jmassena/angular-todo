@@ -1,24 +1,29 @@
 <div>
-  <h1>{{vm.title}}</h1>
+  <h1>{{vm.pageTitle}}</h1>
 
   <table>
 
     <thead>
       <tr>
-        <th>Action</th>
         <th>Status</th>
         <th>Title</th>
         <th>Notes</th>
+        <th>Created</th>
         <th>Due</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      <tr ng-repeat="todo in vm.todos">
+        <td>{{todo.status}}</td>
+        <td>{{todo.title}}</td>
+        <td>{{todo.notes}}</td>
+        <td>{{todo.dueDateTime}}</td>
+        <td>{{todo.createdDateTime}}</td>
+        <td>
+          <span class="glyphicon glyphicon-pencil"></span>
+          <span class="glyphicon glyphicon-ok"></span>
+          <span class="glyphicon glyphicon-remove"></span></td>
       </tr>
     </tbody>
   </table>

@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 // mongo connection
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todoang');
+mongoose.connect('mongodb://localhost/userevents');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', function(){
@@ -28,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // routes setup
 require('./routes/routes.js')(app);
-
 
 
 module.exports = app;

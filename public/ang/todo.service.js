@@ -6,45 +6,105 @@
         .factory('todoService', todoService);
 
 
-    function todoService() {
-    //
-    //   var api = {
-    //     createTodo: createTodo,
-    //     getTodos:getTodos,
-    //     updateTodo: updateTodo,
-    //     deleteTodo: deleteTodo
-    //   };
-    //
-    //   return api;
-    //
-    //
-    //   // static data for now but service decouples data from controller for now.
-    //   // later we wil pass in $http so we can get this data from the database or file.
-    //   function getMenu() {
-    //     return {
-    //       brand: {text: 'Justin\'s Demo', sref: 'home'},
-    //       tabs: [
-    //         {type: 'static', text: 'Home', sref: 'home', paths: ['/home']},
-    //         {type: 'static', text: 'To Do', sref: 'todo', paths: ['/todo']},
-    //         {type: 'static', text: 'About', sref: 'about', paths: ['/about']},
-    //
-    //         {type: 'dropdown', text: 'Tech',
-    //           items:[
-    //             {type: 'header', text: 'Main'},
-    //             {type: 'link', text: 'Bootstrap'},
-    //             {type: 'link', text: 'AngularJS'},
-    //             {type: 'link', text: 'NodeJS'},
-    //             {type: 'link', text: 'Mongo'},
-    //             {type: 'divider'},
-    //             {type: 'header', text: 'Misc'},
-    //             {type: 'link', text: 'Jasmine'},
-    //             {type: 'link', text: 'Mocha'},
-    //             {type: 'link', text: 'Karma'},
-    //             {type: 'link', text: 'Protractor'},
-    //             {type: 'link', text: 'Gulp'}
-    //             ]}
-    //       ]};
-    //
-    //   }
+
+    todoService.$inject = ['$http', '$q', '$log'];
+    function todoService($http, $q, $log) {
+
+      var data;
+      var deferred;
+      var initialized;
+
+      var api = {
+        getTodos: getTodos,
+        createTodo: createTodo,
+        updateTodo: updateTodo,
+        deleteTodo: deleteTodo,
+        initialLoad: initialLoad,
+        data: data
+      };
+
+      return api;
+
+      function requiredParamCheck(paramName, paramValue){
+        if(!paramValue){
+          throw paramName + ' is required';
+        }
+      }
+
+      function initialLoad(){
+        if(!initialized){
+          getTodos(userId);
+        }
+      }
+
+      function getTodos(userId) {
+        requiredParamCheck('userId', userId);
+
+        deferred = $q.defer();
+        $http.get('/api/users/' + userId + '/todos')
+          .success(function(d){
+            deferred.resolve({data:d});
+            api.data = d;
+            $log.info('got data: ' + JSON.stringify(d));
+          })
+          .error(function(msg, code){
+            deferred.reject(msg);
+            $log.error(msg, code);
+          });
+
+          return deferred.promise;
+      }
+
+      function createTodo(userId, todo) {
+        requiredParamCheck('userId', userId);
+        requiredParamCheck('todo', todo);
+
+        deferred = $q.defer();
+        $http.post('/api/users/' + userId + '/todos', todo)
+          .success(function(d){
+            deferred.resolve({data:d});
+            api.data = d;
+          })
+          .error(function(msg, code){
+            deferred.reject(msg);
+            $log.error(msg, code);
+          });
+
+          return deferred.promise;
+      }
+
+      function updateTodo(userId, todo) {
+        requiredParamCheck('userId', userId);
+        requiredParamCheck('todo', todo);
+        requiredParamCheck('todo._id', todo._id);
+
+        deferred = $q.defer();
+        $http.put('/api/users/' + userId + '/todos/' + todo._id, todo)
+        .success(function(d){
+          deferred.resolve({data:d});
+          api.data = d;
+        })
+        .error(function(msg, code){
+          deferred.reject(msg);
+          $log.error(msg, code);
+        });
+      }
+
+      function deleteTodo(userId, todoId) {
+        requiredParamCheck('userId', userId);
+        requiredParamCheck('todoId', todoId);
+
+        deferred = $q.defer();
+        $http.delete('/api/users/' + userId + '/todos/' + todoId)
+        .success(function(d){
+          deferred.resolve({data:d});
+          api.data = d;
+        })
+        .error(function(msg, code){
+          deferred.reject(msg);
+          $log.error(msg, code);
+        });
+
+      }
     }
 }());

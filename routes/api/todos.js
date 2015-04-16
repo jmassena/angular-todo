@@ -5,12 +5,15 @@ var router = express.Router();
 var path = require('path');
 
 
-var Todo = require('./../../data/todo.js');
+var UserEvents = require('./../../data/user-events.js');
 
-router.get('/todos', function(req, res, next) {
+router.get('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
-  Todo.find(function(err, data){
+  var userId = req.params.userId;
+
+  UserEvents.where({ userId: userId })
+  .findOne(function(err, data){
     if(err){
       res.json({error: err});
     }
@@ -18,29 +21,73 @@ router.get('/todos', function(req, res, next) {
       res.json(data);
     }
   });
+
 });
 
 
-router.post('/todos', function(req, res, next) {
+router.post('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
-  //console.log('posting body /todo: ' + JSON.stringify(req));
+  var userId = req.params.userId;
 
-  //console.log('posting body /todo: ' + JSON.stringify(req.body));
+  if(!req.body){
+    res.json({error:'body must contain a todo object json'});
+  }
 
-  
-  var todo = new Todo(req.body);
+  var todo = req.body;
 
-  //console.log('posting /todo: ' + JSON.stringify(todo));
+  console.log('body: ' + JSON.stringify(todo));
 
-  todo.save(function(err, data){
+  UserEvents.where({ userId: userId })
+  .findOne(function(err, data){
     if(err){
       res.json({error: err});
     }
     else{
-      res.json(data);
+
+      console.log('data: ' + JSON.stringify(data));
+      if(!data){
+        // create new document
+        data = new UserEvents({userId: userId, todos: [todo]});
+      }
+      else{
+        // // clean up
+        // if(data.todos[0] == null){
+        //   data.todos.shift();
+        // }
+        data.todos.push(todo);
+      }
+
+      data.save(function(err, data){
+        if(err){
+          res.json({error: err});
+        }
+        else{
+          res.json(data);
+        }
+      });
     }
   });
 });
+
+// function findTodosByuserId(userId, onError, onData){
+//   UserEvents.find({userId: userId}, function(err, data){
+//     if(err){
+//       onError(err);
+//     }
+//     else{
+//       onData(data);
+//     }
+//   });
+// }
+//
+// findTodosByuserId(req.params.userId,
+//   function(err){
+//     res.json({error:err});
+//   },
+//   function(data){
+//     res.json(data);
+//   }
+// );
 
 module.exports = router;
