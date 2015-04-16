@@ -1,30 +1,9 @@
 
 var mongoose = require('mongoose');
-
+var Todo = require('./todo.js');
 
 // these todos could be defined inline in the UserEventsSchema
 // but it is easier to read this way
-
-var TodoSchema = new mongoose.Schema({
-    status: {
-      type: String
-    },
-    title: {
-      type: String,
-      required: '{PATH} is required'
-    },
-    notes: {
-      type: String
-    },
-    dueDateTime: {
-      type: Date
-    },
-    createdDateTime: {
-      type: Date,
-      default: Date.now,
-      required: '{PATH} is required'
-    }
-});
 
 var UserEventsSchema = new mongoose.Schema({
   userId: {
@@ -32,7 +11,7 @@ var UserEventsSchema = new mongoose.Schema({
     unique: true,
     required: '{PATH} is required'
   },
-  todos: [TodoSchema]
+  todos: [Todo.schema]
 });
 
 UserEventsSchema.path('todos').validate(function(value) {
@@ -58,6 +37,5 @@ UserEventsSchema.path('todos').validate(function(value) {
 //   notes: 'Testing first todo item',
 //   dueDateTime: tomorrow,
 //   ownerPersonId: 666}
-
 
 module.exports = mongoose.model('UserEvents', UserEventsSchema);
