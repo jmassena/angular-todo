@@ -18,7 +18,7 @@
         <a ui-sref="{{tab.sref}}">{{tab.text}}</a></li>
       <li ng-repeat="ddTab in vm.getDropdownTabs()" class="dropdown">
 
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <a href="" class="dropdown-toggle" data-toggle="dropdown">
           <!-- not sure what caret is doing here -->
           <!-- !! it is the down arrow symbol :) -->
           {{ddTab.text}} <b class="caret"></b>
@@ -27,7 +27,7 @@
           <li ng-repeat="menuItem in ddTab.items"
             ng-class="{'dropdown-header': menuItem.type=='header', divider: menuItem.type=='divider'}">
             {{(menuItem.type!='link')?menuItem.text:''}}
-            <a ng-if="menuItem.type=='link'" href="{{menuItem.href||'#'}}">{{menuItem.text}}</a>
+            <a ng-if="menuItem.type=='link'" href="{{menuItem.href||''}}">{{menuItem.text}}</a>
           </li>
         <ul>
       </li>
