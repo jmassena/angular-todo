@@ -19,11 +19,13 @@
             vm.userId = userId;
             // done in getTodos()
             //vm.todos = data? data.todos: null;
+            vm.todos = todoService.todos;
             vm.pageTitle = 'To-Do Page';
             vm.getTodos = getTodos;
             vm.createTodo = createTodo;
             vm.updateTodo = updateTodo;
             vm.deleteTodo = deleteTodo;
+            vm.now = new Date();
 
         if(!initialized){
           getTodos();
@@ -31,8 +33,7 @@
         }
 
         function setDataFromService(){
-          data = todoService.data;
-          vm.todos = data? data.todos: null;
+          vm.todos = todoService.todos;
         }
 
         function getTodos(){
@@ -40,19 +41,22 @@
             .then(setDataFromService);
         }
 
+        // TODO: check if item was added by checking that return data exists
         function createTodo(todo){
           todoService.createTodo(vm.userId, todo)
-            .then(setDataFromService);
+            .then(getTodos());
         }
 
+        // TODO: check if item was updated by checking that return data exists
         function updateTodo(todo){
           todoService.updateTodo(vm.userId, todo)
-            .then(setDataFromService);
+            .then(getTodos());
         }
 
+        // TODO: check if item was deleted by checking that return data exists
         function deleteTodo(todoId){
           todoService.updateTodo(vm.userId, todoId)
-            .then(setDataFromService);
+            .then(getTodos());
         }
       }
 

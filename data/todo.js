@@ -6,15 +6,25 @@ var mongoose = require('mongoose');
 // but it is easier to read this way
 
 var TodoSchema = new mongoose.Schema({
+    userId: {
+      type: Number,
+      index: {unique: false},
+      required: '{PATH} is required'
+    },
     status: {
-      type: String
+      type: String,
+      enum: ['not-started', 'started', 'completed'],
+      default: 'not-started'
     },
     title: {
       type: String,
-      required: '{PATH} is required'
+      required: '{PATH} is required',
+      min: 3,
+      max: 50
     },
     notes: {
-      type: String
+      type: String,
+      max: 250
     },
     dueDateTime: {
       type: Date

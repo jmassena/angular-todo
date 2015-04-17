@@ -10,7 +10,7 @@
     todoService.$inject = ['$http', '$q', '$log'];
     function todoService($http, $q, $log) {
 
-      var data;
+      var todos;
       var deferred;
       var initialized;
 
@@ -19,8 +19,8 @@
         createTodo: createTodo,
         updateTodo: updateTodo,
         deleteTodo: deleteTodo,
-        initialLoad: initialLoad,
-        data: data
+        //initialLoad: initialLoad,
+        todos: todos
       };
 
       return api;
@@ -31,11 +31,11 @@
         }
       }
 
-      function initialLoad(){
-        if(!initialized){
-          getTodos(userId);
-        }
-      }
+      // function initialLoad(){
+      //   if(!initialized){
+      //     getTodos(userId);
+      //   }
+      // }
 
       function getTodos(userId) {
         requiredParamCheck('userId', userId);
@@ -44,7 +44,7 @@
         $http.get('/api/users/' + userId + '/todos')
           .success(function(d){
             deferred.resolve({data:d});
-            api.data = d;
+            api.todos = d;
             $log.info('got data: ' + JSON.stringify(d));
           })
           .error(function(msg, code){
@@ -63,7 +63,7 @@
         $http.post('/api/users/' + userId + '/todos', todo)
           .success(function(d){
             deferred.resolve({data:d});
-            api.data = d;
+            //api.data.todos.push(d.data);
           })
           .error(function(msg, code){
             deferred.reject(msg);
@@ -82,7 +82,7 @@
         $http.put('/api/users/' + userId + '/todos/' + todo._id, todo)
         .success(function(d){
           deferred.resolve({data:d});
-          api.data = d;
+          //api.data = d;
         })
         .error(function(msg, code){
           deferred.reject(msg);
@@ -98,7 +98,7 @@
         $http.delete('/api/users/' + userId + '/todos/' + todoId)
         .success(function(d){
           deferred.resolve({data:d});
-          api.data = d;
+          //api.data = d;
         })
         .error(function(msg, code){
           deferred.reject(msg);
