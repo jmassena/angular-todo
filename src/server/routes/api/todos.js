@@ -14,14 +14,8 @@ router.get('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
   var userId = req.params.userId;
-  Todo.find({ userId: userId }, function(err, data){
-    if(err){
-      res.json({state: 'error', message: err});
-    }
-    else{
-      res.json(data);
-    }
-  });
+  Todo.get({ userId: userId }, onError(res), onSuccess(res));
+
 });
 
 
@@ -41,18 +35,10 @@ router.post('/users/:userId/todos', function(req, res, next) {
     return;
   }
 
-  var todo = new Todo(req.body);
-  todo.userId = userId; // just to be sure user isn't trying to create todo for someone else
+  Todo.add(userId, req.body, onError(res), onSuccess(res));
 
-  todo.save(function(err, data){
-    if(err){
-      res.json({state: 'error', message: err});
-    }
-    else{
-      res.json(data);
-    }
-  });
 });
+
 
 // DELETE
 router.delete('/users/:userId/todos/:todoId', function (req, res, next){
@@ -61,16 +47,8 @@ router.delete('/users/:userId/todos/:todoId', function (req, res, next){
   var userId = req.params.userId; // not used but should be
   var todoId = req.params.todoId;
 
-  Todo.findOneAndRemove({_id: todoId, userId: userId}, function(err, data){
+  Todo.deleteById(userId, todoId, onError(res), onSuccess(res));
 
-    console.log('deleting');
-    if(err){
-      res.json({state: 'error', message: err});
-    }
-    else{
-      res.json(data);
-    }
-  });
 });
 
 
@@ -80,7 +58,6 @@ router.put('/users/:userId/todos/:todoId', function (req, res, next){
 
   var userId = Number(req.params.userId);
   var todoId = req.params.todoId;
-  //var todo = new Todo(req.body);
   var todo = req.body;
 
   if(!todo.userId){
@@ -104,39 +81,22 @@ router.put('/users/:userId/todos/:todoId', function (req, res, next){
     return;
   }
 
-  Todo.findOne({_id: todoId, userId: req.params.userId}, function(err, dbTodo){
+  Todo.update(todo, onError(res), onSuccess(res));
 
-    if(err){
-      res.json({state: 'error', message: err});
-    }
-    else{
-      if(!dbTodo){
-        res.json({state: 'error', message: 'todo not found with id ' + todoId + ' for user ' + userId});
-      }
-      else{
-        copyFields(todo, dbTodo);
-        dbTodo.save(function(err, data){
-          if(err){
-            res.json({state: 'error', message: err});
-          }
-          else{
-            res.json(data);
-          }
-        });
-      }
-    }
-  });
 });
 
-function copyFields(source, target){
+
+function onSuccess(res){
   'use strict';
-
-  for(var prop in source){
-    if(prop !== '_id' && prop !== '__v' && source.hasOwnProperty(prop)){
-      target[prop] = source[prop];
-    }
-  }
+  return function(data){
+    res.json(data);
+  };
 }
-
+function onError(res){
+  'use strict';
+  return function(err){
+    res.json({state: 'error', message: err});
+  };
+}
 
 module.exports = router;
