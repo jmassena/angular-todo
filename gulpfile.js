@@ -14,7 +14,7 @@ var gulp  = require('gulp'),
 var filePaths = {
   appJS:'public/ang/*.js',
   //unitTestJS: 'public/ang/test/unit/*test-unit.js',
-  e2eTestJS: 'public/ang/test/e2e/*test-e2e.js'
+  e2eTestJS: 'src/client/test/e2e/*test-e2e.js'
 };
 
 // jshint

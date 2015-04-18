@@ -8,7 +8,7 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: './',
 
 
     // frameworks to use
@@ -18,24 +18,21 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './bower_components/jquery/dist/jquery.min.js',
+      './bower_components/jquery/dist/jquery.js',
+
       './bower_components/angular/angular.js',
+      './bower_components/angular-resource/angular-resource.js',
       './bower_components/angular-ui-router/release/angular-ui-router.js',
       './bower_components/angular-mocks/angular-mocks.js',
 
-      // './public/ang/app.module.js',
-      // './public/ang/data.service.js',
-      // './public/ang/app.controllers.js',
-      // './public/ang/app.routes.js',
-      // './public/ang/navbar.controller.js',
-      // './public/ang/navbar.filters.js',
-      './public/ang/*.module.js', // need to load the module first
-      './public/ang/*.js',
 
-      './public/ang/test/unit/*.js'
+      './src/client/app/*.module.js', // need to load the module first
+      './src/client/app/*.js',
+
+      './src/client/test/unit/**/*mock.js',
+      './src/client/test/unit/**/*unit.js'
     ],
 
-    //'./public/ang/test/unit/*.test-unit.js'
 
     // list of files to exclude
     exclude: [

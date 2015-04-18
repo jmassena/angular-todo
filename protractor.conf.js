@@ -4,7 +4,7 @@ exports.config = {
   allScriptsTimeout: 11000,
 
   specs: [
-    'public/ang/test/e2e/*.test-e2e.js'
+    'src/client/test/e2e/*.test-e2e.js'
   ],
 
   capabilities: {

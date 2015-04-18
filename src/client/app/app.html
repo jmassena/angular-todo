@@ -1,0 +1,58 @@
+<!-- public/ang/app.html -->
+<!-- ng-strict-di -->
+<!doctype html>
+
+<html lang="en" ng-app="app" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/content/css/app-style.css">
+
+
+  <title>Home</title>
+</head>
+
+<body>
+
+
+  <div ui-view="top-nav"></div>
+
+  <!-- renders partial selected by controller -->
+  <div ui-view="main-content"></div>
+
+  <!-- placed at end of document so document loads faster -->
+  <!-- jquery has to be before bootstrap -->
+
+
+
+  <!-- jquery -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.js" ></script>
+
+  <!-- bootstrap -->
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" ></script>
+
+  <!-- angular, angular-ui-router -->
+  <!-- NOTE: when adding something here, consider adding it to the karma.config -->
+  <script type="text/javascript" src="/lib/angular/angular.js" ></script>
+  <script type="text/javascript" src="/lib/angular/angular-ui-router.js" ></script>
+  <script type="text/javascript" src="/lib/angular/angular-resource.js" ></script>
+
+
+  <!-- app angular scripts -->
+  <!-- I read you should import modules first. ?even though they might depend on services not loaded yet? -->
+  <script type="text/javascript" src="/app/app.module.js" ></script>
+  <script type="text/javascript" src="/app/nav-data.service.js" ></script>
+  <script type="text/javascript" src="/app/home.controller.js" ></script>
+  <script type="text/javascript" src="/app/todo.controller.js" ></script>
+  <script type="text/javascript" src="/app/todo.service.js" ></script>
+  <script type="text/javascript" src="/app/app.routes.js" ></script>
+  <script type="text/javascript" src="/app/navbar.controller.js" ></script>
+  <script type="text/javascript" src="/app/navbar.filters.js" ></script>
+
+
+</body>
+
+</html>
