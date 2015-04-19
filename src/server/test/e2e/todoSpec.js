@@ -191,7 +191,31 @@ describe('todos', function(){
       .onReject(done);
   });
 
-  it.skip('should delete an item for user #2', function(done){
+  it('should delete an item for user #2', function(done){
+    // find item to delete, delete it, check if it was deleted
+
+    var todoToDelete;
+    var originalDataLength;
+
+    todoDAL.getByUserId(userId2)
+    .then(function(data){
+      should.exist(data);
+      originalDataLength = data.length;
+      todoToDelete = data[0];
+      return todoDAL.deleteById(userId2, todoToDelete);
+    })
+    .then(function(data){
+      return todoDAL.getByUserId(userId2);
+    })
+    .then(function(data){
+      data.length.should.be.equal(originalDataLength -1);
+      data.filter(function(val){
+        return val._id === todoToDelete._id;
+      })
+      .length.should.be.equal(0);
+      done();
+    })
+    .onReject(done);
 
   });
 
