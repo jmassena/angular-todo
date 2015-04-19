@@ -12,12 +12,12 @@ module.exports =  (function(){
 
   if (mongoose.models.Todo) {
 
-    console.log('Using existing todo model');
+    // console.log('Using existing todo model');
     TodoModel = mongoose.model('Todo');
   }
   else {
 
-    console.log('Creating new todo model');
+    // console.log('Creating new todo model');
     var TodoSchema = new mongoose.Schema({
         userId: {
           type: Number,
@@ -54,7 +54,7 @@ module.exports =  (function(){
 
   function get(condition){
 
-    console.log('getting with condition: ' + JSON.stringify(condition));
+    // console.log('getting with condition: ' + JSON.stringify(condition));
 
     return TodoModel.find(condition).exec();
 
@@ -68,7 +68,7 @@ module.exports =  (function(){
   function add(userId, todo){
     todo._id = null;
     todo.userId = userId;
-    console.log('adding todo for user: ' + todo.userId);
+    // console.log('adding todo for user: ' + todo.userId);
 
     var newTodo = new TodoModel(todo);
 
@@ -91,7 +91,7 @@ module.exports =  (function(){
   function update(todo){
 
     var error;
-    console.log('starting data todo function');
+    // console.log('starting data todo function');
 
     if(!todo._id || !todo.userId){
 
@@ -112,7 +112,7 @@ module.exports =  (function(){
           }
 
           mongooseUtils.copyFieldsToModel(todo, dbTodo);
-          console.log('now I am saving');
+          // console.log('now I am saving');
 
           return dbTodo.save();
       });

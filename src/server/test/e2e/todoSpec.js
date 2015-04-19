@@ -14,11 +14,15 @@ var dbUri = 'mongodb://localhost/todo_test';
 var mongoose = require('mongoose');
 // mongoose.connect(dbUri);
 
+function cloneDeep(obj){
+  'use strict';
+  return JSON.parse(JSON.stringify(obj));
+}
 
 function connect(mongoose, uri, done){
   'use strict';
   if(mongoose.connection.readyState === 0){
-    console.log('before: opening connection');
+    // console.log('before: opening connection');
     mongoose.connect(dbUri, function(err){
       done(err);
     });
@@ -30,7 +34,7 @@ function connect(mongoose, uri, done){
 function closeConnection(mongoose, done){
   'use strict';
   if(mongoose.connection.readyState === 1){
-    console.log('after: closing connection');
+    // console.log('after: closing connection');
 
     mongoose.connection.close(function(err){
       done(err);
@@ -95,7 +99,7 @@ describe('todos', function(){
 
   // clear any data from todo collection
   beforeEach(function (done) {
-    console.log('before: removing all todo items');
+    // console.log('before: removing all todo items');
     todoDAL.Model.remove({}, function(err){
      done(err);
    });
@@ -103,45 +107,6 @@ describe('todos', function(){
 
 
   beforeEach(function(done){
-
-    // todoDAL.add(userId1, todoList[0])
-    // .then(function(){
-    //   return todoDAL.add(userId1, todoList[1]);
-    // })
-    // .then(function(){
-    //   return todoDAL.add(userId2, todoList[2]);
-    // })
-    // .then(function(){
-    //   return todoDAL.add(userId2, todoList[3]);
-    // })
-    // .then(function(){
-    //   return todoDAL.add(userId2, todoList[4]);
-    // })
-    // .then(function(){done();}, done);
-
-    // var promise;
-    //
-    // todoData.todoList.forEach(function(item, idx){
-    //   if(!promise){
-    //     promise = todoDAL.add(item.userId, item);
-    //   }
-    //   else{
-    //     promise.then(function(){
-    //       return todoDAL.add(item.userId, item);
-    //     });
-    //   }
-    // });
-
-    // promise.then(function(){done();}, done);
-
-    // promise.then(function(){
-    //   return todoDAL.get();
-    // })
-    // .then(function(data){
-    //   console.log('all todos: ' + data);
-    //   done();
-    // },
-    // done);
 
     var promise;
 
@@ -156,37 +121,11 @@ describe('todos', function(){
 
     promise.then(function(){done();}, done);
 
-
-
-
-    // todoDAL.add(userId1, todoData.todoList[0])
-    // .then(function(){
-    //   return todoDAL.add(userId1, todoData.todoList[1]);
-    // })
-    // .then(function(){
-    //   return todoDAL.add(userId2,todoData.todoList[2]);
-    // })
-    // .then(function(){
-    //   return todoDAL.add(userId2, todoData.todoList[3]);
-    // })
-    // .then(function(){
-    //   return todoDAL.add(userId2, todoData.todoList[4]);
-    // })
-    // //.then(function(){done();}, done);
-    // .then(function(){
-    //   return todoDAL.get();
-    // })
-    // .then(function(data){
-    //   console.log('all todos: ' + data);
-    //   done();
-    // },
-    // done);
-
   });
 
-  // after(function(done){
-  //   closeConnection(mongoose, done);
-  // });
+  after(function(done){
+    closeConnection(mongoose, done);
+  });
 
 
   // validate we can create, update, delete, get with DAL
@@ -211,14 +150,45 @@ describe('todos', function(){
       .then(function(data){
         data.should.be.instanceof(Array);
         data.length.should.be.equal(todoData.getTodos(userId2).length + 1);
+
+        data.filter(function(val){
+          return (val.title === 'new todo');
+        })
+        .length.should.be.equal(1);
+
         done();
       })
       .onReject(done);
   });
 
 
-  it.skip('should update an item for user #2', function(done){
+  it('should update an item for user #2', function(done){
 
+    var newTitle = 'test #2.5';
+    var testTodo;
+
+    todoDAL.get({userId: userId2, title: 'test #2'})
+      .then(function(data){
+        should.exist(data);
+        data.length.should.equal(1);
+
+        testTodo = data[0];
+        testTodo.title = newTitle;
+
+        return todoDAL.update(testTodo);
+      })
+      .then(function(){
+        return todoDAL.get({userId: userId2, _id: testTodo._id});
+      })
+      .then(function(data){
+        should.exist(data);
+        data.length.should.equal(1);
+
+        // console.log('updated item ' + data[0]);
+        data[0].title.should.be.equal(newTitle);
+        done();
+      })
+      .onReject(done);
   });
 
   it.skip('should delete an item for user #2', function(done){
