@@ -4,13 +4,25 @@
 var should = require('should');
 var todoRoute = require('../../routes/api/todos.js');
 var todoDAL = require('../../data/todo.js');
-var todoDAL2 = require('../../data/todo.js');
+// var todoDAL2 = require('../../data/todo.js');
 
 
 var dbUri = 'mongodb://localhost/todo_test';
 
 var mongoose = require('mongoose');
 // mongoose.connect(dbUri);
+
+
+function check(done, assert){
+  'use strict';
+
+  try{
+    assert();
+    done();
+  }catch(e){
+    done(e);
+  }
+}
 
 describe('todos', function(){
   'use strict';
@@ -19,19 +31,21 @@ describe('todos', function(){
   var userId = 666;
   var error;
 
-  beforeEach(function (done) {
-    if(mongoose.connection.readyState === 1){
-      mongoose.connection.close(function(err){
-        done(err);
-      });
-    }
-    else{
-      done();
-    }
-  });
+  // beforeEach(function (done) {
+  //   if(mongoose.connection.readyState === 1){
+  //     console.log('before: closing connection');
+  //     mongoose.connection.close(function(err){
+  //       done(err);
+  //     });
+  //   }
+  //   else{
+  //     done();
+  //   }
+  // });
 
   beforeEach(function (done) {
     if(mongoose.connection.readyState === 0){
+      console.log('before: opening connection');
       mongoose.connect(dbUri, function(err){
         done(err);
       });
@@ -42,38 +56,34 @@ describe('todos', function(){
   });
 
   beforeEach(function (done) {
-    // clear all todos from db
+    console.log('before: removing all todo items');
     todoDAL.Model.remove({}, function(err){
      done(err);
    });
   });
 
-  //
-  // beforeEach(function(done){
-  //
-  //   // add one todo
-  //   var todoItem = {
-  //     title: 'test #1',
-  //     notes: 'test notes'
-  //   };
-  //
-  //   todoDAL.add(userId, todoItem,
-  //     function(err){
-  //         error = err;
-  //         done();
-  //       },
-  //       function(data){
-  //         todos = data;
-  //         done();
-  //       }
-  //   );
-  //
-  // });
+
+  beforeEach(function(done){
+
+    // add one todo
+    var todoItem = {
+      title: 'test #1',
+      notes: 'test notes'
+    };
+
+    todoDAL.add(userId, todoItem)
+      .then(function(data){
+        done();
+      }, done);
+
+  });
 
   /* global after */
   after(function(done){
 
     if(mongoose.connection.readyState === 1){
+      console.log('after: closing connection');
+
       mongoose.connection.close(function(err){
         done(err);
       });
@@ -88,16 +98,16 @@ describe('todos', function(){
     done();
   });
 
-  it('should return data from get call', function(done){
-    todoDAL.get(userId,
-      done, // error handler
-      function(data){
+  it('should return exactly one item from get call', function(done){
+    todoDAL.get(userId)
+      .then(function(data){
         should.exist(data);
-        //(data.length).should.be.exactly(1);
+        (data).should.have.length(1);
         done();
-      }
-    );
+      })
+      .onReject(done);
   });
+
 
 
 

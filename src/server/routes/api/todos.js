@@ -14,7 +14,10 @@ router.get('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
   var userId = req.params.userId;
-  Todo.get({ userId: userId }, onError(res), onSuccess(res));
+  // Todo.get({ userId: userId }, onError(res), onSuccess(res));
+
+  Todo.get({ userId: userId })
+  .then(onSuccess(res), onError(res));
 
 });
 
@@ -35,7 +38,9 @@ router.post('/users/:userId/todos', function(req, res, next) {
     return;
   }
 
-  Todo.add(userId, req.body, onError(res), onSuccess(res));
+  //Todo.add(userId, req.body, onError(res), onSuccess(res));
+  Todo.add(userId, req.body)
+  .then(onSuccess(res), onError(res));
 
 });
 
@@ -47,7 +52,9 @@ router.delete('/users/:userId/todos/:todoId', function (req, res, next){
   var userId = req.params.userId; // not used but should be
   var todoId = req.params.todoId;
 
-  Todo.deleteById(userId, todoId, onError(res), onSuccess(res));
+  //Todo.deleteById(userId, todoId, onError(res), onSuccess(res));
+  Todo.deleteById(userId, todoId)
+  .then(onSuccess(res), onError(res));
 
 });
 
@@ -81,7 +88,9 @@ router.put('/users/:userId/todos/:todoId', function (req, res, next){
     return;
   }
 
-  Todo.update(todo, onError(res), onSuccess(res));
+  // Todo.update(todo, onError(res), onSuccess(res));
+  Todo.update(todo)
+  .then(onSuccess(res), onError(res));
 
 });
 
@@ -89,13 +98,16 @@ router.put('/users/:userId/todos/:todoId', function (req, res, next){
 function onSuccess(res){
   'use strict';
   return function(data){
+    console.log('success');
     res.json(data);
   };
 }
 function onError(res){
   'use strict';
   return function(err){
-    res.json({state: 'error', message: err});
+    console.log('failure: ' + err);
+
+    res.json({state: 'error', message: '' + err});
   };
 }
 
