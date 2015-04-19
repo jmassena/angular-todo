@@ -52,7 +52,7 @@ function addDays(date, days){
 describe('todos', function(){
   'use strict';
 
-  var todoList;
+  var todoData;
   var userId1 = 666;
   var userId2 = 777;
 
@@ -68,14 +68,22 @@ describe('todos', function(){
     yesterday = addDays(today, -1);
 
 
-    todoList = [
-      {title: 'test #1', notes: 'notes test #1', dueDateTime: tomorrow},
-      {title: 'test #2', notes: 'notes test #2', dueDateTime: tomorrow},
+    var todoList = [
+      {userId: userId1, title: 'test #1', notes: 'notes test #1', dueDateTime: tomorrow},
+      {userId: userId1, title: 'test #2', notes: 'notes test #2', dueDateTime: tomorrow},
 
-      {title: 'test #1', notes: 'notes test #1', dueDateTime: tomorrow},
-      {title: 'test #2', notes: 'notes test #2', dueDateTime: tomorrow},
-      {title: 'test #3', notes: 'notes test #3', dueDateTime: tomorrow}
+      {userId: userId2, title: 'test #1', notes: 'notes test #1', dueDateTime: tomorrow},
+      {userId: userId2, title: 'test #2', notes: 'notes test #2', dueDateTime: tomorrow},
+      {userId: userId2, title: 'test #3', notes: 'notes test #3', dueDateTime: tomorrow}
     ];
+
+    todoData = {};
+    todoData.todoList = todoList;
+    todoData.getTodos = function(userId){
+      return todoList.filter(function(val){
+        return val.userId === userId;
+      });
+    };
 
     done();
   });
@@ -111,28 +119,74 @@ describe('todos', function(){
     // })
     // .then(function(){done();}, done);
 
+    // var promise;
+    //
+    // todoData.todoList.forEach(function(item, idx){
+    //   if(!promise){
+    //     promise = todoDAL.add(item.userId, item);
+    //   }
+    //   else{
+    //     promise.then(function(){
+    //       return todoDAL.add(item.userId, item);
+    //     });
+    //   }
+    // });
 
-    todoDAL.add(userId1, todoList[0])
-    .then(function(){
-      return todoDAL.add(userId1, todoList[1]);
-    })
-    .then(function(){
-      return todoDAL.add(userId2, todoList[2]);
-    })
-    .then(function(){
-      return todoDAL.add(userId2, todoList[3]);
-    })
-    .then(function(){
-      return todoDAL.add(userId2, todoList[4]);
-    })
-    .then(function(){done();}, done);
+    // promise.then(function(){done();}, done);
 
+    // promise.then(function(){
+    //   return todoDAL.get();
+    // })
+    // .then(function(data){
+    //   console.log('all todos: ' + data);
+    //   done();
+    // },
+    // done);
+
+    var promise;
+
+    todoData.todoList.forEach(function(item, idx){
+      if(!promise){
+        promise = todoDAL.add(item.userId, item);
+      }
+      else{
+        promise = promise.chain(todoDAL.add(item.userId, item));
+      }
+    });
+
+    promise.then(function(){done();}, done);
+
+
+
+
+    // todoDAL.add(userId1, todoData.todoList[0])
+    // .then(function(){
+    //   return todoDAL.add(userId1, todoData.todoList[1]);
+    // })
+    // .then(function(){
+    //   return todoDAL.add(userId2,todoData.todoList[2]);
+    // })
+    // .then(function(){
+    //   return todoDAL.add(userId2, todoData.todoList[3]);
+    // })
+    // .then(function(){
+    //   return todoDAL.add(userId2, todoData.todoList[4]);
+    // })
+    // //.then(function(){done();}, done);
+    // .then(function(){
+    //   return todoDAL.get();
+    // })
+    // .then(function(data){
+    //   console.log('all todos: ' + data);
+    //   done();
+    // },
+    // done);
 
   });
 
-  after(function(done){
-    closeConnection(mongoose, done);
-  });
+  // after(function(done){
+  //   closeConnection(mongoose, done);
+  // });
 
 
   // validate we can create, update, delete, get with DAL
@@ -141,18 +195,25 @@ describe('todos', function(){
     todoDAL.getByUserId(userId2)
       .then(function(data){
         should.exist(data);
-        // console.log('data: ' + JSON.stringify(data));
-        // console.log('length: ' + data.length);
         data.should.be.instanceof(Array);
-        data.length.should.be.equal(3);
+        data.length.should.be.equal(todoData.getTodos(userId2).length);
         done();
       })
       .onReject(done);
   });
 
 
-  it.skip('should create an item for user #2', function(done){
-
+  it('should create an item for user #2', function(done){
+    todoDAL.add(userId2, {title:'new todo', notes: 'notes for new todo'})
+      .then(function(){
+        return todoDAL.getByUserId(userId2);
+      })
+      .then(function(data){
+        data.should.be.instanceof(Array);
+        data.length.should.be.equal(todoData.getTodos(userId2).length + 1);
+        done();
+      })
+      .onReject(done);
   });
 
 

@@ -55,7 +55,9 @@ module.exports =  (function(){
   function get(condition){
 
     console.log('getting with condition: ' + JSON.stringify(condition));
+
     return TodoModel.find(condition).exec();
+
   }
 
   function getByUserId(userId){
@@ -64,9 +66,9 @@ module.exports =  (function(){
   }
 
   function add(userId, todo){
-
     todo._id = null;
     todo.userId = userId;
+    console.log('adding todo for user: ' + todo.userId);
 
     var newTodo = new TodoModel(todo);
 
