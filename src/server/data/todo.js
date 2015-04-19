@@ -3,7 +3,7 @@ module.exports =  (function(){
   'use strict';
 
   var mongoose = require('mongoose');
-  var mongooseUtils = require('./mongooseUtils.js');
+  var mongooseUtils = require('../common/mongooseUtils.js');
   // var mpromise = reuqire('mpromise');
 
   // unit tests use this require multiple times so can have this model already defined

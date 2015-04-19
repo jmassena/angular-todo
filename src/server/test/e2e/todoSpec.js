@@ -6,52 +6,17 @@
 var should = require('should');
 var todoRoute = require('../../routes/api/todos.js');
 var todoDAL = require('../../data/todo.js');
-// var todoDAL2 = require('../../data/todo.js');
-
+var dateUtils = require('../../common/dateUtils.js');
+var testUtils = require('../../common/testUtils.js');
 
 var dbUri = 'mongodb://localhost/todo_test';
 
 var mongoose = require('mongoose');
 // mongoose.connect(dbUri);
 
-function cloneDeep(obj){
-  'use strict';
-  return JSON.parse(JSON.stringify(obj));
-}
 
-function connect(mongoose, uri, done){
-  'use strict';
-  if(mongoose.connection.readyState === 0){
-    // console.log('before: opening connection');
-    mongoose.connect(dbUri, function(err){
-      done(err);
-    });
-  }
-  else{
-    done();
-  }
-}
-function closeConnection(mongoose, done){
-  'use strict';
-  if(mongoose.connection.readyState === 1){
-    // console.log('after: closing connection');
 
-    mongoose.connection.close(function(err){
-      done(err);
-    });
-  }
-  else{
-    done();
-  }
-}
 
-function addDays(date, days){
-  'use strict';
-
-  var newDate = new Date(date);
-  newDate.setDate(newDate.getDate + days);
-  return newDate;
-}
 
 describe('todos', function(){
   'use strict';
@@ -68,8 +33,8 @@ describe('todos', function(){
   before(function(done){
 
     today = new Date();
-    tomorrow = addDays(today, 1);
-    yesterday = addDays(today, -1);
+    tomorrow = dateUtils.addDays(today, 1);
+    yesterday = dateUtils.addDays(today, -1);
 
 
     var todoList = [
@@ -94,7 +59,7 @@ describe('todos', function(){
 
   // open db connection if needed (if mocha stays active between runs then connection still exists)
   before(function (done) {
-    connect(mongoose, dbUri, done);
+    testUtils.connect(mongoose, dbUri, done);
   });
 
   // clear any data from todo collection
@@ -124,7 +89,7 @@ describe('todos', function(){
   });
 
   after(function(done){
-    closeConnection(mongoose, done);
+    testUtils.closeConnection(mongoose, done);
   });
 
 
