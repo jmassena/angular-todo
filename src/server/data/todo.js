@@ -52,43 +52,28 @@ module.exports =  (function(){
     TodoModel = mongoose.model('Todo', TodoSchema);
   }
 
-  // function resultsHandle(err, data, onError, onSuccess){
-  //   if(err){
-  //     onError(err);
-  //   }
-  //   else{
-  //     onSuccess(data);
-  //   }
-  // }
+  function get(condition){
 
-  function get(condition, onError, onSuccess){
-
-    // TodoModel.find(condition, function(err, data){
-    //   resultsHandle(err, data, onError, onSuccess);
-    // });
-
+    console.log('getting with condition: ' + JSON.stringify(condition));
     return TodoModel.find(condition).exec();
   }
 
-  function add(userId, todo, onError, onSuccess){
+  function getByUserId(userId){
+
+    return get({userId: userId});
+  }
+
+  function add(userId, todo){
 
     todo._id = null;
     todo.userId = userId;
 
     var newTodo = new TodoModel(todo);
 
-    // newTodo.save(function(err, data){
-    //   resultsHandle(err, data, onError, onSuccess);
-    // });
-
     return newTodo.save();
   }
 
-  function deleteById(userId, todoId, onError, onSuccess){
-
-    // TodoModel.findOneAndRemove({_id: todoId, userId: userId}, function(err, data){
-    //   resultsHandle(err, data, onError, onSuccess);
-    // });
+  function deleteById(userId, todoId){
 
     return TodoModel.findOneAndRemove({_id: todoId, userId: userId}).exec()
       .then(function(data){
@@ -112,36 +97,7 @@ module.exports =  (function(){
       error.message = 'update operation requires todo object to have _id and userId';
       error.statusCode = 400; // bad request
       throw error;
-      // // onError(error);
-      // // return;
-      // //throw error;
-      //
-      // var promise = new mongoose.Promise();
-      // promise.reject(error);
-      // console.log('returning home-made promise');
-      // return promise;
     }
-
-    // TodoModel.findOne({_id: todo._id, userId: todo.userId}, function(err, dbTodo){
-    //
-    //   if(err){
-    //     onError(err);
-    //     return;
-    //   }
-    //
-    //   if(!dbTodo){
-    //     error = new Error();
-    //     error.message =  'Todo not found with id ' + todo._id + ' for user ' + todo.userId;
-    //     error.statusCode = 404; // not found
-    //     onError(error);
-    //     return;
-    //   }
-    //
-    //   mongooseUtils.copyFieldsToModel(todo, dbTodo);
-    //   dbTodo.save(function(err, data){
-    //     resultsHandle(err, data, onError, onSuccess);
-    //   });
-    // });
 
     return TodoModel.findOne({_id: todo._id, userId: todo.userId}).exec()
       .then(function(dbTodo){
@@ -151,13 +107,6 @@ module.exports =  (function(){
             error.message =  'Todo not found with id ' + todo._id + ' for user ' + todo.userId;
             error.statusCode = 404; // not found
             throw error;
-            //onError(error);
-            //return;
-            //throw error;
-            // var promise = new mongoose.Promise();
-            // promise.reject(error);
-            // console.log('returning home-made promise');
-            // return promise;
           }
 
           mongooseUtils.copyFieldsToModel(todo, dbTodo);
@@ -171,6 +120,7 @@ module.exports =  (function(){
     Model: TodoModel,
     add: add,
     get: get,
+    getByUserId: getByUserId,
     deleteById: deleteById,
     update: update
 
