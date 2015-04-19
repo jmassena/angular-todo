@@ -5,39 +5,51 @@ module.exports =  (function(){
   var mongoose = require('mongoose');
   var mongooseUtils = require('./mongooseUtils.js');
 
-  var TodoSchema = new mongoose.Schema({
-      userId: {
-        type: Number,
-        index: {unique: false},
-        required: '{PATH} is required'
-      },
-      status: {
-        type: String,
-        enum: ['not-started', 'started', 'completed'],
-        default: 'not-started'
-      },
-      title: {
-        type: String,
-        required: '{PATH} is required',
-        min: 3,
-        max: 50
-      },
-      notes: {
-        type: String,
-        max: 250
-      },
-      dueDateTime: {
-        type: Date
-      },
-      createdDateTime: {
-        type: Date,
-        default: Date.now,
-        required: '{PATH} is required'
-      }
-  });
+  // unit tests use this require multiple times so can have this model already defined
+  // which gives an error
+  var TodoModel;
 
+  if (mongoose.models.Todo) {
 
-  var TodoModel = mongoose.model('Todo', TodoSchema);
+    console.log('Using existing todo model');
+    TodoModel = mongoose.model('Todo');
+  }
+  else {
+
+    console.log('Creating new todo model');
+    var TodoSchema = new mongoose.Schema({
+        userId: {
+          type: Number,
+          index: {unique: false},
+          required: '{PATH} is required'
+        },
+        status: {
+          type: String,
+          enum: ['not-started', 'started', 'completed'],
+          default: 'not-started'
+        },
+        title: {
+          type: String,
+          required: '{PATH} is required',
+          min: 3,
+          max: 50
+        },
+        notes: {
+          type: String,
+          max: 250
+        },
+        dueDateTime: {
+          type: Date
+        },
+        createdDateTime: {
+          type: Date,
+          default: Date.now,
+          required: '{PATH} is required'
+        }
+    });
+
+    TodoModel = mongoose.model('Todo', TodoSchema);
+  }
 
   function resultsHandle(err, data, onError, onSuccess){
     if(err){
