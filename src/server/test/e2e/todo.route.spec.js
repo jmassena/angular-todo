@@ -53,20 +53,91 @@ describe('Todo routes', function(){
     testUtils.closeConnection(mongoose, done);
   });
 
-  it('should return all user#2 todos', function(done){
+
+  it('should get all todos for user #2', function(done){
 
     request(app)
       .get('/api/users/' + todoData.userId2 + '/todos')
       .expect(200)
-      //.expect('Content-Type', 'application/json; charset=utf-8')
       .accept('json')
       .end(function(err, res){
         should.not.exist(err);
         should.exist(res.body);
-        //console.log(res.body.length);
-        //console.log('res.body: ' + JSON.stringify(res.body));
         res.body.length.should.be.equal(3);
         done();
       });
   });
+
+  //
+  // it('should post a new todo for user #2', function(done){
+  //
+  //   // post
+  //   request(app)
+  //     .post('/api/users/' + todoData.userId2 + '/todos')
+  //     .send({title:'new todo', notes: 'notes for new todo'})
+  //     .expect(201)
+  //     .accept('json')
+  //     .end(function(err, res){
+  //       should.not.exist(err);
+  //       should.exist(res.body);
+  //
+  //       // get
+  //       request(app)
+  //         .get('/api/users/' + todoData.userId2 + '/todos')
+  //         .expect(200)
+  //         .accept('json')
+  //         .end(function(err, res){
+  //           should.not.exist(err);
+  //           should.exist(res.body);
+  //           res.body.length.should.be.equal(4);
+  //           done();
+  //         });
+  //     });
+  // });
+  //
+  // it('should update a todo for user #2', function(done){
+  //
+  //   var newTitle = 'test #2.5';
+  //
+  //   request(app)
+  //     // get
+  //     .get('/api/users/' + todoData.userId2 + '/todos')
+  //     .expect(200)
+  //     .accept('json')
+  //     .end(function(err, res){
+  //       should.not.exist(err);
+  //       should.exist(res.body);
+  //       res.body.length.should.be.equal(3);
+  //       var todoToUpdate = res.body[0];
+  //       todoToUpdate.title = newTitle;
+  //
+  //       // put
+  //       request(app)
+  //         .put('/api/users/' + todoData.userId2 + '/todos/' + todoToUpdate._id)
+  //         .send(todoToUpdate)
+  //         .expect(200)
+  //         .accept('json')
+  //         .end(function(err, res){
+  //           should.not.exist(err);
+  //
+  //       // get
+  //       request(app)
+  //         .get('/api/users/' + todoData.userId2 + '/todos')
+  //         .expect(200)
+  //         .accept('json')
+  //         .end(function(err, res){
+  //           should.not.exist(err);
+  //           should.exist(res.body);
+  //           var updatedTodoArr = res.body.filter(function(val){
+  //             return val._id === todoToUpdate._id;
+  //           });
+  //           updatedTodoArr.length.should.be.equal(1);
+  //           updatedTodoArr[0].title.should.be.equal(newTitle);
+  //           done();
+  //       }); // end get 2
+  //     }); // end put
+  //   }); // end get 1
+  // });// end it
+
+
 });

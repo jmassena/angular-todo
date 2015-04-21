@@ -14,10 +14,9 @@ router.get('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
   var userId = req.params.userId;
-  // Todo.get({ userId: userId }, onError(res), onSuccess(res));
 
   Todo.get({ userId: userId })
-  .then(onSuccess(res), onError(res));
+  .then(onSuccess(200, res), onError(500, res));
 
 });
 
@@ -29,18 +28,18 @@ router.post('/users/:userId/todos', function(req, res, next) {
   var userId = req.params.userId;
 
   if(!req.body){
-    res.json({state: 'error', message: 'body must contain a todo object json'});
-    return;
+    return res.status(400) // 400: bad request
+      .json(new Error('body must contain a todo object json'));
   }
   // make sure this doesn't exist already. cannot have an _id
   if(req.body._id){
-    res.json({state: 'error', message: 'new todo object _id must be null. _id: ' + req.body._id});
-    return;
+    return res.status(400) // 400: bad request
+      .json(new Error('error', 'new todo object _id must be null. _id: ' + req.body._id));
   }
 
-  //Todo.add(userId, req.body, onError(res), onSuccess(res));
+  // 201: created
   Todo.add(userId, req.body)
-  .then(onSuccess(res), onError(res));
+  .then(onSuccess(201, res), onError(500, res));
 
 });
 
@@ -49,12 +48,11 @@ router.post('/users/:userId/todos', function(req, res, next) {
 router.delete('/users/:userId/todos/:todoId', function (req, res, next){
   'use strict';
 
-  var userId = req.params.userId; // not used but should be
+  var userId = req.params.userId;
   var todoId = req.params.todoId;
 
-  //Todo.deleteById(userId, todoId, onError(res), onSuccess(res));
   Todo.deleteById(userId, todoId)
-  .then(onSuccess(res), onError(res));
+  .then(onSuccess(200, res), onError(500, res));
 
 });
 
@@ -68,46 +66,58 @@ router.put('/users/:userId/todos/:todoId', function (req, res, next){
   var todo = req.body;
 
   if(!todo.userId){
-    res.json({state: 'error',
-      message: 'userId of object is not defined or is null'});
-    return;
+    return res.status(400) // 400: bad request
+      .json(new Error('userId of object is not defined or is null'));
   }
 
   if(Number(todo.userId) !== userId){
-    res.json({state: 'error',
-      message: 'userId of object does not match userId in path. object userId: ' +
-                todo.userId + ' path userId: ' + userId + ' ' +
-                'obj type: ' + typeof(todo.userId) + ' userId type: ' + typeof(userId)});
-    return;
+
+    return res.status(400) // 400: bad request
+      .json(new Error('userId of object does not match userId in path. object userId: ' +
+            todo.userId + ' path userId: ' + userId + ' ' +
+            'obj type: ' + typeof(todo.userId) + ' userId type: ' + typeof(userId)));
   }
 
   // validate
   if(!todo._id || String(todo._id) !== String(todoId)){
-    res.json({state: 'error',
-      message: 'id of object does not match id in path. object _id: ' + todo._id + ' path id: ' + todoId});
-    return;
+    return res.status(400) // 400: bad request
+    .json(new Error('id of object does not match id in path. object _id: ' + todo._id + ' path id: ' + todoId));
   }
 
-  // Todo.update(todo, onError(res), onSuccess(res));
   Todo.update(todo)
-  .then(onSuccess(res), onError(res));
+  .then(onSuccess(200, res), onError(500, res));
 
 });
 
 
-function onSuccess(res){
+function onSuccess(code, res){
   'use strict';
+
+  console.log('success call constructed');
+
+
   return function(data){
-    console.log('success');
-    res.json(data);
+    console.log('success call called');
+
+    return res.status(code).json(data);
   };
 }
-function onError(res){
+function onError(code, res){
   'use strict';
+
+  console.log('error call constructed');
+
+
   return function(err){
     console.log('failure: ' + err);
+    console.log('error call called');
 
-    res.json({state: 'error', message: '' + err});
+
+    code = err.statusCode || code || 500;
+    var msg = err.message || err;
+
+    return res.status(code)
+      .json({message: '' + msg});
   };
 }
 
