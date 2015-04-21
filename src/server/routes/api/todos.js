@@ -93,11 +93,11 @@ router.put('/users/:userId/todos/:todoId', function (req, res, next){
 function onSuccess(code, res){
   'use strict';
 
-  console.log('success call constructed');
+  // console.log('success call constructed');
 
 
   return function(data){
-    console.log('success call called');
+    // console.log('success call called');
 
     return res.status(code).json(data);
   };
@@ -105,12 +105,12 @@ function onSuccess(code, res){
 function onError(code, res){
   'use strict';
 
-  console.log('error call constructed');
+  // console.log('error call constructed');
 
 
   return function(err){
     console.log('failure: ' + err);
-    console.log('error call called');
+    // console.log('error call called');
 
 
     code = err.statusCode || code || 500;
