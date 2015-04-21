@@ -1,61 +1,23 @@
 // src/server/test/e2e/todoSpec.js
+'use strict';
 
 /* global before */
 /* global after */
 
 var should = require('should');
+var mongoose = require('mongoose');
 var todoRoute = require('../../routes/api/todos.js');
 var todoDAL = require('../../data/todo.js');
 var dateUtils = require('../../common/dateUtils.js');
 var testUtils = require('../../common/testUtils.js');
+var testData = require('./todo.data.js');
 
 var dbUri = 'mongodb://localhost/todo_test';
 
-var mongoose = require('mongoose');
-// mongoose.connect(dbUri);
 
-
-
-
-
-describe('todos', function(){
-  'use strict';
+describe('todo DAL', function(){
 
   var todoData;
-  var userId1 = 666;
-  var userId2 = 777;
-
-  var today;
-  var yesterday;
-  var tomorrow;
-
-  // prepare test data
-  before(function(done){
-
-    today = new Date();
-    tomorrow = dateUtils.addDays(today, 1);
-    yesterday = dateUtils.addDays(today, -1);
-
-
-    var todoList = [
-      {userId: userId1, title: 'test #1', notes: 'notes test #1', dueDateTime: tomorrow},
-      {userId: userId1, title: 'test #2', notes: 'notes test #2', dueDateTime: tomorrow},
-
-      {userId: userId2, title: 'test #1', notes: 'notes test #1', dueDateTime: tomorrow},
-      {userId: userId2, title: 'test #2', notes: 'notes test #2', dueDateTime: tomorrow},
-      {userId: userId2, title: 'test #3', notes: 'notes test #3', dueDateTime: tomorrow}
-    ];
-
-    todoData = {};
-    todoData.todoList = todoList;
-    todoData.getTodos = function(userId){
-      return todoList.filter(function(val){
-        return val.userId === userId;
-      });
-    };
-
-    done();
-  });
 
   // open db connection if needed (if mocha stays active between runs then connection still exists)
   before(function (done) {
@@ -73,8 +35,9 @@ describe('todos', function(){
 
   beforeEach(function(done){
 
-    var promise;
+    todoData = testData(); // refresh test data in case it was modified by test.
 
+    var promise;
     todoData.todoList.forEach(function(item, idx){
       if(!promise){
         promise = todoDAL.add(item.userId, item);
@@ -96,11 +59,11 @@ describe('todos', function(){
   // validate we can create, update, delete, get with DAL
   // We will do more extensive integration test later with routes
   it('should get all items for user #2', function(done){
-    todoDAL.getByUserId(userId2)
+    todoDAL.getByUserId(todoData.userId2)
       .then(function(data){
         should.exist(data);
         data.should.be.instanceof(Array);
-        data.length.should.be.equal(todoData.getTodos(userId2).length);
+        data.length.should.be.equal(todoData.getTodos(todoData.userId2).length);
         done();
       })
       .onReject(done);
@@ -108,13 +71,13 @@ describe('todos', function(){
 
 
   it('should create an item for user #2', function(done){
-    todoDAL.add(userId2, {title:'new todo', notes: 'notes for new todo'})
+    todoDAL.add(todoData.userId2, {title:'new todo', notes: 'notes for new todo'})
       .then(function(){
-        return todoDAL.getByUserId(userId2);
+        return todoDAL.getByUserId(todoData.userId2);
       })
       .then(function(data){
         data.should.be.instanceof(Array);
-        data.length.should.be.equal(todoData.getTodos(userId2).length + 1);
+        data.length.should.be.equal(todoData.getTodos(todoData.userId2).length + 1);
 
         data.filter(function(val){
           return (val.title === 'new todo');
@@ -132,7 +95,7 @@ describe('todos', function(){
     var newTitle = 'test #2.5';
     var testTodo;
 
-    todoDAL.get({userId: userId2, title: 'test #2'})
+    todoDAL.get({userId: todoData.userId2, title: 'test #2'})
       .then(function(data){
         should.exist(data);
         data.length.should.equal(1);
@@ -143,7 +106,7 @@ describe('todos', function(){
         return todoDAL.update(testTodo);
       })
       .then(function(){
-        return todoDAL.get({userId: userId2, _id: testTodo._id});
+        return todoDAL.get({userId: todoData.userId2, _id: testTodo._id});
       })
       .then(function(data){
         should.exist(data);
@@ -162,15 +125,15 @@ describe('todos', function(){
     var todoToDelete;
     var originalDataLength;
 
-    todoDAL.getByUserId(userId2)
+    todoDAL.getByUserId(todoData.userId2)
     .then(function(data){
       should.exist(data);
       originalDataLength = data.length;
       todoToDelete = data[0];
-      return todoDAL.deleteById(userId2, todoToDelete);
+      return todoDAL.deleteById(todoData.userId2, todoToDelete);
     })
     .then(function(data){
-      return todoDAL.getByUserId(userId2);
+      return todoDAL.getByUserId(todoData.userId2);
     })
     .then(function(data){
       data.length.should.be.equal(originalDataLength -1);

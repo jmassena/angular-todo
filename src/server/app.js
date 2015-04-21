@@ -4,11 +4,22 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+
+var port = process.env.PORT || 3000;
+var env = process.env.NODE_ENV || 'dev';
 
 // mongo connection
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todos');
+var dbName = 'todos';
+
+if(env === 'test'){
+  // use test db
+  dbName = 'todo_test';
+}
+
+mongoose.connect('mongodb://localhost/' + dbName);
 var db = mongoose.connection;
+
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', function(){
   'use strict';
@@ -19,7 +30,7 @@ db.once('open', function(){
 var app = express();
 
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/../client/content/img/favicon.ico'));
+//app.use(favicon(__dirname + '/../client/content/img/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,19 +40,14 @@ app.use(cookieParser());
 // routes setup
 require('./routes/routes.js')(app);
 
-console.log('** DEV **');
 app.use('/', express.static('./src/client'));
 app.use('/', express.static('./'));
 
+console.log('About to crank up node');
+console.log('PORT: ' + port);
+console.log('NODE_ENV: ' + env);
 
-// var port = process.env.PORT || 3000;
-// var environment = process.env.NODE_ENV;
-//
-// console.log('About to crank up node');
-// console.log('PORT=' + port);
-// console.log('NODE_ENV=' + environment);
-//
-//
+
 // app.get('/ping', function(req, res, next) {
 //     console.log(req.body);
 //     res.send('pong');

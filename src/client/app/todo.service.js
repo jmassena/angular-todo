@@ -45,7 +45,7 @@
           .success(function(d){
             deferred.resolve({data:d});
             api.todos = d;
-            $log.info('got data: ' + JSON.stringify(d));
+            //$log.info('got data: ' + JSON.stringify(d));
           })
           .error(function(msg, code){
             deferred.reject(msg);

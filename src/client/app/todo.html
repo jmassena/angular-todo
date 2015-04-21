@@ -27,7 +27,7 @@
     </thead>
     <tbody >
       <tr ng-repeat="todo in vm.todos" ng-class="{danger: todo.dueDateTime < todo.now}" >
-        <td><input type="checkbox" ng-checked="{todo.status=='completed'}"</td>
+        <td><input type="checkbox" ng-checked="todo.status=='completed'"</td>
         <td>{{todo.title}}</td>
         <td>{{todo.notes}}</td>
         <td>{{todo.createdDateTime | date:'MM/dd/yyyy h:mm a'}}</td>
