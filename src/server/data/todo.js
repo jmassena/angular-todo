@@ -79,7 +79,12 @@ module.exports =  (function(){
 
     return TodoModel.findOneAndRemove({_id: todoId, userId: userId}).exec()
       .then(function(data){
+        // console.log('delete attempted');
+
         if(!data){
+
+          // console.log('delete item not found');
+
           var error = new Error();
           error.message = 'Todo not found with id ' + todoId + ' for user ' + userId;
           error.statusCode = 404; // not found
