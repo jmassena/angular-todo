@@ -29,17 +29,17 @@
             {type: 'dropdown', text: 'Tech',
               items:[
                 {type: 'header', text: 'Main'},
-                {type: 'link', text: 'Bootstrap'},
-                {type: 'link', text: 'AngularJS'},
-                {type: 'link', text: 'NodeJS'},
-                {type: 'link', text: 'Mongo'},
+                {type: 'link', text: 'Bootstrap', href: 'http://getbootstrap.com/'},
+                {type: 'link', text: 'AngularJS', href: 'https://angularjs.org/'},
+                {type: 'link', text: 'NodeJS', href: 'https://nodejs.org/'},
+                {type: 'link', text: 'Mongo', href: 'https://www.mongodb.org/'},
                 {type: 'divider'},
                 {type: 'header', text: 'Misc'},
-                {type: 'link', text: 'Jasmine'},
-                {type: 'link', text: 'Mocha'},
-                {type: 'link', text: 'Karma'},
-                {type: 'link', text: 'Protractor'},
-                {type: 'link', text: 'Gulp'}
+                {type: 'link', text: 'Jasmine', href: 'http://jasmine.github.io/'},
+                {type: 'link', text: 'Mocha', href: 'http://mochajs.org/'},
+                {type: 'link', text: 'Karma', href: 'http://karma-runner.github.io/0.12/index.html'},
+                {type: 'link', text: 'Protractor', href: 'http://angular.github.io/protractor/#/api'},
+                {type: 'link', text: 'Gulp', href: 'http://gulpjs.com/'}
                 ]}
           ]};
 

@@ -44,60 +44,7 @@
       </tr>
     </tbody>
   </table>
-
-
   <button type="button" class="btn btn-primary" ng-click="vm.editMode='create'" data-target="#todoCreate" data-toggle="modal" >Add</button>
-
-  <!-- Create/Edit dialog -->
-  <div class="modal" id="todoCreate">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-          <h4 class="modal-title">{{vm.editMode=='edit'?'Edit':'Create'}}</h4>
-        </div>
-
-        <div class="modal-body">
-          <form name="vm.todoForm" class="validated-form" novalidate ng-submit="vm.submitTodo()">
-
-            <div class="form-group">
-              <label class="control-label" for="newTodoTitle">Title</label>
-              <input type="text" class="form-control" id="newTodoTitle" name="title" ng-model="vm.formData.title"  required />
-              <br />
-              <div class="alert-danger" ng-show="vm.todoForm.title.$touched">
-                <span ng-show="vm.todoForm.title.$error.required">title is required</span>
-              </div>
-              <!-- <span ng-show="vm.todoForm.title.$error.required">title is required</span> -->
-            </div>
-
-            <!-- <div>touched: {{vm.todoForm.title.$touched}}</div>
-            <div>error required: {{vm.todoForm.title.$error.required}}</div> -->
-            <!-- <div>{{vm.todoForm.title}}</div>
-            <div>{{vm.todoForm.title.$error}}</div>
-
-            <div>{{vm.todoForm.title.$error.required}}</div>
-            <div>{{vm.todoForm.title.$invalid}}</div> -->
-
-            <div class="form-group">
-              <label class="control-label" for="newTodoNotes" >Notes</label>
-              <input type="text" class="form-control" name="notes"  id="newTodoNotes" ng-model="vm.formData.notes" />
-            </div>
-
-            <div class="form-group">
-              <label class="control-label" for="newTodoDueDate" >Due</label>
-              <input type='text' class="form-control" name="dueDateTime" id="newTodoDueDate" ng-model="vm.formData.dueDateTime" datetimepicker />
-            </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="vm.clearForm();vm.selectedTodoId=null">Cancel</button>
-            <button type="button" ng-disabled="vm.todoForm.$invalid" type="submit" data-dismiss="modal" ng-click="vm.submitTodo()" class="btn btn-success">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
   <!-- Delete dialog -->
   <div class="modal" id="todoDeleteConfirm">
@@ -122,4 +69,61 @@
     </div>
   </div>
 
+
+
+
+    <!-- Create/Edit dialog -->
+    <div class="modal" id="todoCreate">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            <h4 class="modal-title">{{vm.editMode=='edit'?'Edit':'Create'}}</h4>
+          </div>
+
+          <div class="modal-body">
+            <form name="vm.todoForm" class="validated-form" novalidate ng-submit="vm.submitTodo()">
+
+              <div class="form-group">
+                <label class="control-label" for="newTodoTitle">Title</label>
+                <input type="text" class="form-control" id="newTodoTitle" name="title" ng-model="vm.formData.title" placeholder="What to do?" required />
+                <br />
+                <div class="alert-danger" ng-show="vm.todoForm.title.$touched">
+                  <span ng-show="vm.todoForm.title.$error.required">title is required</span>
+                </div>
+                <!-- <span ng-show="vm.todoForm.title.$error.required">title is required</span> -->
+              </div>
+
+              <!-- <div>touched: {{vm.todoForm.title.$touched}}</div>
+              <div>error required: {{vm.todoForm.title.$error.required}}</div> -->
+              <!-- <div>{{vm.todoForm.title}}</div>
+              <div>{{vm.todoForm.title.$error}}</div>
+
+              <div>{{vm.todoForm.title.$error.required}}</div>
+              <div>{{vm.todoForm.title.$invalid}}</div> -->
+
+              <div class="form-group">
+                <label class="control-label" for="newTodoNotes" >Notes</label>
+                <input type="text" class="form-control" name="notes" placeholder="(optional) Extra information" id="newTodoNotes" ng-model="vm.formData.notes" />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="newTodoDueDate" >Due</label>
+                <input type='text' class="form-control" name="dueDateTime" id="newTodoDueDate" ng-model="vm.formData.dueDateTime"
+                datetimepicker datetimepicker-options="{showClose:true}" placeholder="(optional) Due date and time" />
+              </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="vm.clearForm();vm.selectedTodoId=null">Cancel</button>
+              <button type="button" ng-disabled="vm.todoForm.$invalid" type="submit" data-dismiss="modal" ng-click="vm.submitTodo()" class="btn btn-success">Submit</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>
