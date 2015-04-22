@@ -88,6 +88,8 @@
           deferred.reject(msg);
           $log.error(msg, code);
         });
+
+        return deferred.promise;
       }
 
       function deleteTodo(userId, todoId) {
@@ -105,6 +107,7 @@
           $log.error(msg, code);
         });
 
+        return deferred.promise;
       }
     }
 }());

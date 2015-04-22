@@ -8,7 +8,7 @@
       .module('app')
       .controller('TodoCtrl', TodoCtrl);
 
-      TodoCtrl.$inject = ['todoService'];
+      TodoCtrl.$inject = ['todoService', '$scope'];
       function TodoCtrl(todoService){
 
         // Todo schema
@@ -43,9 +43,10 @@
             vm.now = new Date();
             vm.selectedTodoId = null;
 
-            vm.formData = {};
             vm.errorMsg = null;
             vm.editMode = null;
+
+            vm.formData = {title: null, notes: null, dueDateTime: null};
 
 
         if(!initialized){
@@ -56,10 +57,19 @@
 
 
         function clearForm(){
-          vm.formData.title = null;
-          vm.formData.notes = null;
-          vm.formData.dueDateTime = null;
+          // vm.todoForm.title = '';
+          // vm.todoForm.notes = '';
+          // vm.todoForm.dueDateTime = '';
+
+          vm.formData.title = '';
+          vm.formData.notes = '';
+          vm.formData.dueDateTime = '';
+
+          vm.todoForm.$setUntouched();
+          vm.todoForm.$setPristine();
         }
+
+
         function setDataFromService(){
           vm.todos = todoService.todos;
         }
@@ -106,8 +116,7 @@
           var todo = getSelectedTodo();
           if(todo){
             // clone todo so we don't affect original
-            //todo = JSON.parse(JSON.stringify(todo));
-            todo = jQuery.extend(true, {}, todo);
+            todo = angular.copy(todo);
 
             for(var key in vm.formData){
               if(Object.prototype.hasOwnProperty.call(vm.formData, key)){

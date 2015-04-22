@@ -20,3 +20,15 @@
 .list-action:nth-child(2){
     margin-left: 10px;
 }
+
+
+.validated-form input.ng-invalid.ng-touched {
+  background-color: rgba(250, 120, 126, 0.5);
+}
+
+/*.validated-form input.ng-valid.ng-touched {
+
+  background-color: rgba(120, 250, 137, 0.38);
+
+}
+*/
