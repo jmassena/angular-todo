@@ -85,7 +85,7 @@ var mockTodoService = (function(){
           title: todo.title,
           notes: todo.notes,
           dueDateTime: todo.dueDateTime,
-          ownerPersonId: 666});
+          userId: 666});
       }
 
       function deleteTodo(todoId){

@@ -13,6 +13,7 @@ var Todo = require('./../../data/todo.js');
 router.get('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
+  console.log('get called');
   var userId = req.params.userId;
 
   Todo.get({ userId: userId })

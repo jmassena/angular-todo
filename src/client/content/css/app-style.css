@@ -4,14 +4,19 @@
 
 
 .color-delete{
-  color:rgba(225, 0, 0, 0.60);
+  color:rgba(225, 0, 0, 0.70);
 }
 
 .color-submit{
-  color:rgba(0, 225, 0, 0.60);
+  color:rgba(0, 225, 0, 0.70);
 }
 
 .color-edit{
-  color:rgba(0, 0, 225, 0.60);
+  color:rgba(0, 0, 225, 0.70);
 
+}
+
+
+.list-action:nth-child(2){
+    margin-left: 10px;
 }

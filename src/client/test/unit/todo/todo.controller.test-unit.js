@@ -16,24 +16,14 @@ describe('Controller: TodoCtrl', function() {
     }));
 
 
-    xit('should show no todo items at start', function() {
+    // if I am using mock data then i should not be testing the data.
+    // I should be testing the controller functionality.
+    // such as clearForm() or ...
+    // Does it update the vm.todoList after adding an item.
+    xit('should clear the form data', function() {
 
-      expect(ctrl.title).toEqual('val');
+      // expect(ctrl.title).toEqual('val');
     });
 
-    xit('should show one todo items after add', function() {
-
-      expect(ctrl.title).toEqual('val');
-    });
-
-    xit('should show zero todo items after delete', function() {
-
-      expect(ctrl.title).toEqual('val');
-    });
-
-    xit('should show zero todo items after delete', function() {
-
-      expect(ctrl.title).toEqual('val');
-    });
 
 });
