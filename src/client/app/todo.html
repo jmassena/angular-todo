@@ -25,7 +25,7 @@
         <th></th>
         <th>Title</th>
         <th>Notes</th>
-        <th>Created</th>
+        <!-- <th>Created</th> -->
         <th>Due</th>
         <th>Action</th>
       </tr>
@@ -36,20 +36,22 @@
         <td><input type="checkbox" ng-checked="todo.status=='completed'"</td>
         <td title="{{todo.title}}">{{vm.truncate(todo.title, 50)}}</td>
         <td title="{{todo.notes}}">{{vm.truncate(todo.notes, 50)}}</td>
-        <td>{{todo.createdDateTime | date:'MM/dd/yyyy h:mm a'}}</td>
+        <!-- <td>{{todo.createdDateTime | date:'MM/dd/yyyy'}}</td> -->
         <td>{{todo.dueDateTime | date:'MM/dd/yyyy h:mm a'}}</td>
         <td>
-          <a class="list-action" ng-click="vm.selectedTodoId=todo._id;vm.editMode='edit'" data-toggle="modal" data-target="#todoDeleteConfirm" href="#">
+          <a class="list-action" ng-click="vm.setForEdit(todo)" data-toggle="modal" data-target="#todoCreate" href="">
             <span class="glyphicon glyphicon-pencil color-edit"></span>
           </a>
 
-          <a class="list-action" ng-click="vm.selectedTodoId=todo._id;vm.editMode='delete'" data-toggle="modal" data-target="#todoDeleteConfirm" href="#">
+          <a class="list-action" ng-click="vm.selectedTodoId=todo._id;vm.editMode='delete'" data-toggle="modal" data-target="#todoDeleteConfirm" href="">
             <span class="glyphicon glyphicon-remove color-delete"></span>
           </a>
         </td>
       </tr>
     </tbody>
   </table>
+
+
   <button type="button" class="btn btn-primary" ng-click="vm.editMode='create'" data-target="#todoCreate" data-toggle="modal" >Add</button>
 
   <!-- Delete dialog -->
@@ -110,6 +112,8 @@
               <!-- Due Date -->
               <div class="form-group">
                 <label class="control-label" for="newTodoDueDate" >Due</label>
+                <!-- <input type='datetime-local' class="form-control" name="dueDateTime" id="newTodoDueDate" ng-model="vm.formData.dueDateTime"
+                placeholder="(optional) Due date and time" step="900" /> -->
                 <input type='text' class="form-control" name="dueDateTime" id="newTodoDueDate" ng-model="vm.formData.dueDateTime"
                 datetimepicker datetimepicker-options="{showClose:true}" placeholder="(optional) Due date and time" />
               </div>

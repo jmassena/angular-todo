@@ -1,6 +1,7 @@
 // public/ang/navbar.js
 
 /* global jQuery */
+/* global moment */
 (function(angular) {
   'use strict';
 
@@ -44,6 +45,7 @@
             vm.truncate = truncate;
             vm.dateOrder = dateOrder;
             vm.dueDateOrder = dueDateOrder;
+            vm.setForEdit = setForEdit;
 
 
             vm.now = new Date();
@@ -100,6 +102,31 @@
           }
         }
 
+
+
+        function setForEdit(todo){
+          vm.editMode = EDIT_MODES.EDIT;
+          vm.selectedTodoId = todo._id;
+          vm.formData.title = todo.title;
+          vm.formData.notes = todo.notes;
+          // if(todo.dueDateTime != null && todo.dueDateTime != ''){
+          //   vm.formData.dueDateTime  = new Date(todo.dueDateTime);
+          // }
+          // else{
+          //   todo.dueDateTime = null;
+          // }
+          //04/08/2015 12:00 AM
+          //vm.formData.dueDateTime = new Date(todo.dueDateTime);
+          if(todo.dueDateTime != null && todo.dueDateTime != ''){
+            var df = moment(todo.dueDateTime);
+            //vm.formData.dueDateTime = df.format('MM/DD/YYYY hh:mm A');
+
+            // have to set date of picker else it only picks it??
+            var dp = document.getElementById('newTodoDueDate');
+            var dpc = $('#newTodoDueDate').data('DateTimePicker');
+            dpc.date(df);
+          }
+        }
 
         function clearForm(){
           // never clear actual form!! it will mess up validation.
@@ -168,6 +195,7 @@
 
             todoService.updateTodo(vm.userId, todo)
               .then(function(){
+                clearForm();
                 vm.selectedTodoId = null;
                 getTodos();
               });
