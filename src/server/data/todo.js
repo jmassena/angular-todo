@@ -72,6 +72,8 @@ module.exports =  (function(){
 
     var newTodo = new TodoModel(todo);
 
+
+    //console.log('saving: ' + newTodo);  
     return newTodo.save();
   }
 

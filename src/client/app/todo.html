@@ -14,6 +14,11 @@
     </div>
   </div> -->
 
+  <!-- orderBy:['-createdDateTime','dueDateTime']" -->
+
+  <!-- ng-class="{danger: todo.dueDateTime < todo.now}" -->
+  <!-- | orderByDate:'dueDateTime':true" -->
+  <!-- orderByDateTimeNullIsMax:'dueDateTime':true" -->
   <table class="table table-striped table-bordered table-hover table-condensed">
     <thead>
       <tr>
@@ -26,10 +31,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="todo in vm.todos" ng-class="{danger: todo.dueDateTime < todo.now}" >
+      <tr ng-repeat="todo in vm.todos| orderBy: [vm.dueDateOrder, 'createdDateTime']: true"
+          ng-class="{danger: vm.isOverDue(todo.dueDateTime)}" >
         <td><input type="checkbox" ng-checked="todo.status=='completed'"</td>
-        <td>{{todo.title}}</td>
-        <td>{{todo.notes}}</td>
+        <td title="{{todo.title}}">{{vm.truncate(todo.title, 50)}}</td>
+        <td title="{{todo.notes}}">{{vm.truncate(todo.notes, 50)}}</td>
         <td>{{todo.createdDateTime | date:'MM/dd/yyyy h:mm a'}}</td>
         <td>{{todo.dueDateTime | date:'MM/dd/yyyy h:mm a'}}</td>
         <td>
@@ -68,9 +74,6 @@
       </div>
     </div>
   </div>
-
-
-
 
     <!-- Create/Edit dialog -->
     <div class="modal" id="todoCreate" >

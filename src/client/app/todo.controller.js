@@ -8,8 +8,8 @@
       .module('app')
       .controller('TodoCtrl', TodoCtrl);
 
-      TodoCtrl.$inject = ['todoService', '$scope'];
-      function TodoCtrl(todoService){
+      TodoCtrl.$inject = ['todoService', '$log'];
+      function TodoCtrl(todoService, $log){
 
         // Todo schema
         // _id: nextId,
@@ -39,7 +39,13 @@
             vm.updateTodo = updateTodo;
             vm.deleteTodo = deleteTodo;
             vm.submitTodo = submitTodo;
+            vm.isOverDue = isOverDue;
             vm.clearForm = clearForm;
+            vm.truncate = truncate;
+            vm.dateOrder = dateOrder;
+            vm.dueDateOrder = dueDateOrder;
+
+
             vm.now = new Date();
             vm.selectedTodoId = null;
 
@@ -48,6 +54,10 @@
 
             vm.formData = {title: null, notes: null, dueDateTime: null};
 
+            // var td = vm.todos.filter(function(val){
+            //   return (val.dueDateTime != null && val.dueDateTime != '');
+            // });
+            // console.log(td[0].dueDateTime);
 
         if(!initialized){
           getTodos();
@@ -55,12 +65,44 @@
         }
 
 
+        function isOverDue(dueDate){
+          if(dueDate == null || dueDate.length === 0){
+            return null;
+          }
+          else{
+            return new Date(dueDate) < new Date();
+          }
+        }
+
+        function truncate(str, len){
+          if(str && str.length > len){
+            // return str.substring(0, len - 3) + '&hellip;';
+            return str.substring(0, len - 3) + '...';//'…';
+          }
+          return str;
+        }
+
+        function dueDateOrder(todo){
+          return dateOrder(todo.dueDateTime);
+        }
+
+
+        function dateOrder(a){
+
+          if(a == null || a.length === 0){
+            // i think this is the max date
+            // +100,000,000 days relative to jan, 1970 UTC
+            var d = new Date(8640000000000000);
+            return d.toISOString();
+          }
+          else{
+            return a;
+          }
+        }
+
 
         function clearForm(){
-          // vm.todoForm.title = '';
-          // vm.todoForm.notes = '';
-          // vm.todoForm.dueDateTime = '';
-
+          // never clear actual form!! it will mess up validation.
           vm.formData.title = '';
           vm.formData.notes = '';
           vm.formData.dueDateTime = '';
