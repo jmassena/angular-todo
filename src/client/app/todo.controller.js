@@ -93,7 +93,7 @@
 
         function dateOrder(a){
 
-          if(a == null || a.length === 0){
+          if(!a){
             // i think this is the max date
             // +100,000,000 days relative to jan, 1970 UTC
             var d = new Date(8640000000000000);
@@ -104,24 +104,14 @@
           }
         }
 
-
-
         function setForEdit(todo){
           vm.editMode = EDIT_MODES.EDIT;
           vm.selectedTodoId = todo._id;
           vm.formData.title = todo.title;
           vm.formData.notes = todo.notes;
-          // if(todo.dueDateTime != null && todo.dueDateTime != ''){
-          //   vm.formData.dueDateTime  = new Date(todo.dueDateTime);
-          // }
-          // else{
-          //   todo.dueDateTime = null;
-          // }
-          //04/08/2015 12:00 AM
-          //vm.formData.dueDateTime = new Date(todo.dueDateTime);
+
           if(todo.dueDateTime != null && todo.dueDateTime != ''){
             var df = moment(todo.dueDateTime);
-            //vm.formData.dueDateTime = df.format('MM/DD/YYYY hh:mm A');
 
             // have to set date of picker else it only picks it??
             var dp = document.getElementById('newTodoDueDate');
@@ -159,9 +149,7 @@
           }
         }
 
-        // TODO: check if item was added by checking that return data exists
         function createTodo(){
-
           todoService.createTodo(vm.userId, vm.formData)
             .then(function(){
               clearForm();
@@ -205,8 +193,8 @@
         }
 
         // TODO: check if item was deleted by checking that return data exists
-        function deleteTodo(){
-          todoService.deleteTodo(vm.userId, vm.selectedTodoId)
+        function deleteTodo(todoId){
+          todoService.deleteTodo(vm.userId, todoId)
             .then(function(){
               vm.selectedTodoId = null;
               getTodos();

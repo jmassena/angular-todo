@@ -28,6 +28,28 @@
   background-color: rgba(250, 120, 126, 0.5);
 }
 
+
+.delete-confirm ul{
+
+  padding:10px;
+  min-width:140px;
+  text-align:center;
+  background-color:rgba(255, 205, 205, .95);
+}
+.delete-confirm .confirm-message{
+  font-size:larger;
+}
+
+.delete-confirm button{
+  margin:10px 5px;
+}
+
+
+/*.delete-confirm button{
+  background-color:#ffffff;
+
+}*/
+
 /*.validated-form input.ng-valid.ng-touched {
 
   background-color: rgba(120, 250, 137, 0.38);
