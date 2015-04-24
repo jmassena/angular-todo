@@ -52,7 +52,7 @@
             vm.clearForm = clearForm;
             vm.truncate = truncate;
             vm.dateOrder = dateOrder;
-            vm.dueDateOrder = dueDateOrder;
+            vm.dueDateOrderDesc = dueDateOrderDesc;
             vm.setForEdit = setForEdit;
 
         if(!initialized){
@@ -76,21 +76,21 @@
           return str;
         }
 
-        function dueDateOrder(todo){
+        function dueDateOrderDesc(todo){
           return dateOrder(todo.dueDateTime);
         }
 
 
         function dateOrder(a){
 
-          if(!a){
+          if(a == null || a.length ===0 ){
             // i think this is the max date
             // +100,000,000 days relative to jan, 1970 UTC
             var d = new Date(8640000000000000);
-            return d.toISOString();
+            return d.getTime();
           }
-          else{
-            return a;
+          else {
+            return new Date(a).getTime();
           }
         }
 

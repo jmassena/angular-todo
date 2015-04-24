@@ -19,6 +19,8 @@
   <!-- ng-class="{danger: todo.dueDateTime < todo.now}" -->
   <!-- | orderByDate:'dueDateTime':true" -->
   <!-- orderByDateTimeNullIsMax:'dueDateTime':true" -->
+  <!-- <tr ng-repeat="todo in vm.todos| orderBy: ['-done', '-vm.dueDateOrder', '-createdDateTime']" -->
+
   <table class="table table-striped table-bordered table-hover table-condensed">
     <thead>
       <tr>
@@ -26,16 +28,21 @@
         <th >Title</th>
         <th>Notes</th>
         <!-- <th>Created</th> -->
+        <!-- <th>ms</th> -->
+
         <th>Due</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="todo in vm.todos| orderBy: [vm.dueDateOrder, 'createdDateTime']: true"
-          ng-class="{danger: vm.isOverDue(todo.dueDateTime)}" >
+      <tr ng-repeat="todo in vm.todos| orderBy: ['done', vm.dueDateOrderDesc, '-createdDateTime']"
+          ng-class="{danger: !todo.done && vm.isOverDue(todo.dueDateTime), 'text-muted': todo.done}" >
         <td><input type="checkbox" ng-checked="todo.done"</td>
         <td class="todo-title" title="{{todo.title}}">{{vm.truncate(todo.title, 175)}}</td>
         <td title="{{todo.notes}}">{{vm.truncate(todo.notes, 100)}}</td>
+
+        <!-- <td >{{vm.dueDateOrderDesc(todo)}}</td> -->
+
         <!-- <td>{{todo.createdDateTime | date:'MM/dd/yyyy'}}</td> -->
         <td class="todo-duedate">{{todo.dueDateTime | date:'MM/dd/yyyy h:mm a'}}</td>
         <td>
@@ -57,6 +64,7 @@
           </div>
 
         </td>
+
       </tr>
     </tbody>
   </table>

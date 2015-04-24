@@ -25,7 +25,8 @@ module.exports =  (function(){
           required: '{PATH} is required'
         },
         done: {
-          type: Boolean
+          type: Boolean,
+          default: false
         },
         title: {
           type: String,
