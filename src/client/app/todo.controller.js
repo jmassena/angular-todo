@@ -31,10 +31,18 @@
         var initialized;
 
         var vm = this;
+            // properties
             vm.EDIT_MODES = EDIT_MODES;
             vm.userId = userId;
             vm.todos = todoService.todos;
             vm.pageTitle = 'To-Do Page';
+            vm.now = new Date();
+            vm.selectedTodoId = null;
+            vm.errorMsg = null;
+            vm.editMode = null;
+            vm.formData = {title: null, notes: null, dueDateTime: null};
+
+            // functions
             vm.getTodos = getTodos;
             vm.createTodo = createTodo;
             vm.updateTodo = updateTodo;
@@ -47,27 +55,10 @@
             vm.dueDateOrder = dueDateOrder;
             vm.setForEdit = setForEdit;
 
-
-            vm.now = new Date();
-            vm.selectedTodoId = null;
-
-            vm.errorMsg = null;
-            vm.editMode = null;
-
-            vm.formData = {title: null, notes: null, dueDateTime: null};
-
-            // var td = vm.todos.filter(function(val){
-            //   return (val.dueDateTime != null && val.dueDateTime != '');
-            // });
-            // console.log(td[0].dueDateTime);
-
         if(!initialized){
           getTodos();
           initialized = true;
         }
-
-
-
 
         function isOverDue(dueDate){
           if(dueDate == null || dueDate.length === 0){
@@ -129,7 +120,6 @@
           vm.todoForm.$setUntouched();
           vm.todoForm.$setPristine();
         }
-
 
         function setDataFromService(){
           vm.todos = todoService.todos;

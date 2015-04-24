@@ -23,7 +23,7 @@
     <thead>
       <tr>
         <th></th>
-        <th>Title</th>
+        <th >Title</th>
         <th>Notes</th>
         <!-- <th>Created</th> -->
         <th>Due</th>
@@ -34,12 +34,13 @@
       <tr ng-repeat="todo in vm.todos| orderBy: [vm.dueDateOrder, 'createdDateTime']: true"
           ng-class="{danger: vm.isOverDue(todo.dueDateTime)}" >
         <td><input type="checkbox" ng-checked="todo.status=='completed'"</td>
-        <td title="{{todo.title}}">{{vm.truncate(todo.title, 150)}}</td>
-        <td title="{{todo.notes}}">{{vm.truncate(todo.notes, 150)}}</td>
+        <td class="todo-title" title="{{todo.title}}">{{vm.truncate(todo.title, 175)}}</td>
+        <td title="{{todo.notes}}">{{vm.truncate(todo.notes, 100)}}</td>
         <!-- <td>{{todo.createdDateTime | date:'MM/dd/yyyy'}}</td> -->
-        <td>{{todo.dueDateTime | date:'MM/dd/yyyy h:mm a'}}</td>
+        <td class="todo-duedate">{{todo.dueDateTime | date:'MM/dd/yyyy h:mm a'}}</td>
         <td>
-          <a class="list-action" ng-click="vm.setForEdit(todo)" data-toggle="modal" data-target="#todoCreate" href="">
+          <a class="list-action" ng-click="vm.setForEdit(todo)" data-toggle="modal"
+              data-target="#todoCreate" href="">
             <span class="glyphicon glyphicon-pencil color-edit"></span>
           </a>
 

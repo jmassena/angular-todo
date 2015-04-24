@@ -1,4 +1,6 @@
-
+/*a.link{
+  cursor:pointer;
+}*/
 
 .main-content{
   padding:16px;
@@ -28,6 +30,14 @@
   background-color: rgba(250, 120, 126, 0.5);
 }
 
+table .todo-title{
+  max-width:300px;
+  overflow:ellipses;
+}
+table .todo-duedate{
+  min-width:160px;
+  max-width:200px;
+}
 
 .delete-confirm ul{
 
