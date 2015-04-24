@@ -51,7 +51,7 @@
             vm.isOverDue = isOverDue;
             vm.clearForm = clearForm;
             vm.truncate = truncate;
-            vm.dateOrder = dateOrder;
+            // vm.dateOrder = dateOrder;
             vm.dueDateOrderDesc = dueDateOrderDesc;
             vm.setForEdit = setForEdit;
 
@@ -136,7 +136,7 @@
             createTodo();
           }
           else if(vm.editMode === EDIT_MODES.EDIT){
-            updateTodo();
+            updateSelectedTodo();
           }
         }
 
@@ -148,9 +148,9 @@
             });
         }
 
-        function getSelectedTodo(){
+        function getLocalTodoById(id){
           var todos = vm.todos.filter(function(val){
-            return val._id === vm.selectedTodoId;
+            return val._id === id;
           });
 
           if(todos.length === 1){
@@ -161,9 +161,14 @@
           }
         }
 
-        function updateTodo(){
+        function updateDoneStatus(todoId){
+          var todo = getLocalTodoById(todoId);
+          updateTodo(todo);
+        }
 
-          var todo = getSelectedTodo();
+        function updateSelectedTodo(){
+
+          var todo = getLocalTodoById(vm.selectedTodoId);
           if(todo){
             // clone todo so we don't affect original
             todo = angular.copy(todo);
@@ -174,13 +179,17 @@
               }
             }
 
-            todoService.updateTodo(vm.userId, todo)
-              .then(function(){
-                clearForm();
-                vm.selectedTodoId = null;
-                getTodos();
-              });
+            updateTodo(todo);
           }
+        }
+
+        function updateTodo(todo){
+          todoService.updateTodo(vm.userId, todo)
+            .then(function(){
+              clearForm();
+              vm.selectedTodoId = null;
+              getTodos();
+            });
         }
 
         // TODO: check if item was deleted by checking that return data exists
