@@ -14,7 +14,7 @@
 
         // Todo schema
         // _id: nextId,
-        // status: todo.status,
+        // done: todo.done,
         // title: todo.title,
         // notes: todo.notes,
         // dueDateTime: todo.dueDateTime,
@@ -71,8 +71,7 @@
 
         function truncate(str, len){
           if(str && str.length > len){
-            // return str.substring(0, len - 3) + '&hellip;';
-            return str.substring(0, len - 3) + '...';//'…';
+             return str.substring(0, len - 3) + '...';//'…';
           }
           return str;
         }
@@ -100,6 +99,7 @@
           vm.selectedTodoId = todo._id;
           vm.formData.title = todo.title;
           vm.formData.notes = todo.notes;
+          vm.formData.done = todo.done;
 
           if(todo.dueDateTime != null && todo.dueDateTime != ''){
             var df = moment(todo.dueDateTime);
@@ -116,6 +116,7 @@
           vm.formData.title = '';
           vm.formData.notes = '';
           vm.formData.dueDateTime = '';
+          vm.formData.done = false;
 
           vm.todoForm.$setUntouched();
           vm.todoForm.$setPristine();

@@ -24,10 +24,8 @@ module.exports =  (function(){
           index: {unique: false},
           required: '{PATH} is required'
         },
-        status: {
-          type: String,
-          enum: ['not-started', 'started', 'completed'],
-          default: 'not-started'
+        done: {
+          type: Boolean
         },
         title: {
           type: String,
@@ -73,7 +71,7 @@ module.exports =  (function(){
     var newTodo = new TodoModel(todo);
 
 
-    //console.log('saving: ' + newTodo);  
+    //console.log('saving: ' + newTodo);
     return newTodo.save();
   }
 
