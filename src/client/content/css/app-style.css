@@ -25,6 +25,17 @@
     margin-left: 10px;
 }
 
+table>tbody>tr:nth-of-type(odd).overdue,
+table>tbody>tr:nth-of-type(even).overdue{
+  background-color:rgb(255, 220, 220);
+}
+
+table>tbody>tr:nth-of-type(odd).dueSoon,
+table>tbody>tr:nth-of-type(even).dueSoon{
+  background-color:rgb(255, 255, 220);
+}
+
+
 
 .validated-form input.ng-invalid.ng-touched {
   background-color: rgba(250, 120, 126, 0.5);
@@ -48,6 +59,7 @@ table .todo-duedate{
 }
 .delete-confirm .confirm-message{
   font-size:larger;
+  color:#000000;
 }
 
 .delete-confirm button{

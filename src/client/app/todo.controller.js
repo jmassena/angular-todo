@@ -12,15 +12,6 @@
       TodoCtrl.$inject = ['todoService', '$log'];
       function TodoCtrl(todoService, $log){
 
-        // Todo schema
-        // _id: nextId,
-        // done: todo.done,
-        // title: todo.title,
-        // notes: todo.notes,
-        // dueDateTime: todo.dueDateTime,
-        // userId: 666});
-
-
         var EDIT_MODES = {
           EDIT: 'edit',
           CREATE: 'create'
@@ -29,6 +20,7 @@
         var userId = 777;  // hard coded for now
         var data;
         var initialized;
+        var now = new Date();
 
         var vm = this;
             // properties
@@ -36,7 +28,6 @@
             vm.userId = userId;
             vm.todos = todoService.todos;
             vm.pageTitle = 'To-Do Page';
-            vm.now = new Date();
             vm.selectedTodoId = null;
             vm.errorMsg = null;
             vm.editMode = null;
@@ -46,12 +37,11 @@
             vm.getTodos = getTodos;
             vm.createTodo = createTodo;
             vm.updateTodo = updateTodo;
+            vm.updateDoneStatus = updateDoneStatus;
             vm.deleteTodo = deleteTodo;
             vm.submitTodo = submitTodo;
-            vm.isOverDue = isOverDue;
             vm.clearForm = clearForm;
             vm.truncate = truncate;
-            // vm.dateOrder = dateOrder;
             vm.dueDateOrderDesc = dueDateOrderDesc;
             vm.setForEdit = setForEdit;
 
@@ -60,12 +50,45 @@
           initialized = true;
         }
 
-        function isOverDue(dueDate){
-          if(dueDate == null || dueDate.length === 0){
-            return null;
+        function massageTodos(todos){
+          todos.forEach(function(item){
+
+              // normalize due date
+              item.dueDateTime = (item.dueDateTime == null || item.dueDateTime.length === 0)?
+                null:
+                new Date(item.dueDateTime);
+
+              item.hasDueDate = (item.dueDateTime != null);
+              item.overdue = !item.done && item.hasDueDate && (item.dueDateTime < now);
+
+              if(item.hasDueDate && !item.done){
+
+                item.dueMilliseconds = item.dueDateTime - now;
+                item.dueHours = Math.floor(item.dueMilliseconds/(1000*60*60));
+                item.dueDays = Math.floor(item.dueHours/24);
+
+                if(item.dueDays < 0){
+                  item.dueMessage = (-1 * item.dueDays) + ' day' + plural(item.dueDays) + ' overdue';
+                }
+                else if(item.dueHours < 0 ){
+                  item.dueMessage = (-1 * item.dueHours) + ' hour' + plural(item.dueHours) + ' overdue';
+                }
+                else if(item.dueDays > 0){
+                  item.dueMessage = item.dueDays + ' day' +  plural(item.dueDays);
+                }
+                else if(item.dueHours > 0){
+                  item.dueMessage = item.dueHours + ' hour' + plural(item.dueHours);
+                }
+              }
+          });
+        }
+
+        function plural(val){
+          if(Math.abs(val) > 1){
+            return 's';
           }
           else{
-            return new Date(dueDate) < new Date();
+            return '';
           }
         }
 
@@ -79,7 +102,6 @@
         function dueDateOrderDesc(todo){
           return dateOrder(todo.dueDateTime);
         }
-
 
         function dateOrder(a){
 
@@ -101,12 +123,11 @@
           vm.formData.notes = todo.notes;
           vm.formData.done = todo.done;
 
-          if(todo.dueDateTime != null && todo.dueDateTime != ''){
+          if(todo.dueDateTime != null && todo.dueDateTime !== ''){
             var df = moment(todo.dueDateTime);
 
             // have to set date of picker else it only picks it??
-            var dp = document.getElementById('newTodoDueDate');
-            var dpc = $('#newTodoDueDate').data('DateTimePicker');
+            var dpc = $('#editTodoDueDate').data('DateTimePicker');
             dpc.date(df);
           }
         }
@@ -122,13 +143,12 @@
           vm.todoForm.$setPristine();
         }
 
-        function setDataFromService(){
-          vm.todos = todoService.todos;
-        }
-
         function getTodos(){
           todoService.getTodos(vm.userId)
-            .then(setDataFromService);
+            .then(function(){
+              vm.todos = angular.copy(todoService.todos);
+              massageTodos(vm.todos);
+            });
         }
 
         function submitTodo(){
@@ -184,6 +204,11 @@
         }
 
         function updateTodo(todo){
+
+          if(todo.dueDateTime === ''){
+            todo.dueDateTime = null;
+          }
+
           todoService.updateTodo(vm.userId, todo)
             .then(function(){
               clearForm();
