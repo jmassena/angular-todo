@@ -25,6 +25,10 @@ module.exports = function(config) {
       './bower_components/angular-ui-router/release/angular-ui-router.js',
       './bower_components/angular-mocks/angular-mocks.js',
       './bower_components/moment/moment.js',
+      // I modified the official directive to set picker value from ng-model instead of
+      // only setting model from directive
+      //'./bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
+      './src/client/lib/angular/angular-bootstrap-datetimepicker-directive.js',
       './bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
       './bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
 

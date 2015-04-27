@@ -1,8 +1,5 @@
 // public/ang/navbar.js
 
-/* global jQuery */
-/* global moment */
-/* jshint maxstatements: 45 */
 /* jshint maxcomplexity: 9 */
 (function(angular) {
   'use strict';
@@ -20,9 +17,6 @@
         };
 
         var userId = 777;  // hard coded for now
-        var data;
-        var initialized;
-        var now = new Date();
 
         var vm = this;
             // properties
@@ -50,14 +44,14 @@
 
             // should be private but for testing made public
             vm.updateTodo = updateTodo;
-            vm.updateSelectedTodo = updateSelectedTodo
+            vm.updateSelectedTodo = updateSelectedTodo;
 
-        // if(!initialized){
-          getTodos();
-        //   initialized = true;
-        // }
+        getTodos();
+
 
         function massageTodos(todos){
+
+          var now = new Date();
           todos.forEach(function(item){
 
               if(item.dueDateTime == null || !/\S/.test(item.dueDateTime)){
@@ -135,17 +129,11 @@
         function setForEdit(todo){
           vm.editMode = EDIT_MODES.EDIT;
           vm.selectedTodoId = todo._id;
+          
           vm.formData.title = todo.title;
           vm.formData.notes = todo.notes;
           vm.formData.done = todo.done;
-
-          if(todo.dueDateTime != null){
-            var df = moment(todo.dueDateTime);
-
-            // have to set date of picker else it only picks it??
-            var dpc = $('#editTodoDueDate').data('DateTimePicker');
-            //dpc.date(df);
-          }
+          vm.formData.dueDateTime = todo.dueDateTime;
         }
 
         function clearForm(){
@@ -156,10 +144,9 @@
           vm.formData.done = false;
 
           vm.resetFormFlag = true;
-          // vm.todoForm.$setUntouched();
-          // vm.todoForm.$setPristine();
         }
 
+        // TODO: handle fail case by writing to modal dialog
         function getTodos(){
           todoService.getTodos(vm.userId)
             .then(function(d){
@@ -177,6 +164,7 @@
           }
         }
 
+        // TODO: handle fail case by writing to modal dialog
         function createTodo(){
           todoService.createTodo(vm.userId, vm.formData)
             .then(function(){
@@ -213,6 +201,7 @@
           }
         }
 
+        // TODO: handle fail case by writing to modal dialog
         function updateTodo(todo){
 
           if(todo.dueDateTime === ''){
@@ -227,7 +216,7 @@
             });
         }
 
-        // TODO: check if item was deleted by checking that return data exists
+        // TODO: handle fail case by writing to modal dialog
         function deleteTodo(todoId){
           todoService.deleteTodo(vm.userId, todoId)
             .then(function(){

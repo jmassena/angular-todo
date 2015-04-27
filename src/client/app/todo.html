@@ -20,8 +20,7 @@
           {{(!todo.done && todo.hasDueDate)?todo.dueMessage:''}}</td>
 
         <td>
-          <a class="list-action" ng-click="vm.setForEdit(todo)" data-toggle="modal"
-              data-target="#todoEdit" href="">
+          <a class="list-action" ng-click="vm.setForEdit(todo)" data-toggle="modal" data-target="#todoEdit" href="">
             <span class="glyphicon glyphicon-pencil color-edit"></span>
           </a>
 
@@ -48,7 +47,6 @@
 
     <!-- Create/Edit dialog -->
     <div class="modal" id="todoEdit" >
-
       <div class="modal-dialog" >
         <div class="modal-content">
 
@@ -81,26 +79,23 @@
               <div class="form-group">
                 <label class="control-label" for="editTodoNotes" >Notes</label>
                 <input type="text" class="form-control" name="notes"  id="editTodoNotes"
-                ng-model="vm.formData.notes" />
-                <!-- placeholder="(optional) Extra information" -->
+                  ng-model="vm.formData.notes" />
               </div>
 
               <!-- Completed -->
               <div class="form-group" ng-show="vm.editMode=='edit'">
                 <label class="control-label" for="editTodoDone" >Done</label>
                 <input type="checkbox" class="form-control" name="done"  id="editTodoDone"
-                ng-model="vm.formData.done" />
+                  ng-model="vm.formData.done" />
               </div>
 
               <!-- Due Date -->
               <div class="form-group">
                 <label class="control-label" for="editTodoDueDate" >Due</label>
-                <!-- <input type='datetime-local' class="form-control" name="dueDateTime" id="editTodoDueDate" ng-model="vm.formData.dueDateTime"
-                placeholder="(optional) Due date and time" step="900" /> -->
                 <input type='text' class="form-control" name="dueDateTime" id="editTodoDueDate"
-                ng-model="vm.formData.dueDateTime"
-                datetimepicker datetimepicker-options="{showClose:true}"  />
-                <!-- placeholder="(optional) Due date and time" -->
+                  ng-model="vm.formData.dueDateTime"
+                  datetimepicker
+                  datetimepicker-options="{showClose:true, sideBySide:false, showClear:true, showTodayButton:true, defaultDate:'now', format:'MMM DD, YYYY h:mm A'}" />
               </div>
 
               <!-- Buttons -->
