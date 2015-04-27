@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  
+
   <table class="table table-striped table-bordered table-hover table-condensed">
     <thead>
       <tr>
@@ -60,7 +60,11 @@
           </div>
 
           <div class="modal-body">
-            <form name="vm.todoForm" class="validated-form"  novalidate>
+
+
+            <!-- form -->
+            <form name="vm.todoForm" class="validated-form"
+                reset-form-validation="vm.resetFormFlag" scope="vm" novalidate>
 
               <!-- Title -->
               <div class="form-group">

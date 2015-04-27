@@ -30,12 +30,12 @@ router.post('/users/:userId/todos', function(req, res, next) {
 
   if(!req.body){
     return res.status(400) // 400: bad request
-      .json(new Error('body must contain a todo object json'));
+      .json('body must contain a todo object json');
   }
   // make sure this doesn't exist already. cannot have an _id
   if(req.body._id){
     return res.status(400) // 400: bad request
-      .json(new Error('error', 'new todo object _id must be null. _id: ' + req.body._id));
+      .json('error', 'new todo object _id must be null. _id: ' + req.body._id);
   }
 
   // 201: created
@@ -68,21 +68,22 @@ router.put('/users/:userId/todos/:todoId', function (req, res, next){
 
   if(!todo.userId){
     return res.status(400) // 400: bad request
-      .json(new Error('userId of object is not defined or is null'));
+      .json('userId of object is not defined or is null');
   }
 
   if(Number(todo.userId) !== userId){
 
+
     return res.status(400) // 400: bad request
-      .json(new Error('userId of object does not match userId in path. object userId: ' +
+      .json('userId of object does not match userId in path. object userId: ' +
             todo.userId + ' path userId: ' + userId + ' ' +
-            'obj type: ' + typeof(todo.userId) + ' userId type: ' + typeof(userId)));
+            'obj type: ' + typeof(todo.userId) + ' userId type: ' + typeof(userId));
   }
 
   // validate
   if(!todo._id || String(todo._id) !== String(todoId)){
     return res.status(400) // 400: bad request
-    .json(new Error('id of object does not match id in path. object _id: ' + todo._id + ' path id: ' + todoId));
+    .json('id of object does not match id in path. object _id: ' + todo._id + ' path id: ' + todoId);
   }
 
   Todo.update(todo)
@@ -118,7 +119,7 @@ function onError(code, res){
     var msg = err.message || err;
 
     return res.status(code)
-      .json({message: '' + msg});
+      .json(msg);
   };
 }
 

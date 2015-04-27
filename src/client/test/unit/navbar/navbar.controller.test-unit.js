@@ -4,23 +4,23 @@ describe('navbar controller: NavBarCtrl', function() {
 
     beforeEach(module('app'));
 
-    beforeEach(function(){
-
-      module(function($provide){
-        /* global mockNavDataService */
-        $provide.factory('navDataService', mockNavDataService.get);
-      });
-    });
+    // beforeEach(function(){
+    //
+    //   module(function($provide){
+    //     /* global mockNavDataService */
+    //     $provide.factory('navDataService', mockNavDataService.get);
+    //   });
+    // });
 
     var vm;
 
-    beforeEach(inject(function(_$controller_, _$location_, _navDataService_){
+    beforeEach(inject(function(_$controller_, _$location_){
 
       var controller = _$controller_;
       var location = _$location_;
-      var navDataService = _navDataService_;
-
-      vm = controller('NavBarCtrl', {$location: location, navDataService: navDataService});
+      /* global mockNavDataService */
+      vm = controller('NavBarCtrl',
+        {$location: location, navDataService: mockNavDataService.get()});
 
     }));
 

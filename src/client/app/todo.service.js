@@ -10,17 +10,17 @@
     todoService.$inject = ['$http', '$q', '$log'];
     function todoService($http, $q, $log) {
 
-      var todos;
+      // var todos;
       var deferred;
-      var initialized;
+      // var initialized;
 
       var api = {
         getTodos: getTodos,
         createTodo: createTodo,
         updateTodo: updateTodo,
         deleteTodo: deleteTodo,
-        //initialLoad: initialLoad,
-        todos: todos
+        // //initialLoad: initialLoad,
+        // todos: todos
       };
 
       return api;
@@ -43,8 +43,8 @@
         deferred = $q.defer();
         $http.get('/api/users/' + userId + '/todos')
           .success(function(d){
-            deferred.resolve({data:d});
-            api.todos = d;
+            deferred.resolve(d);
+            // api.todos = d;
             //$log.info('got data: ' + JSON.stringify(d));
           })
           .error(function(msg, code){
@@ -62,7 +62,7 @@
         deferred = $q.defer();
         $http.post('/api/users/' + userId + '/todos', todo)
           .success(function(d){
-            deferred.resolve({data:d});
+            deferred.resolve(d);
             //api.data.todos.push(d.data);
           })
           .error(function(msg, code){
@@ -81,7 +81,7 @@
         deferred = $q.defer();
         $http.put('/api/users/' + userId + '/todos/' + todo._id, todo)
         .success(function(d){
-          deferred.resolve({data:d});
+          deferred.resolve(d);
           //api.data = d;
         })
         .error(function(msg, code){
@@ -99,7 +99,7 @@
         deferred = $q.defer();
         $http.delete('/api/users/' + userId + '/todos/' + todoId)
         .success(function(d){
-          deferred.resolve({data:d});
+          deferred.resolve(d);
           //api.data = d;
         })
         .error(function(msg, code){

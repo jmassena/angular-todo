@@ -22,7 +22,7 @@
     "serve-favicon": "~2.2.0"
   },
   "devDependencies": {
-    "chai": "^2.2.0",
+    "chai": "^2.3.0",
     "gulp": "^3.8.11",
     "gulp-angular-protractor": "0.0.2",
     "gulp-jshint": "^1.10.0",
@@ -33,6 +33,7 @@
     "jshint-stylish": "^1.0.1",
     "jshint-summary": "^0.4.0",
     "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.7",
     "karma-html-reporter": "^0.2.6",
     "karma-jasmine": "^0.3.5",

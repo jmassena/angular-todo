@@ -2,6 +2,8 @@
 
 /* global jQuery */
 /* global moment */
+/* jshint maxstatements: 45 */
+/* jshint maxcomplexity: 9 */
 (function(angular) {
   'use strict';
 
@@ -32,11 +34,12 @@
             vm.errorMsg = null;
             vm.editMode = null;
             vm.formData = {title: null, notes: null, dueDateTime: null};
+            vm.resetFormFlag = false;
 
             // functions
             vm.getTodos = getTodos;
             vm.createTodo = createTodo;
-            vm.updateTodo = updateTodo;
+
             vm.updateDoneStatus = updateDoneStatus;
             vm.deleteTodo = deleteTodo;
             vm.submitTodo = submitTodo;
@@ -45,18 +48,31 @@
             vm.dueDateOrderDesc = dueDateOrderDesc;
             vm.setForEdit = setForEdit;
 
-        if(!initialized){
+            // should be private but for testing made public
+            vm.updateTodo = updateTodo;
+            vm.updateSelectedTodo = updateSelectedTodo
+
+        // if(!initialized){
           getTodos();
-          initialized = true;
-        }
+        //   initialized = true;
+        // }
 
         function massageTodos(todos){
           todos.forEach(function(item){
 
-              // normalize due date
-              item.dueDateTime = (item.dueDateTime == null || item.dueDateTime.length === 0)?
-                null:
-                new Date(item.dueDateTime);
+              if(item.dueDateTime == null || !/\S/.test(item.dueDateTime)){
+                // TODO: Why am I so unsure of the values coming from database?
+                item.dueDateTime = null;
+              }
+              else{
+                var dt = new Date(item.dueDateTime);
+                if(isNaN(dt.getTime())){
+                  item.dueDateTime = null;
+                }
+                else{
+                  item.dueDateTime = dt;
+                }
+              }
 
               item.hasDueDate = (item.dueDateTime != null);
               item.overdue = !item.done && item.hasDueDate && (item.dueDateTime < now);
@@ -123,12 +139,12 @@
           vm.formData.notes = todo.notes;
           vm.formData.done = todo.done;
 
-          if(todo.dueDateTime != null && todo.dueDateTime !== ''){
+          if(todo.dueDateTime != null){
             var df = moment(todo.dueDateTime);
 
             // have to set date of picker else it only picks it??
             var dpc = $('#editTodoDueDate').data('DateTimePicker');
-            dpc.date(df);
+            //dpc.date(df);
           }
         }
 
@@ -139,14 +155,15 @@
           vm.formData.dueDateTime = '';
           vm.formData.done = false;
 
-          vm.todoForm.$setUntouched();
-          vm.todoForm.$setPristine();
+          vm.resetFormFlag = true;
+          // vm.todoForm.$setUntouched();
+          // vm.todoForm.$setPristine();
         }
 
         function getTodos(){
           todoService.getTodos(vm.userId)
-            .then(function(){
-              vm.todos = angular.copy(todoService.todos);
+            .then(function(d){
+              vm.todos = d;
               massageTodos(vm.todos);
             });
         }
@@ -190,15 +207,8 @@
 
           var todo = getLocalTodoById(vm.selectedTodoId);
           if(todo){
-            // clone todo so we don't affect original
             todo = angular.copy(todo);
-
-            for(var key in vm.formData){
-              if(Object.prototype.hasOwnProperty.call(vm.formData, key)){
-                todo[key] = vm.formData[key];
-              }
-            }
-
+            angular.extend(todo, vm.formData);
             updateTodo(todo);
           }
         }

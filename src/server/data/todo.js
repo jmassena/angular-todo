@@ -51,12 +51,14 @@ module.exports =  (function(){
     TodoModel = mongoose.model('Todo', TodoSchema);
   }
 
+  // function isWhitespaceDateValue(val){
+  //   console.log('val test: ' + !/\S/.test(val) + ' [' + val + ']');
+  //   return(val != null && Object.prototype.toString.call(val) !== '[object Date]' && !/\S/.test(val));
+  // }
+
   function get(condition){
 
-    // console.log('getting with condition: ' + JSON.stringify(condition));
-
     return TodoModel.find(condition).exec();
-
   }
 
   function getByUserId(userId){
@@ -67,12 +69,7 @@ module.exports =  (function(){
   function add(userId, todo){
     todo._id = null;
     todo.userId = userId;
-    // console.log('adding todo for user: ' + todo.userId);
-
     var newTodo = new TodoModel(todo);
-
-
-    //console.log('saving: ' + newTodo);
     return newTodo.save();
   }
 
@@ -118,8 +115,11 @@ module.exports =  (function(){
           }
 
           mongooseUtils.copyFieldsToModel(todo, dbTodo);
-          // console.log('now I am saving');
-
+          //
+          // if(isWhitespaceDateValue(dbTodo.dueDateTime)){
+          //   console.log('deleting dueDateTime');
+          //  dbTodo.dueDateTime = '';
+          // }
           return dbTodo.save();
       });
   }

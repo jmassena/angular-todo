@@ -1,111 +1,89 @@
 
-// this service initializes a list of todos
-// and has methods for create, get, update, delete which
-// will delete from the internal list (json object)
 
+var todoServiceMock = (function(){
+  'use strict';
 
+  return {
+    get: get
+  };
 
+  function get($q){
+    /* global todoMockData */
+    var mockData = todoMockData.get();
+    var todos = [];// = mockData.todoList;
 
-var mockTodoService = (function(){
-    'use strict';
-
-    var todos = [];
-
-    return{
-      init: init,
-      getApi: getApi
+    return {
+      getTodos: getTodos,
+      createTodo: createTodo,
+      updateTodo: updateTodo,
+      deleteTodo: deleteTodo,
+      resetData: resetData,
+      getMockData: getMockData,
+      todos: todos
     };
 
-    function init(){
 
-      var tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      todos = [];
-      todos.push({
-        _id: 1,
-        status: null,
-        title: 'Test todo #1',
-        notes: 'Testing first todo item',
-        dueDateTime: tomorrow,
-        ownerPersonId: 666}
-        );
+    function getMockData(){
+      return mockData;
+    }
+    function resetData(){
+      mockData = todoMockData.get();
+      todos = null;
     }
 
-    function getApi(){
+    function getTodos(userId){
 
-      var api = {};
-          api.getTodos = getTodos;
-          api.updateTodo = updateTodo;
-          api.createTodo = createTodo;
-          api.deleteTodo = deleteTodo;
+      var deferred = $q.defer();
+      var data = mockData.todoList.filter(function(val){
+        return val.userId === userId;
+      });
+      todos = data;
+      deferred.resolve(data);
 
-      return api;
-
-      function getTodos(){
-
-        return todos;
-      }
-
-      function updateTodo(todo){
-
-        var todoIdx = findTodoIdx(todo._id);
-
-        if(todoIdx !== -1){
-          todos[todoIdx] = todo;
-          return true;
-        }
-        else{
-          return false;
-        }
-      }
-
-      function createTodo(todo){
-
-        var ids = [];
-        for(var i = 0; i < todos.length; i++){
-          ids[todos[i]._id] = true;
-        }
-
-        var nextId = -1;
-        for(var i = 1; i < ids.length; i++){
-          if(!ids[i]){
-            nextId = i;
-          }
-        }
-
-        if(nextId === -1){
-          // ids are contiguous, pick maxval +1
-          nextId = ids.length ;
-        }
-
-        todos.push({
-          _id: nextId,
-          status: todo.status,
-          title: todo.title,
-          notes: todo.notes,
-          dueDateTime: todo.dueDateTime,
-          userId: 666});
-      }
-
-      function deleteTodo(todoId){
-        var todoIdx = findTodoIdx(todoId);
-
-        if(todoIdx !== -1){
-          todos.splice(todoIdx, 1);
-        }
-      }
-
-      function findTodoIdx(id){
-        for(var i = 0; i < todos.length; i++){
-          if(todos[i]._id === id){
-            return i;
-          }
-        }
-
-        return -1;
-      }
+      return deferred.promise;
     }
 
+    function createTodo(userId, todo) {
+      var deferred = $q.defer();
+
+      todo.userId = userId;
+      todo.createdDateTime = JSON.stringify(new Date());
+      todos.push(todo);
+      deferred.resolve(todo);
+
+      return deferred.promise;
+    }
+
+    function updateTodo(userId, todo) {
+      var deferred = $q.defer();
+
+      for(var i = 0; i < todos.length; i++){
+        if(todos[i]._id === todo._Id){
+          todos[i] = todo;
+          deferred.resolve(todos[i]);
+          return deferred.promise;
+        }
+      }
+
+      // not found
+      deferred.reject('No item found with id ' + todo._id + ' for user ' + userId);
+      return deferred.promise;
+    }
+
+    function deleteTodo(userId, todoId) {
+      var deferred = $q.defer();
+      for(var i = 0; i < todos.length; i++){
+        if(todos[i]._id === todoId){
+          deferred.resolve(todos[i]);
+          todos.splice(i,1);
+          return deferred.promise;
+        }
+      }
+
+      // not found
+      deferred.reject('No item found with id ' + todoId + ' for user ' + userId);
+      return deferred.promise;
+    }
+  }
 
 }());

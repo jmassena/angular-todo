@@ -24,14 +24,16 @@ module.exports = function(config) {
       './bower_components/angular-resource/angular-resource.js',
       './bower_components/angular-ui-router/release/angular-ui-router.js',
       './bower_components/angular-mocks/angular-mocks.js',
+      './bower_components/moment/moment.js',
       './bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
       './bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
-      './bower_components/moment/moment.js',
+
 
 
       './src/client/app/*.module.js', // need to load the module first
       './src/client/app/*.js',
 
+      './src/client/test/data/**/*.js',
       './src/client/test/unit/**/*mock.js',
       './src/client/test/unit/**/*unit.js'
     ],

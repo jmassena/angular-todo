@@ -12,6 +12,6 @@ module.exports =  {
 function addDays(date, days){
 
   var newDate = new Date(date);
-  newDate.setDate(newDate.getDate + days);
+  newDate.setDate(newDate.getDate() + days);
   return newDate;
 }
