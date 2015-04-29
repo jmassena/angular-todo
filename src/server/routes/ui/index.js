@@ -8,7 +8,7 @@ var path = require('path');
 router.get('/', function(req, res, next) {
   'use strict';
 
-  var appHtmlPath = path.join(__dirname, '../../../client/app/app.html');
+  var appHtmlPath = path.join(__dirname, '../../../../dist/app.html');
   res.sendFile(appHtmlPath);
 
 });

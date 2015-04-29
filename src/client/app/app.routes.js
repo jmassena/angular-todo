@@ -1,14 +1,6 @@
-(function (angular) {
-    'use strict';
+'use strict';
 
-    angular
-        .module('app')
-        .config(routeConfig);
-
-
-    routeConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
-
-    function routeConfig($stateProvider, $urlRouterProvider){
+module.exports = function ($stateProvider, $urlRouterProvider){
 
       $urlRouterProvider.otherwise('/home');
 
@@ -18,10 +10,10 @@
 
           views:{
             'top-nav':{
-              templateUrl: 'app/navbar.html'
+              templateUrl: 'templates/navbar.html'
             },
             'main-content': {
-              templateUrl: 'app/home.html',
+              templateUrl: 'templates/home.html',
               controller: 'HomeCtrl',
               controllerAs: 'vm'
             }
@@ -31,14 +23,15 @@
           url: '/todo',
           views:{
             'top-nav':{
-              templateUrl: 'app/navbar.html'
+              templateUrl: 'templates/navbar.html'
             },
             'main-content': {
-              templateUrl: 'app/todo.html',
+              templateUrl: 'templates/todo.html',
               controller: 'TodoCtrl',
               controllerAs: 'vm'
             }
           }
-        });
-    }
-})(this.angular);
+        })
+        ;
+
+};

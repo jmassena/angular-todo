@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Calls form.$setUntouched() and $setPristine() when reset-form-validation attribute is true
  * Usage:
@@ -10,11 +11,13 @@
             scope="vm">
 
  */
+// var angular = require('angular');
 
- angular.module('app')
-  .directive('resetFormValidation', resetFormValidation);
+// angular.module('app')
+// .directive('resetFormValidation', resetFormValidation);
 
-function resetFormValidation(){
+//resetFormValidation
+module.exports = function (){
   return{
     restrict: 'A'
     ,scope: {
@@ -49,4 +52,4 @@ function resetFormValidation(){
       });
     }
   };
-}
+};

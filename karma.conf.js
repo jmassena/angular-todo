@@ -13,29 +13,29 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['browserify', 'jasmine'],
 
 
     // list of files / patterns to load in the browser
     files: [
       './bower_components/jquery/dist/jquery.js',
 
-      './bower_components/angular/angular.js',
-      './bower_components/angular-resource/angular-resource.js',
-      './bower_components/angular-ui-router/release/angular-ui-router.js',
-      './bower_components/angular-mocks/angular-mocks.js',
+      // './bower_components/angular/angular.js',
+      // './bower_components/angular-resource/angular-resource.js',
+      // './bower_components/angular-ui-router/release/angular-ui-router.js',
+      // './bower_components/angular-mocks/angular-mocks.js',
       './bower_components/moment/moment.js',
       // I modified the official directive to set picker value from ng-model instead of
       // only setting model from directive
       //'./bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
-      './src/client/lib/angular/angular-bootstrap-datetimepicker-directive.js',
-      './bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
+      // './src/client/lib/angular/angular-bootstrap-datetimepicker-directive.js',
+      // './bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
       './bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
+      './dist/js/bundle.js',
 
 
-
-      './src/client/app/*.module.js', // need to load the module first
-      './src/client/app/*.js',
+      // './src/client/app/*.module.js', // need to load the module first
+      // './src/client/app/*.js',
 
       './src/client/test/data/**/*.js',
       './src/client/test/unit/**/*mock.js',
@@ -50,9 +50,14 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      // './src/client/test/data/**/*.js': [ 'browserify' ],
+      // './src/client/test/unit/**/*mock.js': [ 'browserify' ],
+      './src/client/test/unit/**/*unit.js': [ 'browserify' ]
     },
 
-
+    browserify: {
+      debug: true
+    },
     // test results reporter to use
     // possible values: 'dots', 'progress', 'spec'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter

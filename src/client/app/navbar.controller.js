@@ -1,64 +1,53 @@
 // public/ang/navbar.js
+'use strict';
+
+module.exports = function($location, navDataService){
+
+  var vm = this;
+  // TODO: add navData directly to vm.data property.
+  // Not sure about this, I want a chance to expose data as I choose.
+  var navData = navDataService.getMenu();
+  vm.brand = navData.brand;
+  vm.tabs = navData.tabs;
+  vm.isSelected = isSelected;
+  vm.getStaticTabs = getStaticTabs;
+  vm.getDropdownTabs = getDropdownTabs;
+  vm.getDropdownTabsCount = getDropdownTabsCount;
 
 
-(function(angular) {
-  'use strict';
+  function isSelected(tab){
 
-  angular
-      .module('app')
-      .controller('NavBarCtrl', NavBarCtrl);
+    var path = $location.path().toLowerCase() || '/home';
 
-  /* @ngInject */
-
-  NavBarCtrl.$inject = ['$location','navDataService'];
-  function NavBarCtrl($location, navDataService){
-
-    var vm = this;
-    // TODO: add navData directly to vm.data property.
-    // Not sure about this, I want a chance to expose data as I choose.
-    var navData = navDataService.getMenu();
-    vm.brand = navData.brand;
-    vm.tabs = navData.tabs;
-    vm.isSelected = isSelected;
-    vm.getStaticTabs = getStaticTabs;
-    vm.getDropdownTabs = getDropdownTabs;
-    vm.getDropdownTabsCount = getDropdownTabsCount;
-
-
-    function isSelected(tab){
-
-      var path = $location.path().toLowerCase() || '/home';
-
-      if(path.indexOf(tab.sref) === 1){
-        return true;
-      }
-
-      return false;
+    if(path.indexOf(tab.sref) === 1){
+      return true;
     }
 
-    function getStaticTabs(){
-      var ret = vm.tabs.filter(function(item){
-        return item.type === 'static';
-      });
-
-      return ret;
-    }
-
-    function getDropdownTabs(){
-      var ret = vm.tabs.filter(function(item){
-        return item.type === 'dropdown';
-      });
-
-      return ret;
-    }
-
-    function getDropdownTabsCount(){
-      var len =  getDropdownTabs().length;
-      return len;
-    }
+    return false;
   }
 
-})(this.angular);
+  function getStaticTabs(){
+    var ret = vm.tabs.filter(function(item){
+      return item.type === 'static';
+    });
+
+    return ret;
+  }
+
+  function getDropdownTabs(){
+    var ret = vm.tabs.filter(function(item){
+      return item.type === 'dropdown';
+    });
+
+    return ret;
+  }
+
+  function getDropdownTabsCount(){
+    var len =  getDropdownTabs().length;
+    return len;
+  }
+};
+
 
 //
 // <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -40,12 +40,16 @@ app.use(cookieParser());
 // routes setup
 require('./routes/routes.js')(app);
 
-app.use('/', express.static('./src/client'));
-app.use('/', express.static('./'));
+
+app.use(express.static(path.join(__dirname, '/../../dist')));
+//app.use('/', express.static('./'));
 
 console.log('About to crank up node');
 console.log('PORT: ' + port);
 console.log('NODE_ENV: ' + env);
+console.log('DB: ' + dbName);
+console.log('Static Path: ' + path.join(__dirname, '/../../dist'));
+
 
 
 // app.get('/ping', function(req, res, next) {

@@ -1,3 +1,5 @@
+// mocha tests
+
 // src/server/test/e2e/todo.route.spec.js
 'use strict';
 
@@ -49,7 +51,8 @@ describe('Todo route', function(){
   // clear any data from todo collection
   beforeEach(function (done) {
     // console.log('before: removing all todo items');
-    todoDAL.Model.remove({}, function(err){
+    // arg #2 is mongoose callback which always has err handler first, data second.
+    todoDAL.Model.remove({}, function(err, data){
      done(err);
    });
   });

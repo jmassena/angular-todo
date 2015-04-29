@@ -1,15 +1,6 @@
-(function () {
-    'use strict';
+'use strict';
 
-    angular
-        .module('app')
-        .factory('navDataService', navDataService);
-
-    //dataservice.$inject = ['$http'];
-
-    // services are 'new'ed
-    // factory, provider are singletons
-    function navDataService() {
+module.exports = function() {
 
       return {
         getMenu:getMenu
@@ -44,5 +35,4 @@
           ]};
 
       }
-    }
-})();
+};
