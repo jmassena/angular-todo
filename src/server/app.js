@@ -46,6 +46,8 @@ app.use('/', express.static('./'));
 console.log('About to crank up node');
 console.log('PORT: ' + port);
 console.log('NODE_ENV: ' + env);
+console.log('DB: ' + dbName);
+
 
 
 // app.get('/ping', function(req, res, next) {

@@ -26,6 +26,8 @@ router.get('/users/:userId/todos', function(req, res, next) {
 router.post('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
+console.log('posting data!!');
+
   var userId = req.params.userId;
 
   if(!req.body){
@@ -34,8 +36,10 @@ router.post('/users/:userId/todos', function(req, res, next) {
   }
   // make sure this doesn't exist already. cannot have an _id
   if(req.body._id){
+    console.log('cannot have an id');
     return res.status(400) // 400: bad request
-      .json('error', 'new todo object _id must be null. _id: ' + req.body._id);
+    //.json(new Error('new todo object _id must be null. _id: ' + req.body._id));
+      .json({message: 'new todo object _id must be null. _id: ' + req.body._id});
   }
 
   // 201: created

@@ -5,6 +5,7 @@ exports.config = {
 
   specs: [
     'src/client/test/e2e/*.test-e2e.js'
+    ,{ pattern: 'src/client/test/data/todo.data.mock.js', included: false }
   ],
 
   capabilities: {

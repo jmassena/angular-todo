@@ -67,6 +67,7 @@ module.exports =  (function(){
   }
 
   function add(userId, todo){
+    console.log('adding a todo!!');
     todo._id = null;
     todo.userId = userId;
     var newTodo = new TodoModel(todo);
