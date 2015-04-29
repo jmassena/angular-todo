@@ -8,6 +8,7 @@ var path = require('path');
 var Q = require('q');
 var mockDataProvider = require('./todo.data.mock.js')();
 
+var TodoPage = require('./todo.page.js');
 
 var usersRootUri = 'localhost:3000/api/users';
 
@@ -68,6 +69,13 @@ function appCreate(userId, todo){
     return deferred.promise;
 }
 
+function addTestItems(todos){
+  return todos.map(function(item){
+    item._id = null;
+    return appCreate(item.userId, item);
+  });
+}
+
 /* Testing todo page functionality */
 describe('Todo Page', function(){
 
@@ -92,7 +100,7 @@ describe('Todo Page', function(){
     appGet(testData.userId2)
     .then(function(res){
       dbItems = res.body;
-      console.log('Data before delete: ' + res.body.length);
+      // console.log('Data before delete: ' + res.body.length);
       done();
     },done);
   });
@@ -124,78 +132,72 @@ describe('Todo Page', function(){
       done();
     });
   });
-  // add test data items
-  beforeEach(function (done) {
-    expect(dbItems.length).toEqual(0);
-    var todo = testData.todoList[4];
-    todo._id = null;
-    // console.log('first test todo: ' + JSON.stringify(todo));
-
-    // appCreate(todo.userId, todo)
-    //   .then(function(data){
-    //     console.log('todo created!!!');
-    //     done();
-    //   },
-    //   function(err){
-    //     console.log('error creating todo: ' + err);
-    //     //console.log('error creating todo: ' + JSON.stringify(err));
-    //
-    //     done();
-    //   });
-
-    var promises = testData.todoList.map(function(item){
-      item._id = null;
-      return appCreate(item.userId, item);
-    });
-
-    Q.all(promises)
-    .then(function(){
-      done();
-    },done);
-
-  });
-
-
-  //console.log('first todo: ' + JSON.stringify(testData.todoList[0]));
-
-  //
-  //
-  // // setup mock data in db
+  // // add test data items
   // beforeEach(function (done) {
+  //   expect(dbItems.length).toEqual(0);
+  //   var todo = testData.todoList[4];
+  //   todo._id = null;
   //
   //   var promises = testData.todoList.map(function(item){
-  //     todoDAL.add(item.userId, item);
+  //     item._id = null;
+  //     return appCreate(item.userId, item);
   //   });
   //
-  //   Q.all(promises).
-  //     then(function(){
-  //       console.log('done loading data');
-  //       done();
-  //     },done);
+  //   Q.all(promises)
+  //   .then(function(){
+  //     done();
+  //   },done);
   //
   // });
 
-
-  it('should have no todo items at start for test user', function(){
-    // start page
-    // browser.get('/todo');
-    //
-    // var count = element.all(by.css('ul.navbar-nav>li')).count();
-    // expect(count).toEqual(4);
-    expect(true).toEqual(true);
+  var page;
+  beforeEach(function () {
+    page = new TodoPage();
   });
 
-  xit('should show the create popup when clicking "add" button', function(){
+  // TodoPage.prototype = Object.create({},{
+  //   todoList:{get:function(){return element.all(by.repeater('todo in vm.todos'));}},
+  //   addButton:{get:function(){return $('button[ng-click="vm.editMode=\'create\'"]');}},
+  //   editModal:{get:function(){return element(by.id('todoEdit'));}},
+  //   editModalCloseButton:{get:function(){return $('div.modal-header button.close');}},
+  //   editModalCancelButton
 
+  // it('should have no todo items at start for test user', function(){
+  //   browser.get('/#/todo');
+  //   expect(element.all(by.css('tbody tr')).count()).toEqual(0);
+  // });
+
+  it('should have no todo items at start', function(){
+    expect(page.todoList.count()).toEqual(1);
+    // expect(element.all(by.css('tbody tr')).count()).toEqual(0);
   });
 
-  xit('should hide the create popup when clicking "Close" button on add popup', function(){
-
-  });
-
-  xit('should hide the create popup when clicking top-right "Close" icon on add popup', function(){
-
-  });
+  // it('should show the create popup when clicking "add" button', function(){
+  //   browser.get('/#/todo');
+  //   expect(element(by.id('todoEdit')).isDisplayed()).not.toBeTruthy();
+  //
+  //   $('button[ng-click="vm.editMode=\'create\'"]').click();
+  //   expect(element(by.id('todoEdit')).isDisplayed()).toBeTruthy();
+  //
+  // });
+  //
+  // it('should hide the create popup when clicking "Cancel" button on add popup', function(){
+  //   browser.get('/#/todo');
+  //   $('button[ng-click="vm.editMode=\'create\'"]').click();
+  //   $('div.modal-header button.close').click();
+  //
+  //   expect(element(by.id('todoEdit')).isDisplayed()).not.toBeTruthy();
+  //
+  // });
+  //
+  // xit('should hide the create popup when clicking top-right "Close" icon on add popup', function(){
+  //   browser.get('/#/todo');
+  //   $('button[ng-click="vm.editMode=\'create\'"]').click();
+  //   // $('div.modal-header button.close').click();
+  //   element(by.buttonText('Cancel')).click();
+  //
+  //   expect(element(by.id('todoEdit')).isDisplayed()).not.toBeTruthy();
+  // });
 
   xit('should not submit if create popup has no title', function(){
 
