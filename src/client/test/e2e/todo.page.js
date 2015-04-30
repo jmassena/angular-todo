@@ -9,29 +9,48 @@ var TodoPage = function(){
 TodoPage.prototype = Object.create({}, {
   todoList:{get:function(){return element.all(by.repeater('todo in vm.todos'));}}
 
-  ,addButton:{get:function(){return element(by.id('btnAdd'));}}
+  ,addButton: getById('btnAdd')
+  ,editModal: getById('todoEdit')
+  ,editModalCloseButton: getByCss('div.modal-header button.close')
+  ,editModalCancelButton: getByButtonText('Cancel')
+  ,editModalSubmitButton: getByButtonText('Submit')
 
-  ,editModal:{get:function(){return element(by.id('todoEdit'));}}
-  ,editModalCloseButton:{get:function(){return $('div.modal-header button.close');}}
-  ,editModalCancelButton:{get:function(){return element(by.buttonText('Cancel'));}}
-  ,editModalSubmitButton:{get:function(){return element(by.buttonText('Submit'));}}
+  ,editModalFormTitle: getSetById('editTodoTitle')
+  ,editModalFormNotes: getSetById('editTodoNotes')
+  ,editModalFormDueDate: getSetById('editTodoDueDate')
 
-  ,editModalFormTitle:{get:function(){return element(by.id('editTodoTitle'));}}
-  ,editModalFormNotes:{get:function(){return element(by.id('editTodoNotes'));}}
-  ,editModalFormDueDate:{get:function(){return element(by.id('editTodoDueDate'));}}
+  ,btnDelete: getById('btnDelete')
+  ,btnDeleteYes: getById('btnDeleteYes')
+  ,btnDeleteNo: getById('btnDeleteNo')
 
-  ,btnDelete:{get:function(){return element(by.id('btnDelete'));}}
-  ,btnDeleteYes:{get:function(){return element(by.id('btnDeleteYes'));}}
-  ,btnDeleteNo:{get:function(){return element(by.id('btnDeleteNo'));}}
-
-  ,divMainContent:{get:function(){return $('div[ui-view="main-content"]');}}
-  // ,divMainContentClick:function(browser){browser.actions().mouseMove(this, {x: -0 y: -0});}
-  //,divMainContentClick:function(browser){browser.actions().mouseMove(this, {x:0,y:0}).click().perform();}
+  ,divMainContent: getByCss('div[ui-view="main-content"]')
 
 });
+
 
 TodoPage.prototype.divMainContentClick = function(browser){
   browser.actions().mouseMove(this.divMainContent, {x:0,y:0}).click().perform();
 };
+
+
+function getSetById(id){
+  return {get:function(){return element(by.id(id));}
+         ,set:function(val){ element(by.id(id)).sendKeyd(val);}
+  };
+}
+
+function getById(id){
+  return {get:function(){return element(by.id(id));}};
+}
+
+function getByCss(css){
+  return {get:function(){return $(css);}};
+}
+
+function getByButtonText(text){
+  return {get:function(){return element(by.buttonText(text));}};
+}
+
+
 
 module.exports = TodoPage;

@@ -276,9 +276,10 @@ describe('Todo Page', function(){
 
 
 
-  it('should create a new todo item', function(){
-    page.addButton.click();
-  });
+  // it('should create a new todo item', function(){
+  //   page.addButton.click();
+  //   page.editModalFormTitle.sendKeys()
+  // });
   //
   // xit('should show an edited todo item after editing', function(){
   //
