@@ -24,14 +24,14 @@
             <span class="glyphicon glyphicon-pencil color-edit"></span>
           </a>
 
-          <div class="btn-group delete-confirm">
-            <a class="list-action dropdown-toggle" data-toggle="dropdown" href="">
+          <div class="btn-group delete-confirm" >
+            <a class="list-action dropdown-toggle" data-toggle="dropdown" href="" id="btnDelete">
               <span class="glyphicon glyphicon-remove color-delete"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
               <li><span class="confirm-message">Delete?<span><br/>
-                  <button type="button" class="btn btn-default" >No</button>
-                  <button type="button" class="btn btn-danger" ng-click="vm.deleteTodo(todo._id)">Yes</button>
+                  <button type="button" class="btn btn-default" id="btnDeleteNo">No</button>
+                  <button type="button" class="btn btn-danger" ng-click="vm.deleteTodo(todo._id)" id="btnDeleteYes">Yes</button>
               </li>
             </ul>
           </div>
@@ -75,9 +75,9 @@
                 <!-- <div class="form-error-text" ng-show="vm.todoForm.title.$touched">
                   <span ng-show="vm.todoForm.title.$error.required">title is required</span>
                 </div> -->
-                <span>$pristine: {{vm.todoForm.title.$pristine}}</span><br/>
+                <!-- <span>$pristine: {{vm.todoForm.title.$pristine}}</span><br/>
                 <span>$touched: {{vm.todoForm.title.$touched}}</span><br/>
-                <span>$error.required: {{vm.todoForm.title.$error.required}}</span>
+                <span>$error.required: {{vm.todoForm.title.$error.required}}</span> -->
               </div>
 
               <!-- Notes -->

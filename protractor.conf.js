@@ -1,32 +1,41 @@
+'use strict';
 
 // /Users/justin/Documents/Dev/Ang/Todo/todo/protractor-conf.js
 exports.config = {
-  allScriptsTimeout: 11000,
+  
+  allScriptsTimeout: 11000
 
-  specs: [
+  ,specs: [
     'src/client/test/e2e/*.test-e2e.js'
     ,{ pattern: 'src/client/test/data/todo.data.mock.js', included: false }
-  ],
+  ]
 
-  capabilities: {
+  ,capabilities: {
     'browserName': 'chrome'
-  },
+  }
 
-  chromeOnly: true,
+  ,chromeOnly: true
 
-  baseUrl: 'http://localhost:3000/',
+  ,baseUrl: 'http://localhost:3000/'
 
-  framework: 'jasmine',
+  ,framework: 'jasmine2'
 
-  jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
-  },
+  ,onPrepare: function() {
+     var SpecReporter = require('jasmine-spec-reporter');
+     // add jasmine spec reporter
+     jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: true}));
+  }
 
-  seleniumAddress: null,
+  ,jasmineNodeOpts: {
+    defaultTimeoutInterval: 10000,
+    print: function() {}
+  }
 
-  seleniumServerJar: '/usr/local/lib/node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
+  ,seleniumAddress: null
 
-  chromeDriver: '/usr/local/lib/node_modules/protractor/selenium/chromedriver'
+  ,seleniumServerJar: '/usr/local/lib/node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar'
+
+  ,chromeDriver: '/usr/local/lib/node_modules/protractor/selenium/chromedriver'
 };
 
 

@@ -76,17 +76,24 @@ function addTestItems(todos){
   });
 }
 
+var hasClass = function (element, cls) {
+    return element.getAttribute('class').then(function (classes) {
+        return classes.split(' ').indexOf(cls) !== -1;
+    });
+};
+
+var cssValue = function (element, prop) {
+    return element.getCssValue(prop).then(function (cssPropValue) {
+        return cssPropValue;
+    });
+};
 /* Testing todo page functionality */
 describe('Todo Page', function(){
 
   var testData;
 
-  var x = [1,2,3];
-  //var y = angular.copy(x);
-
   beforeEach(function(done){
     testData = mockDataProvider.get();
-    // console.log('testdata: ' + JSON.stringify(testData));
     expect(testData).toBeDefined();
     expect(testData.todoList).toBeDefined();
     expect(testData.todoList.length).toBeGreaterThan(0);
@@ -100,7 +107,6 @@ describe('Todo Page', function(){
     appGet(testData.userId2)
     .then(function(res){
       dbItems = res.body;
-      // console.log('Data before delete: ' + res.body.length);
       done();
     },done);
   });
@@ -176,12 +182,18 @@ describe('Todo Page', function(){
     expect(page.editModal.isDisplayed()).toBeTruthy();
   });
 
+  it('should put focus on title field in edit popup', function(){
+    page.addButton.click();
+    var activeId = browser.driver.switchTo().activeElement().getId();
+
+    expect(page.editModalFormTitle.getId()).toEqual(activeId);
+  });
+
   it('should hide the create popup when clicking "Cancel" button on add popup', function(){
     page.addButton.click();
     page.editModalCancelButton.click();
     expect(page.editModal.isDisplayed()).not.toBeTruthy();
   });
-
 
   it('should hide the create popup when clicking top-right "Close" icon on add popup', function(){
     page.addButton.click();
@@ -189,32 +201,163 @@ describe('Todo Page', function(){
     expect(page.editModal.isDisplayed()).not.toBeTruthy();
   });
 
-  it('should not submit if create popup has no title value', function(){
+  it('should hide the create popup when clicking outside popup', function(){
+    page.addButton.click();
+    //browser.actions().mouseMove(page.divMainContent, {x: -0, y: -0}).click().perform();
+    page.divMainContentClick(browser);
+    expect(page.editModal.isDisplayed()).not.toBeTruthy();
+  });
+
+  it('should hide the create popup when clicking submit and title is not empty', function(){
+    page.addButton.click();
+    page.editModalFormTitle.sendKeys('First Todo');
+    page.editModalSubmitButton.click();
+    expect(page.editModal.isDisplayed()).not.toBeTruthy();
+  });
+
+  it('should disable submit button when edit popup has no title value', function(){
+    page.addButton.click();
+    expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
+  });
+
+  it('should enable submit button when edit popup has a title value', function(){
+    page.addButton.click();
+    expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
+    page.editModalFormTitle.sendKeys('h');
+    expect(page.editModalSubmitButton.getAttribute('disabled')).not.toBeTruthy();
+    page.editModalFormTitle.clear();
+    expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
+  });
+
+  it('should show red background on title when it has no value and mouse leaves title', function(){
+    var redBgColor = 'rgba(255, 200, 200, 1)';
+    page.addButton.click();
+    expect(cssValue(page.editModalFormTitle, 'background-color')).not.toEqual(redBgColor);
+    page.editModalFormNotes.click();
+    expect(cssValue(page.editModalFormTitle, 'background-color')).toEqual(redBgColor);
 
   });
 
-  xit('should create a new todo item', function(){
+  it('should not show red background on title after re-opening popup with invalid title ', function(){
+    var redBgColor = 'rgba(255, 200, 200, 1)';
+    page.addButton.click();
+    page.editModalFormNotes.click();
+    expect(cssValue(page.editModalFormTitle, 'background-color')).toEqual(redBgColor);
 
+    // cancel
+    page.editModalCancelButton.click();
+    page.addButton.click();
+    expect(cssValue(page.editModalFormTitle, 'background-color')).not.toEqual(redBgColor);
+    page.editModalFormNotes.click();
+    expect(cssValue(page.editModalFormTitle, 'background-color')).toEqual(redBgColor);
+
+    // close
+    page.editModalCloseButton.click();
+    page.addButton.click();
+    expect(cssValue(page.editModalFormTitle, 'background-color')).not.toEqual(redBgColor);
+    page.editModalFormNotes.click();
+    expect(cssValue(page.editModalFormTitle, 'background-color')).toEqual(redBgColor);
+
+    // main div (escape modal)
+    page.divMainContentClick(browser);
+    page.addButton.click();
+    expect(cssValue(page.editModalFormTitle, 'background-color')).not.toEqual(redBgColor);
   });
 
-  xit('should show an edited todo item after editing', function(){
+  // todoList
+  // addButton
+  // editModal
+  // editModalCloseButton
+  // editModalCancelButton
+  // editModalSubmitButton
+  // editModalFormTitle
+  // editModalFormNotes
+  // editModalFormDueDate
 
+
+
+  it('should create a new todo item', function(){
+    page.addButton.click();
   });
-
-  xit('should show a confirm popup when clicking the delete icon', function(){
-
-  });
-
-  xit('should hide the confirm popup and not submit when deleting and clicking "no" on confirm popup', function(){
-
-  });
-
-  xit('should delete a todo item when deleting and clicking "yes" on the confirm popup', function(){
-
-  });
-
-  xit('should create a new todo item', function(){
-
-  });
+  //
+  // xit('should show an edited todo item after editing', function(){
+  //
+  // });
+  //
+  // xit('should show a confirm popup when clicking the delete icon', function(){
+  //
+  // });
+  //
+  // xit('should hide the confirm popup and not submit when deleting and clicking "no" on confirm popup', function(){
+  //
+  // });
+  //
+  // xit('should delete a todo item when deleting and clicking "yes" on the confirm popup', function(){
+  //
+  // });
+  //
+  // xit('should create a new todo item', function(){
+  //
+  // });
 
 });
+
+//
+// describe('Edit popup (non-modify)', function(){
+//   // these tests don't need any setup except new page object
+//   var page;
+//   beforeEach(function () {
+//     page = new TodoPage();
+//   });
+//
+//   // it('should show the create popup when clicking "add" button', function(){
+//   //   expect(page.editModal.isDisplayed()).not.toBeTruthy();
+//   //   page.addButton.click();
+//   //   expect(page.editModal.isDisplayed()).toBeTruthy();
+//   // });
+//   //
+//   // it('should hide the create popup when clicking "Cancel" button on add popup', function(){
+//   //   page.addButton.click();
+//   //   page.editModalCancelButton.click();
+//   //   expect(page.editModal.isDisplayed()).not.toBeTruthy();
+//   // });
+//   //
+//   // it('should hide the create popup when clicking top-right "Close" icon on add popup', function(){
+//   //   page.addButton.click();
+//   //   page.editModalCloseButton.click();
+//   //   expect(page.editModal.isDisplayed()).not.toBeTruthy();
+//   // });
+//   //
+//   // it('should disable submit button when edit popup has no title value', function(){
+//   //   page.addButton.click();
+//   //   expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
+//   // });
+//   //
+//   // it('should enable submit button when edit popup has a title value', function(){
+//   //   page.addButton.click();
+//   //   expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
+//   //   page.editModalFormTitle.sendKeys('h');
+//   //   expect(page.editModalSubmitButton.getAttribute('disabled')).not.toBeTruthy();
+//   //   page.editModalFormTitle.clear();
+//   //   expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
+//   // });
+//   //
+//   // it('should show red background on title when it has no value and mouse leaves title', function(){
+//   //   var redBgColor = 'rgba(255, 200, 200, 1)';
+//   //   page.addButton.click();
+//   //   expect(cssValue(page.editModalFormTitle, 'background-color')).not.toEqual(redBgColor);
+//   //   page.editModalFormNotes.click();
+//   //   expect(cssValue(page.editModalFormTitle, 'background-color')).toEqual(redBgColor);
+//   //
+//   // });
+//   // // todoList
+//   // // addButton
+//   // // editModal
+//   // // editModalCloseButton
+//   // // editModalCancelButton
+//   // // editModalSubmitButton
+//   // // editModalFormTitle
+//   // // editModalFormNotes
+//   // // editModalFormDueDate
+//
+// });
