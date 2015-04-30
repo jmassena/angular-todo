@@ -124,7 +124,7 @@ describe('Todo Page', function(){
     .then(function(res){
       expect(res.body).toBeDefined();
       dbItems = res.body;
-      console.log('Data at after delete: ' + res.body.length);
+      // console.log('Data at after delete: ' + res.body.length);
       expect(res.body.length).toEqual(0);
       done();
     },function(err){
@@ -155,51 +155,41 @@ describe('Todo Page', function(){
     page = new TodoPage();
   });
 
-  // TodoPage.prototype = Object.create({},{
-  //   todoList:{get:function(){return element.all(by.repeater('todo in vm.todos'));}},
-  //   addButton:{get:function(){return $('button[ng-click="vm.editMode=\'create\'"]');}},
-  //   editModal:{get:function(){return element(by.id('todoEdit'));}},
-  //   editModalCloseButton:{get:function(){return $('div.modal-header button.close');}},
-  //   editModalCancelButton
+  // todoList
+  // addButton
+  // editModal
+  // editModalCloseButton
+  // editModalCancelButton
+  // editModalSubmitButton
+  // editModalFormTitle
+  // editModalFormNotes
+  // editModalFormDueDate
 
-  // it('should have no todo items at start for test user', function(){
-  //   browser.get('/#/todo');
-  //   expect(element.all(by.css('tbody tr')).count()).toEqual(0);
-  // });
 
   it('should have no todo items at start', function(){
-    expect(page.todoList.count()).toEqual(1);
-    // expect(element.all(by.css('tbody tr')).count()).toEqual(0);
+    expect(page.todoList.count()).toEqual(0);
   });
 
-  // it('should show the create popup when clicking "add" button', function(){
-  //   browser.get('/#/todo');
-  //   expect(element(by.id('todoEdit')).isDisplayed()).not.toBeTruthy();
-  //
-  //   $('button[ng-click="vm.editMode=\'create\'"]').click();
-  //   expect(element(by.id('todoEdit')).isDisplayed()).toBeTruthy();
-  //
-  // });
-  //
-  // it('should hide the create popup when clicking "Cancel" button on add popup', function(){
-  //   browser.get('/#/todo');
-  //   $('button[ng-click="vm.editMode=\'create\'"]').click();
-  //   $('div.modal-header button.close').click();
-  //
-  //   expect(element(by.id('todoEdit')).isDisplayed()).not.toBeTruthy();
-  //
-  // });
-  //
-  // xit('should hide the create popup when clicking top-right "Close" icon on add popup', function(){
-  //   browser.get('/#/todo');
-  //   $('button[ng-click="vm.editMode=\'create\'"]').click();
-  //   // $('div.modal-header button.close').click();
-  //   element(by.buttonText('Cancel')).click();
-  //
-  //   expect(element(by.id('todoEdit')).isDisplayed()).not.toBeTruthy();
-  // });
+  it('should show the create popup when clicking "add" button', function(){
+    expect(page.editModal.isDisplayed()).not.toBeTruthy();
+    page.addButton.click();
+    expect(page.editModal.isDisplayed()).toBeTruthy();
+  });
 
-  xit('should not submit if create popup has no title', function(){
+  it('should hide the create popup when clicking "Cancel" button on add popup', function(){
+    page.addButton.click();
+    page.editModalCancelButton.click();
+    expect(page.editModal.isDisplayed()).not.toBeTruthy();
+  });
+
+
+  it('should hide the create popup when clicking top-right "Close" icon on add popup', function(){
+    page.addButton.click();
+    page.editModalCloseButton.click();
+    expect(page.editModal.isDisplayed()).not.toBeTruthy();
+  });
+
+  it('should not submit if create popup has no title value', function(){
 
   });
 

@@ -44,6 +44,8 @@ function resetFormValidation(){
 
           target.$setUntouched();
           target.$setPristine();
+          target.$setUntouched();
+          
           scope.reset = false;
         }
       });

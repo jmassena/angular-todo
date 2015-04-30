@@ -45,6 +45,7 @@
             // should be private but for testing made public
             vm.updateTodo = updateTodo;
             vm.updateSelectedTodo = updateSelectedTodo;
+            vm.formValidateFlag = false;
 
         getTodos();
 
@@ -129,7 +130,7 @@
         function setForEdit(todo){
           vm.editMode = EDIT_MODES.EDIT;
           vm.selectedTodoId = todo._id;
-          
+
           vm.formData.title = todo.title;
           vm.formData.notes = todo.notes;
           vm.formData.done = todo.done;

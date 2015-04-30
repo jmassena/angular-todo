@@ -43,7 +43,9 @@
   </table>
 
 
-  <button type="button" class="btn btn-primary" ng-click="vm.editMode='create'" data-target="#todoEdit" data-toggle="modal" >Add</button>
+  <button type="button" class="btn btn-primary" id='btnAdd'
+    ng-click="vm.resetFormFlag=true;vm.editMode='create'"
+    data-target="#todoEdit" data-toggle="modal" >Add</button>
 
     <!-- Create/Edit dialog -->
     <div class="modal" id="todoEdit" >
@@ -68,11 +70,14 @@
               <div class="form-group">
                 <label class="control-label" for="editTodoTitle">Title</label>
                 <input type="text" class="form-control" id="editTodoTitle" name="title"
-                ng-model="vm.formData.title" placeholder="What to do?" required />
+                ng-model="vm.formData.title" placeholder="title is required" required/>
                 <br />
-                <div class="alert-danger" ng-show="vm.todoForm.title.$touched">
+                <!-- <div class="form-error-text" ng-show="vm.todoForm.title.$touched">
                   <span ng-show="vm.todoForm.title.$error.required">title is required</span>
-                </div>
+                </div> -->
+                <span>$pristine: {{vm.todoForm.title.$pristine}}</span><br/>
+                <span>$touched: {{vm.todoForm.title.$touched}}</span><br/>
+                <span>$error.required: {{vm.todoForm.title.$error.required}}</span>
               </div>
 
               <!-- Notes -->
