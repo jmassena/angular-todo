@@ -167,6 +167,7 @@
 
         // TODO: handle fail case by writing to modal dialog
         function createTodo(){
+          $log.info('creating todo with dueDate: ' + vm.formData.dueDateTime);
           todoService.createTodo(vm.userId, vm.formData)
             .then(function(){
               clearForm();

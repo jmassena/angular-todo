@@ -2,7 +2,7 @@
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
-
+/* jshint maxcomplexity:10 */
 var path = require('path');
 //var todoDAL = require('../../../server/data/todo.js');
 var Q = require('q');
@@ -91,8 +91,8 @@ var cssValue = function (element, prop) {
 describe('Todo Page', function(){
 
   var testData;
-
-
+  var page;
+  var dbItems = [];
 
   beforeEach(function(done){
     testData = mockDataProvider.get();
@@ -102,9 +102,7 @@ describe('Todo Page', function(){
     done();
   });
 
-
   // get existing items
-  var dbItems = [];
   beforeEach(function (done) {
     appGet(testData.userId2)
     .then(function(res){
@@ -140,25 +138,24 @@ describe('Todo Page', function(){
       done();
     });
   });
-  // // add test data items
-  // beforeEach(function (done) {
-  //   expect(dbItems.length).toEqual(0);
-  //   var todo = testData.todoList[4];
-  //   todo._id = null;
-  //
-  //   var promises = testData.todoList.map(function(item){
-  //     item._id = null;
-  //     return appCreate(item.userId, item);
-  //   });
-  //
-  //   Q.all(promises)
-  //   .then(function(){
-  //     done();
-  //   },done);
-  //
-  // });
+  // add test data items
+  beforeEach(function (done) {
+    // expect(dbItems.length).toEqual(0);
+    // var todo = testData.todoList[4];
+    // todo._id = null;
+    //
+    // var promises = testData.todoList.map(function(item){
+    //   item._id = null;
+    //   return appCreate(item.userId, item);
+    // });
+    //
+    // Q.all(promises)
+    // .then(function(){
+    //   done();
+    // },done);
+    done();
+  });
 
-  var page;
   beforeEach(function () {
     page = new TodoPage();
   });
@@ -172,7 +169,6 @@ describe('Todo Page', function(){
   // editModalFormTitle
   // editModalFormNotes
   // editModalFormDueDate
-
 
   it('should have no todo items at start', function(){
     expect(page.todoList.count()).toEqual(0);
@@ -266,6 +262,83 @@ describe('Todo Page', function(){
     expect(cssValue(page.editModalFormTitle, 'background-color')).not.toEqual(redBgColor);
   });
 
+  it('should create a new todo item', function(){
+
+    var todo = createTestTodo();
+    expect(page.todoList.count()).toEqual(1);
+
+    var pageTodo = page.todoGetByIndex(0);
+
+    expect(pageTodo.done.isSelected()).toBeFalsy();
+    expect(pageTodo.title).toEqual(todo.title);
+    expect(pageTodo.notes).toEqual(todo.notes);
+    expect(pageTodo.dueDateTime).toMatch(dueMessage(todo.dueDateTime));
+    expect(pageTodo.dueDateTitle).toEqual(dueDateTitleCreate(todo.dueDateTime));
+  });
+
+  function dueDateTitleCreate(dt){
+    if(dt == null){return null;}
+
+    return 'Due on ' + moment(dt).format('MM/DD/YYYY');
+  }
+
+  function dueMessage(dueDateTime){
+    var dueString;
+
+    if(dueDateTime == null){return null;}
+
+    dueDateTime.setHours(0,0,0,0);
+
+    var hours = Math.round((dueDateTime - new Date())/(1000*60*60));
+    var days = Math.round((dueDateTime - new Date())/(1000*60*60*24));
+    var plural = '';
+    if(hours >= 0){
+      if(days > 0){
+        dueString = days + ' day' + (days>0?'s':'');
+      }
+      else{
+        dueString = hours + ' hour' + (hours>0?'s':'');
+      }
+    }
+    else{
+      hours*=-1;
+      days*=-1;
+      if(days > 0){
+        dueString = days + ' day' + (days>0?'s':'') + ' overdue';
+      }
+      else{
+        dueString = hours + ' hour' + (hours>0?'s':'') + ' overdue';
+      }
+    }
+  }
+
+  function formatDateForInput(dt){
+    return moment(dt).format('MMDDYYYY');
+  }
+
+  function createTestTodo(todo){
+
+    if(!todo){
+      // create todo if none supplied
+      todo = {};
+      todo.dueDateTime = new Date();
+      todo.dueDateTime.setDate(todo.dueDateTime.getDate() + 1);
+      todo.dueDateTime.setHours(0,0,0,0);
+      todo.title = 'Test New Todo';
+      todo.notes = 'Remember to test me';
+    }
+
+    page.addButton.click();
+    page.editModalFormTitle = todo.title;
+    page.editModalFormNotes = todo.notes;
+
+    page.editModalFormDueDate = formatDateForInput(todo.dueDateTime);
+
+    page.editModalSubmitButton.click();
+
+    return todo;
+  }
+
   // todoList
   // addButton
   // editModal
@@ -276,164 +349,119 @@ describe('Todo Page', function(){
   // editModalFormNotes
   // editModalFormDueDate
 
+  // todoGetByIndex
+  // row
+  // ,done
+  // ,title
+  // ,notes
+  // ,dueDateTime
+  // ,edit
+  // ,delete
+  // ,deleteYes
+  // ,deleteNo
 
-
-  fit('should create a new todo item', function(){
-
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    var titleText = 'Test New Todo';
-    var notesText = 'Remember to test me';
-    var dueDate = tomorrow;
-    var df = new moment(dueDate).format('MMM DD, YYYY h:mm A'); //MMM DD, YYYY h:mm A
-
-    page.addButton.click();
-    page.editModalFormTitle = titleText;
-    page.editModalFormNotes = notesText;
-
-    //page.editModalFormDueDate.click();
-    // console.log('setting date: ' + dueDate.toISOString());
-    // page.editModalFormDueDate = dueDate.toISOString();
-    page.editModalFormDueDate = '02/02/2002';
-//#todoEdit > div > div > div.modal-body > form > div:nth-child(4) > div > ul > li.collapse.in > div > div.datepicker-days > table > tbody > tr:nth-child(2) > td.day.active.weekend
-////*[@id="todoEdit"]/div/div/div[2]/form/div[4]/div/ul/li[1]/div/div[1]/table/tbody/tr[2]/td[1]
-
-    // element.all($('table.datepicker-years tbody span.year')).filter(function(el){
-    //   return el.getText() === dueDate.getFullYear().toString();
-    // })
-    // .first().click();
-    //
-    // element.all($('table.datepicker-years tbody span.year')).filter(function(el){
-    //   return el.getText() === dueDate.getFullYear().toString();
-    // })
-    // .first().click();
-
-//
-    page.editModalSubmitButton.click();
+  it('row edit button should show edit modal', function(){
+    var todo = createTestTodo();
     expect(page.todoList.count()).toEqual(1);
 
-    // // done
-    // var el = page.todoList.all(by.model('todo.done'));
-    // expect(el.count()).toEqual(1);
-    // expect(el.first().isSelected()).toBeFalsy();
-    //
-    // // title
-    // el = page.todoList.all(by.css('td.todo-title'));
-    // expect(el.count()).toEqual(1);
-    // expect(el.first().getText()).toEqual(titleText);
-    //
-    // // notes
-    // // $$ is just shortcut for .all(by.css('css'))
-    // el = page.todoList.first().$$('td').filter(function(item){
-    //   return item.getText().then(function(text){
-    //     return text === notesText;
-    //   });
-    // });
-    //
-    // expect(el.count()).toEqual(1);
-    // expect(el.get(0).getText()).toEqual(notesText);
-    //
-    // // due date
-    // el = page.todoList.$$('td.todo-duedate'); // not needed, just dbl checking
-    // expect(el.count()).toEqual(1);
-    //
-    // expect(el.first().getText()).toEqual('due in 23 hours');
+    var todoRow = page.todoGetByIndex(0);
+    todoRow.edit.click();
+    expect(page.editModal.isDisplayed()).toBeTruthy();
+  });
 
-    // var df = new moment(dueDate).format('MM/dd/yyyy h:mm a');
-    // expect(el.first().getAttribute('title')).toEqual('Due on ' + df);
+  it('row delete button should show delete modal', function(){
+    var todo = createTestTodo();
+    expect(page.todoList.count()).toEqual(1);
 
-    // .then(function(items){
-    //   expect(items.count()).toEqual(1);
-    //   done();
-    // },done);
+    var todoRow = page.todoGetByIndex(0);
+    todoRow.delete.click();
+    expect(todoRow.deleteModal.isDisplayed()).toBeTruthy();
+  });
 
+  it('delete module "no" button should dismiss delete modal', function(){
+    var todo = createTestTodo();
+    expect(page.todoList.count()).toEqual(1);
 
-    // var done = page.todoList.all($('input[ng-model="todo.done"]')).get(0).isSelected();
-    // console.log('done: ' + JSON.stringify(done));
-    // expect(done).toBeTruthy();
+    var todoRow = page.todoGetByIndex(0);
+    todoRow.delete.click();
+    expect(todoRow.deleteModal.isDisplayed()).toBeTruthy();
 
+    todoRow.deleteNo.click();
+    expect(todoRow.deleteModal.isDisplayed()).not.toBeTruthy();
+    expect(page.todoList.count()).toEqual(1);
+  });
+
+  it('delete module "yes" button should dismiss delete modal and delete the todo item', function(){
+    var todo = createTestTodo();
+    expect(page.todoList.count()).toEqual(1);
+
+    var todoRow = page.todoGetByIndex(0);
+    todoRow.delete.click();
+    expect(todoRow.deleteModal.isDisplayed()).toBeTruthy();
+
+    todoRow.deleteYes.click();
+    // check for any open confirm popups
+    expect(element.all(by.css('.btn-group.delete-confirm.open')).count()).toEqual(0);
+    expect(page.todoList.count()).toEqual(0);
+  });
+
+  it('should show changes after editing', function(){
+    // create test todo
+    var todo = createTestTodo();
+    expect(page.todoList.count()).toEqual(1);
+
+    // get new todo row and click edit button
+    var todoRow = page.todoGetByIndex(0);
+    todoRow.edit.click();
+    expect(page.editModal.isDisplayed()).toBeTruthy();
+
+    // update fields in edit popup
+    var newDueDate = new Date();
+    newDueDate.setDate(newDueDate.getDate() - 2);
+    newDueDate.setHours(0,0,0,0);
+
+    // don't  set done:true else due time won't show. We'll test that later
+    var todoEdits = {title:'Hello Kitty', dueDateTime: newDueDate, notes: 'Thanks for testing me'};
+    page.editModalFormTitle.clear();
+    page.editModalFormTitle = todoEdits.title;
+    page.editModalFormNotes.clear();
+    page.editModalFormNotes = todoEdits.notes;
+    page.editModalFormDueDate = formatDateForInput(todoEdits.dueDateTime);
+
+    // submit edited todo
+    page.editModalSubmitButton.click();
+    expect(page.editModal.isDisplayed()).not.toBeTruthy();
+    expect(page.todoList.count()).toEqual(1);
+
+    // get edited todo row
+    todoRow = page.todoGetByIndex(0);
+    // validate edits are displayed
+    expect(todoRow.done.isSelected()).toBeFalsy();
+    expect(todoRow.title).toEqual(todoEdits.title);
+    expect(todoRow.notes).toEqual(todoEdits.notes);
+    expect(todoRow.dueDateTime).toMatch(dueMessage(todoEdits.dueDateTime));
+    expect(todoRow.dueDateTitle).toEqual(dueDateTitleCreate(todoEdits.dueDateTime));
 
   });
 
-  // xit('should show an edited todo item after editing', function(){
+  it('should change done status when checking row checkbox', function(){
+    var todo = createTestTodo();
+    expect(page.todoList.count()).toEqual(1);
+
+    var todoRow = page.todoGetByIndex(0);
+    expect(todoRow.done.isSelected()).toBeFalsy();
+    todoRow.done.click();
+    expect(todoRow.done.isSelected()).not.toBeFalsy();
+  });
+
+  // xit('delete module "yes" button should dismiss delete modal and delete the todo item', function(){
+  //   var todo = createTestTodo();
+  //   expect(page.todoList.count()).toEqual(1);
   //
+  //   var todoRow = page.todoGetByIndex(0);
+  //   todoRow.delete.click();
+  //   expect(todoRow.deleteModal.isDisplayed()).toBeTruthy();
   // });
-  //
-  // xit('should show a confirm popup when clicking the delete icon', function(){
-  //
-  // });
-  //
-  // xit('should hide the confirm popup and not submit when deleting and clicking "no" on confirm popup', function(){
-  //
-  // });
-  //
-  // xit('should delete a todo item when deleting and clicking "yes" on the confirm popup', function(){
-  //
-  // });
-  //
-  // xit('should create a new todo item', function(){
-  //
-  // });
+
 
 });
-
-//
-// describe('Edit popup (non-modify)', function(){
-//   // these tests don't need any setup except new page object
-//   var page;
-//   beforeEach(function () {
-//     page = new TodoPage();
-//   });
-//
-//   // it('should show the create popup when clicking "add" button', function(){
-//   //   expect(page.editModal.isDisplayed()).not.toBeTruthy();
-//   //   page.addButton.click();
-//   //   expect(page.editModal.isDisplayed()).toBeTruthy();
-//   // });
-//   //
-//   // it('should hide the create popup when clicking "Cancel" button on add popup', function(){
-//   //   page.addButton.click();
-//   //   page.editModalCancelButton.click();
-//   //   expect(page.editModal.isDisplayed()).not.toBeTruthy();
-//   // });
-//   //
-//   // it('should hide the create popup when clicking top-right "Close" icon on add popup', function(){
-//   //   page.addButton.click();
-//   //   page.editModalCloseButton.click();
-//   //   expect(page.editModal.isDisplayed()).not.toBeTruthy();
-//   // });
-//   //
-//   // it('should disable submit button when edit popup has no title value', function(){
-//   //   page.addButton.click();
-//   //   expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
-//   // });
-//   //
-//   // it('should enable submit button when edit popup has a title value', function(){
-//   //   page.addButton.click();
-//   //   expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
-//   //   page.editModalFormTitle.sendKeys('h');
-//   //   expect(page.editModalSubmitButton.getAttribute('disabled')).not.toBeTruthy();
-//   //   page.editModalFormTitle.clear();
-//   //   expect(page.editModalSubmitButton.getAttribute('disabled')).toBeTruthy();
-//   // });
-//   //
-//   // it('should show red background on title when it has no value and mouse leaves title', function(){
-//   //   var redBgColor = 'rgba(255, 200, 200, 1)';
-//   //   page.addButton.click();
-//   //   expect(cssValue(page.editModalFormTitle, 'background-color')).not.toEqual(redBgColor);
-//   //   page.editModalFormNotes.click();
-//   //   expect(cssValue(page.editModalFormTitle, 'background-color')).toEqual(redBgColor);
-//   //
-//   // });
-//   // // todoList
-//   // // addButton
-//   // // editModal
-//   // // editModalCloseButton
-//   // // editModalCancelButton
-//   // // editModalSubmitButton
-//   // // editModalFormTitle
-//   // // editModalFormNotes
-//   // // editModalFormDueDate
-//
-// });

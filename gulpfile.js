@@ -50,7 +50,11 @@ gulp.task('protractor-run', function(){
 });
 
 gulp.task('protractor-watch', function(){
-  gulp.watch(['src/client/**/*.js', './protractor.conf.js'], ['protractor-run']);
+  gulp.watch(['src/client/**/*.js'
+            , 'src/client/**/*.html'
+            , 'src/client/**/*.css'
+            ,'./protractor.conf.js']
+  , ['protractor-run']);
 });
 
 

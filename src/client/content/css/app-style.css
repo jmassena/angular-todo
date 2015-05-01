@@ -20,7 +20,13 @@
 
 }
 
+/*#todoEdit{
+  width:300px;
+}*/
 
+input[type=date]{
+  max-width:165px;
+}
 .list-action:nth-child(2){
     margin-left: 10px;
 }

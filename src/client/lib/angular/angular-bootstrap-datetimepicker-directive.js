@@ -61,7 +61,7 @@ angular
                   }
               }
               else{
-                if($element.data('date').length > 0){
+                if($element.data('date') != null && $element.data('date').length > 0){
                   $element.data('DateTimePicker').clear();
                 }
               }

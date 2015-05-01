@@ -15,23 +15,25 @@
           ng-class="{overdue: todo.overdue, dueSoon: (todo.dueHours >= 0 && todo.dueHours <= 24), 'text-muted': todo.done}" >
         <td><input type="checkbox" ng-model="todo.done" ng-change="vm.updateDoneStatus(todo._id)"  /></td>
         <td class="todo-title" title="{{todo.title}}">{{vm.truncate(todo.title, 175)}}</td>
-        <td title="{{todo.notes}}">{{vm.truncate(todo.notes, 100)}}</td>
-        <td class="todo-duedate" title="{{(!todo.done && todo.hasDueDate)?('Due on ' + (todo.dueDateTime | date:'MM/dd/yyyy h:mm a')):''}}">
+        <td class="todo-notes" title="{{todo.notes}}">{{vm.truncate(todo.notes, 100)}}</td>
+        <td class="todo-duedate" title="{{(!todo.done && todo.hasDueDate)?('Due on ' + (todo.dueDateTime | date:'MM/dd/yyyy')):''}}">
           {{(!todo.done && todo.hasDueDate)?todo.dueMessage:''}}</td>
 
         <td>
-          <a class="list-action" ng-click="vm.setForEdit(todo)" data-toggle="modal" data-target="#todoEdit" href="">
+          <a class="list-action action-edit" ng-click="vm.setForEdit(todo)" data-toggle="modal"
+          data-target="#todoEdit" href="">
             <span class="glyphicon glyphicon-pencil color-edit"></span>
           </a>
 
           <div class="btn-group delete-confirm" >
-            <a class="list-action dropdown-toggle" data-toggle="dropdown" href="" id="btnDelete">
+            <a class="list-action dropdown-toggle action-delete" data-toggle="dropdown" href="" id="btnDelete">
               <span class="glyphicon glyphicon-remove color-delete"></span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right">
+            <ul class="dropdown-menu dropdown-menu-right delete-modal">
               <li><span class="confirm-message">Delete?<span><br/>
-                  <button type="button" class="btn btn-default" id="btnDeleteNo">No</button>
-                  <button type="button" class="btn btn-danger" ng-click="vm.deleteTodo(todo._id)" id="btnDeleteYes">Yes</button>
+                  <button type="button" class="btn btn-default action-delete-no" id="btnDeleteNo">No</button>
+                  <button type="button" class="btn btn-danger action-delete-yes" ng-click="vm.deleteTodo(todo._id)"
+                  id="btnDeleteYes">Yes</button>
               </li>
             </ul>
           </div>
@@ -42,7 +44,7 @@
     </tbody>
   </table>
 
-  <!-- <div>Due: {{(vm.todos[0].dueDateTime | date:'MM/dd/yyyy h:mm a')):''}}</div> -->
+
 
 
   <button type="button" class="btn btn-primary" id='btnAdd'
@@ -83,9 +85,9 @@
               </div>
 
               <!-- Notes -->
-              <div class="form-group">
+              <div class="form-group " >
                 <label class="control-label" for="editTodoNotes" >Notes</label>
-                <input type="text" class="form-control" name="notes"  id="editTodoNotes"
+                <input type="text" class="form-control col-lg-1" name="notes"  id="editTodoNotes"
                   ng-model="vm.formData.notes" />
               </div>
 
@@ -97,13 +99,22 @@
               </div>
 
               <!-- Due Date -->
-              <div class="form-group">
+              <div class="form-group" >
                 <label class="control-label" for="editTodoDueDate" >Due</label>
-                <input type='text' class="form-control" name="dueDateTime" id="editTodoDueDate"
+                <!-- <input type='text' class="form-control" name="dueDateTime" id="editTodoDueDate"
+                  placeholder="mm/dd/yyyy (optional hour + am/pm i.e. 6 pm)"
+                  ng-model-options="{updateOn: 'blur'}"
                   ng-model="vm.formData.dueDateTime"
                   datetimepicker
-                  datetimepicker-options="{showClose:true, sideBySide:false, showClear:true, showTodayButton:true, format:'MMM DD, YYYY h:mm A'}" />
+                  datetimepicker-options="{showClose:true, sideBySide:false, showClear:true, showTodayButton:true, format:'MM/DD/YYYY ha'}" /> -->
+
+                  <!-- TODO: generate min/max dynamically through directive -->
+                  <input type='date' class="form-control" name="dueDateTime" id="editTodoDueDate" min="2015-01-01" max="2017-01-01"
+                    ng-model="vm.formData.dueDateTime"
+                    />
               </div>
+
+              <!-- <div>Due: {{vm.formData.dueDateTime | date:'MM/dd/yyyy h:mm a'}}</div> -->
 
               <!-- Buttons -->
               <div class="modal-footer">
@@ -112,6 +123,7 @@
                 <button type="submit" ng-disabled="vm.todoForm.$invalid"  data-dismiss="modal"
                 ng-click="vm.submitTodo()"  class="btn btn-success">Submit</button>
               </div>
+
             </form>
           </div>
 
