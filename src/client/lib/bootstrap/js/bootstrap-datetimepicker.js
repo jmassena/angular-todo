@@ -990,7 +990,14 @@
                 if (input.prop('disabled') || (!options.ignoreReadonly && input.prop('readonly')) || widget) {
                     return picker;
                 }
-                if (options.useCurrent && unset && ((input.is('input') && input.val().trim().length === 0) || options.inline)) {
+
+                // Justin: if input not null then set date from it
+                if(input.is('input') && input.val().trim().length > 0){
+                  var val = input.val().trim(),
+                      parsedDate = val ? parseInputDate(val) : null;
+                  setValue(parsedDate);
+                }
+                else if (options.useCurrent && unset && ((input.is('input') && input.val().trim().length === 0) || options.inline)) {
                     currentMoment = moment();
                     if (typeof options.useCurrent === 'string') {
                         currentMoment = useCurrentGranularity[options.useCurrent](currentMoment);

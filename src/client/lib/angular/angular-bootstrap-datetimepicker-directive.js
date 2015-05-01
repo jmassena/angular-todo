@@ -1,5 +1,7 @@
 'use strict';
-
+/* jshint camelcase:false */
+/* global jQuery  */
+/* global moment */
 angular
   .module('datetimepicker', [])
 
@@ -42,10 +44,32 @@ angular
           // otherwise input doesn't show ng-model value until it is selected by picker.
           if(ngModelCtrl){
             $scope.$watch(function(){return ngModelCtrl.$modelValue;}, function(newVal, oldVal){
-              if(newVal != oldVal){
-                var dpc = $element.data('DateTimePicker');
-                dpc.date(newVal);
+
+              // compare new value to picker date
+              // if different update picker
+              if(Object.prototype.toString.call(newVal) === '[object String]' && newVal.length > 0
+                || Object.prototype.toString.call(newVal) === '[object Date]'){
+
+                  var n = moment(newVal);
+                  var d = $element.data('date');
+                  if(d != null && d.length > 0){
+                    d = moment(d);
+                  }
+
+                  if(!n.isSame(d)){
+                    $element.data('DateTimePicker').date(n);
+                  }
               }
+              else{
+                if($element.data('date').length > 0){
+                  $element.data('DateTimePicker').clear();
+                }
+              }
+              //
+              // if(newVal != oldVal){
+              //   var dpc = $element.data('DateTimePicker');
+              //   dpc.date(newVal);
+              // }
             });
           }
 
@@ -53,7 +77,7 @@ angular
             .on('dp.change', function (on_change_event) {
               if (ngModelCtrl) {
                 $timeout(function () {
-                  ngModelCtrl.$setViewValue(on_change_event.target.value);
+                  ngModelCtrl.$setViewValue(angular.copy(on_change_event.target.value));
                 });
               }
             })

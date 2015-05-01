@@ -42,6 +42,8 @@
     </tbody>
   </table>
 
+  <!-- <div>Due: {{(vm.todos[0].dueDateTime | date:'MM/dd/yyyy h:mm a')):''}}</div> -->
+
 
   <button type="button" class="btn btn-primary" id='btnAdd'
     ng-click="vm.resetFormFlag=true;vm.editMode='create'"
@@ -100,7 +102,7 @@
                 <input type='text' class="form-control" name="dueDateTime" id="editTodoDueDate"
                   ng-model="vm.formData.dueDateTime"
                   datetimepicker
-                  datetimepicker-options="{showClose:true, sideBySide:false, showClear:true, showTodayButton:true, defaultDate:'now', format:'MMM DD, YYYY h:mm A'}" />
+                  datetimepicker-options="{showClose:true, sideBySide:false, showClear:true, showTodayButton:true, format:'MMM DD, YYYY h:mm A'}" />
               </div>
 
               <!-- Buttons -->

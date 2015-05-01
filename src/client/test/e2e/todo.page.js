@@ -10,7 +10,9 @@ TodoPage.prototype = Object.create({}, {
   todoList:{get:function(){return element.all(by.repeater('todo in vm.todos'));}}
 
   ,addButton: getById('btnAdd')
+
   ,editModal: getById('todoEdit')
+
   ,editModalCloseButton: getByCss('div.modal-header button.close')
   ,editModalCancelButton: getByButtonText('Cancel')
   ,editModalSubmitButton: getByButtonText('Submit')
@@ -18,6 +20,7 @@ TodoPage.prototype = Object.create({}, {
   ,editModalFormTitle: getSetById('editTodoTitle')
   ,editModalFormNotes: getSetById('editTodoNotes')
   ,editModalFormDueDate: getSetById('editTodoDueDate')
+  ,editModalFormDone: getSetById('editTodoDone')
 
   ,btnDelete: getById('btnDelete')
   ,btnDeleteYes: getById('btnDeleteYes')
@@ -35,7 +38,7 @@ TodoPage.prototype.divMainContentClick = function(browser){
 
 function getSetById(id){
   return {get:function(){return element(by.id(id));}
-         ,set:function(val){ element(by.id(id)).sendKeyd(val);}
+         ,set:function(val){ element(by.id(id)).sendKeys(val);}
   };
 }
 

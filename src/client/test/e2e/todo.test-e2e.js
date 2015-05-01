@@ -7,7 +7,7 @@ var path = require('path');
 //var todoDAL = require('../../../server/data/todo.js');
 var Q = require('q');
 var mockDataProvider = require('./todo.data.mock.js')();
-
+var moment = require('moment');
 var TodoPage = require('./todo.page.js');
 
 var usersRootUri = 'localhost:3000/api/users';
@@ -91,6 +91,8 @@ var cssValue = function (element, prop) {
 describe('Todo Page', function(){
 
   var testData;
+
+
 
   beforeEach(function(done){
     testData = mockDataProvider.get();
@@ -276,11 +278,84 @@ describe('Todo Page', function(){
 
 
 
-  // it('should create a new todo item', function(){
-  //   page.addButton.click();
-  //   page.editModalFormTitle.sendKeys()
-  // });
-  //
+  fit('should create a new todo item', function(){
+
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    var titleText = 'Test New Todo';
+    var notesText = 'Remember to test me';
+    var dueDate = tomorrow;
+    var df = new moment(dueDate).format('MMM DD, YYYY h:mm A'); //MMM DD, YYYY h:mm A
+
+    page.addButton.click();
+    page.editModalFormTitle = titleText;
+    page.editModalFormNotes = notesText;
+
+    //page.editModalFormDueDate.click();
+    // console.log('setting date: ' + dueDate.toISOString());
+    // page.editModalFormDueDate = dueDate.toISOString();
+    page.editModalFormDueDate = '02/02/2002';
+//#todoEdit > div > div > div.modal-body > form > div:nth-child(4) > div > ul > li.collapse.in > div > div.datepicker-days > table > tbody > tr:nth-child(2) > td.day.active.weekend
+////*[@id="todoEdit"]/div/div/div[2]/form/div[4]/div/ul/li[1]/div/div[1]/table/tbody/tr[2]/td[1]
+
+    // element.all($('table.datepicker-years tbody span.year')).filter(function(el){
+    //   return el.getText() === dueDate.getFullYear().toString();
+    // })
+    // .first().click();
+    //
+    // element.all($('table.datepicker-years tbody span.year')).filter(function(el){
+    //   return el.getText() === dueDate.getFullYear().toString();
+    // })
+    // .first().click();
+
+//
+    page.editModalSubmitButton.click();
+    expect(page.todoList.count()).toEqual(1);
+
+    // // done
+    // var el = page.todoList.all(by.model('todo.done'));
+    // expect(el.count()).toEqual(1);
+    // expect(el.first().isSelected()).toBeFalsy();
+    //
+    // // title
+    // el = page.todoList.all(by.css('td.todo-title'));
+    // expect(el.count()).toEqual(1);
+    // expect(el.first().getText()).toEqual(titleText);
+    //
+    // // notes
+    // // $$ is just shortcut for .all(by.css('css'))
+    // el = page.todoList.first().$$('td').filter(function(item){
+    //   return item.getText().then(function(text){
+    //     return text === notesText;
+    //   });
+    // });
+    //
+    // expect(el.count()).toEqual(1);
+    // expect(el.get(0).getText()).toEqual(notesText);
+    //
+    // // due date
+    // el = page.todoList.$$('td.todo-duedate'); // not needed, just dbl checking
+    // expect(el.count()).toEqual(1);
+    //
+    // expect(el.first().getText()).toEqual('due in 23 hours');
+
+    // var df = new moment(dueDate).format('MM/dd/yyyy h:mm a');
+    // expect(el.first().getAttribute('title')).toEqual('Due on ' + df);
+
+    // .then(function(items){
+    //   expect(items.count()).toEqual(1);
+    //   done();
+    // },done);
+
+
+    // var done = page.todoList.all($('input[ng-model="todo.done"]')).get(0).isSelected();
+    // console.log('done: ' + JSON.stringify(done));
+    // expect(done).toBeTruthy();
+
+
+  });
+
   // xit('should show an edited todo item after editing', function(){
   //
   // });

@@ -75,8 +75,8 @@
               if(item.hasDueDate && !item.done){
 
                 item.dueMilliseconds = item.dueDateTime - now;
-                item.dueHours = Math.floor(item.dueMilliseconds/(1000*60*60));
-                item.dueDays = Math.floor(item.dueHours/24);
+                item.dueHours = Math.round(item.dueMilliseconds/(1000*60*60));
+                item.dueDays = Math.round(item.dueMilliseconds/(1000*60*60*24));
 
                 if(item.dueDays < 0){
                   item.dueMessage = (-1 * item.dueDays) + ' day' + plural(item.dueDays) + ' overdue';
