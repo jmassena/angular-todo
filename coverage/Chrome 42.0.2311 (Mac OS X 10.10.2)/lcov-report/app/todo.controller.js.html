@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app/todo.controller.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">app/todo.controller.js</span></h1>
+    <h2>
+        Statements: <span class="metric">80.83% <small>(97 / 120)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">65.85% <small>(27 / 41)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">73.91% <small>(17 / 23)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">80.83% <small>(97 / 120)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">app/</a> &#187; todo.controller.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">76</span>
+<span class="cline-any cline-yes">76</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">76</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-yes">19</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// public/ang/navbar.js
+&nbsp;
+/* jshint maxcomplexity: 9 */
+(function(angular) {
+  'use strict';
+&nbsp;
+  angular
+      .module('app')
+      .controller('TodoCtrl', TodoCtrl);
+&nbsp;
+      TodoCtrl.$inject = ['todoService', '$log'];
+      function TodoCtrl(todoService, $log){
+&nbsp;
+        var EDIT_MODES = {
+          EDIT: 'edit',
+          CREATE: 'create'
+        };
+&nbsp;
+        var userId = 777;  // hard coded for now
+&nbsp;
+        var vm = this;
+            // properties
+            vm.EDIT_MODES = EDIT_MODES;
+            vm.userId = userId;
+            vm.todos = todoService.todos;
+            vm.pageTitle = 'To-Do Page';
+            vm.selectedTodoId = null;
+            vm.errorMsg = null;
+            vm.editMode = null;
+            vm.formData = {title: null, notes: null, dueDateTime: null};
+            vm.resetFormFlag = false;
+&nbsp;
+            // functions
+            vm.getTodos = getTodos;
+            vm.createTodo = createTodo;
+&nbsp;
+            vm.updateDoneStatus = updateDoneStatus;
+            vm.deleteTodo = deleteTodo;
+            vm.submitTodo = submitTodo;
+            vm.clearForm = clearForm;
+            vm.truncate = truncate;
+            vm.dueDateOrderDesc = dueDateOrderDesc;
+            vm.setForEdit = setForEdit;
+&nbsp;
+            // should be private but for testing made public
+            vm.updateTodo = updateTodo;
+            vm.updateSelectedTodo = updateSelectedTodo;
+            vm.formValidateFlag = false;
+&nbsp;
+        getTodos();
+&nbsp;
+&nbsp;
+        function massageTodos(todos){
+&nbsp;
+          var now = new Date();
+          todos.forEach(function(item){
+&nbsp;
+              if(item.dueDateTime == null || !/\S/.test(item.dueDateTime)){
+                // TODO: Why am I so unsure of the values coming from database?
+                item.dueDateTime = null;
+              }
+              else{
+                var dt = new Date(item.dueDateTime);
+                <span class="missing-if-branch" title="if path not taken" >I</span>if(isNaN(dt.getTime())){
+<span class="cstat-no" title="statement not covered" >                  item.dueDateTime = null;</span>
+                }
+                else{
+                  item.dueDateTime = dt;
+                }
+              }
+&nbsp;
+              item.hasDueDate = (item.dueDateTime != null);
+              item.overdue = !item.done &amp;&amp; item.hasDueDate &amp;&amp; (item.dueDateTime &lt; now);
+&nbsp;
+              if(item.hasDueDate &amp;&amp; !item.done){
+&nbsp;
+                item.dueMilliseconds = item.dueDateTime - now;
+                item.dueHours = Math.round(item.dueMilliseconds/(1000*60*60));
+                item.dueDays = Math.round(item.dueMilliseconds/(1000*60*60*24));
+&nbsp;
+                if(item.dueDays &lt; 0){
+                  item.dueMessage = (-1 * item.dueDays) + ' day' + plural(item.dueDays) + ' overdue';
+                }
+                else <span class="missing-if-branch" title="if path not taken" >I</span>if(item.dueHours &lt; 0 ){
+<span class="cstat-no" title="statement not covered" >                  item.dueMessage = (-1 * item.dueHours) + ' hour' + plural(item.dueHours) + ' overdue';</span>
+                }
+                else <span class="missing-if-branch" title="else path not taken" >E</span>if(item.dueDays &gt; 0){
+                  item.dueMessage = item.dueDays + ' day' +  plural(item.dueDays);
+                }
+                else <span class="cstat-no" title="statement not covered" >if(item.dueHours &gt; 0){</span>
+<span class="cstat-no" title="statement not covered" >                  item.dueMessage = item.dueHours + ' hour' + plural(item.dueHours);</span>
+                }
+              }
+          });
+        }
+&nbsp;
+        function plural(val){
+          <span class="missing-if-branch" title="if path not taken" >I</span>if(Math.abs(val) &gt; 1){
+<span class="cstat-no" title="statement not covered" >            return 's';</span>
+          }
+          else{
+            return '';
+          }
+        }
+&nbsp;
+        function truncate(str, len){
+          <span class="missing-if-branch" title="else path not taken" >E</span>if(str &amp;&amp; str.length &gt; len){
+             return str.substring(0, len - 3) + '...';//'…';
+          }
+<span class="cstat-no" title="statement not covered" >          return str;</span>
+        }
+&nbsp;
+        function dueDateOrderDesc(todo){
+          return dateOrder(todo.dueDateTime);
+        }
+&nbsp;
+        function dateOrder(a){
+&nbsp;
+          if(a == null || a.length ===0 ){
+            // i think this is the max date
+            // +100,000,000 days relative to jan, 1970 UTC
+            var d = new Date(8640000000000000);
+            return d.getTime();
+          }
+          else {
+            return new Date(a).getTime();
+          }
+        }
+&nbsp;
+        function setForEdit(todo){
+          vm.editMode = EDIT_MODES.EDIT;
+          vm.selectedTodoId = todo._id;
+&nbsp;
+          vm.formData.title = todo.title;
+          vm.formData.notes = todo.notes;
+          vm.formData.done = todo.done;
+          vm.formData.dueDateTime = todo.dueDateTime;
+        }
+&nbsp;
+        function clearForm(){
+          // never clear actual form!! it will mess up validation.
+          vm.formData.title = '';
+          vm.formData.notes = '';
+          vm.formData.dueDateTime = '';
+          vm.formData.done = false;
+&nbsp;
+          vm.resetFormFlag = true;
+        }
+&nbsp;
+        // TODO: handle fail case by writing to modal dialog
+        function getTodos(){
+          todoService.getTodos(vm.userId)
+            .then(function(d){
+              vm.todos = d;
+              massageTodos(vm.todos);
+            });
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function submitTodo(){</span>
+<span class="cstat-no" title="statement not covered" >          if(vm.editMode === EDIT_MODES.CREATE){</span>
+<span class="cstat-no" title="statement not covered" >            createTodo();</span>
+          }
+          else <span class="cstat-no" title="statement not covered" >if(vm.editMode === EDIT_MODES.EDIT){</span>
+<span class="cstat-no" title="statement not covered" >            updateSelectedTodo();</span>
+          }
+        }
+&nbsp;
+        // TODO: handle fail case by writing to modal dialog
+<span class="fstat-no" title="function not covered" >        function createTodo(){</span>
+<span class="cstat-no" title="statement not covered" >          $log.info('creating todo with dueDate: ' + vm.formData.dueDateTime);</span>
+<span class="cstat-no" title="statement not covered" >          todoService.createTodo(vm.userId, vm.formData)</span>
+            .then(<span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >              clearForm();</span>
+<span class="cstat-no" title="statement not covered" >              getTodos();</span>
+            });
+        }
+&nbsp;
+        function getLocalTodoById(id){
+          var todos = vm.todos.filter(function(val){
+            return val._id === id;
+          });
+&nbsp;
+          <span class="missing-if-branch" title="else path not taken" >E</span>if(todos.length === 1){
+            return todos[0];
+          }
+          else{
+<span class="cstat-no" title="statement not covered" >            return null;</span>
+          }
+        }
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function updateDoneStatus(todoId){</span>
+<span class="cstat-no" title="statement not covered" >          var todo = getLocalTodoById(todoId);</span>
+<span class="cstat-no" title="statement not covered" >          updateTodo(todo);</span>
+        }
+&nbsp;
+        function updateSelectedTodo(){
+&nbsp;
+          var todo = getLocalTodoById(vm.selectedTodoId);
+          <span class="missing-if-branch" title="else path not taken" >E</span>if(todo){
+            todo = angular.copy(todo);
+            angular.extend(todo, vm.formData);
+            updateTodo(todo);
+          }
+        }
+&nbsp;
+        // TODO: handle fail case by writing to modal dialog
+        function updateTodo(todo){
+&nbsp;
+          <span class="missing-if-branch" title="if path not taken" >I</span>if(todo.dueDateTime === ''){
+<span class="cstat-no" title="statement not covered" >            todo.dueDateTime = null;</span>
+          }
+&nbsp;
+          todoService.updateTodo(vm.userId, todo)
+            .then(<span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >              clearForm();</span>
+<span class="cstat-no" title="statement not covered" >              vm.selectedTodoId = null;</span>
+<span class="cstat-no" title="statement not covered" >              getTodos();</span>
+            });
+        }
+&nbsp;
+        // TODO: handle fail case by writing to modal dialog
+        function deleteTodo(todoId){
+          todoService.deleteTodo(vm.userId, todoId)
+            .then(<span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >              vm.selectedTodoId = null;</span>
+<span class="cstat-no" title="statement not covered" >              getTodos();</span>
+            });
+        }
+      }
+&nbsp;
+})(this.angular);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat May 02 2015 10:59:16 GMT-0700 (PDT)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

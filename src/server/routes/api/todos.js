@@ -13,7 +13,7 @@ var Todo = require('./../../data/todo.js');
 router.get('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
-  console.log('get called');
+  // console.log('get called');
   var userId = req.params.userId;
 
   Todo.get({ userId: userId })
@@ -26,7 +26,7 @@ router.get('/users/:userId/todos', function(req, res, next) {
 router.post('/users/:userId/todos', function(req, res, next) {
   'use strict';
 
-console.log('posting data!!');
+// console.log('posting data!!');
 
   var userId = req.params.userId;
 
@@ -122,8 +122,9 @@ function onError(code, res){
     code = err.statusCode || code || 500;
     var msg = err.message || err;
 
+    // console.log('error response: ' + JSON.stringify(msg));
     return res.status(code)
-      .json(msg);
+      .json({message: msg});
   };
 }
 

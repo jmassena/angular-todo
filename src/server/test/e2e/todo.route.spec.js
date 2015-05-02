@@ -286,9 +286,9 @@ describe('Todo route', function(){
     .accept('json')
     .end(function(err, res){
       should.not.exist(err);
+      // console.log(res.body);
       should.exist(res.body);
-      should.exist(res.body.message);
-      res.body.message.should.equal('Todo not found with id ' + fakeTodoId + ' for user ' + todoData.userId2);
+       res.body.message.should.equal('Todo not found with id ' + fakeTodoId + ' for user ' + todoData.userId2);
       done();
     });
   });

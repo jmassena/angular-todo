@@ -67,7 +67,7 @@ module.exports =  (function(){
   }
 
   function add(userId, todo){
-    console.log('adding a todo!!');
+    // console.log('adding a todo!!');
     todo._id = null;
     todo.userId = userId;
     var newTodo = new TodoModel(todo);
@@ -82,7 +82,7 @@ module.exports =  (function(){
 
         if(!data){
 
-          // console.log('delete item not found');
+          console.log('delete item not found');
 
           var error = new Error();
           error.message = 'Todo not found with id ' + todoId + ' for user ' + userId;

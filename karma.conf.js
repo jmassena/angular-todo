@@ -27,7 +27,6 @@ module.exports = function(config) {
       './bower_components/moment/moment.js',
       // I modified the official directive to set picker value from ng-model instead of
       // only setting model from directive
-      //'./bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
       './src/client/lib/angular/angular-bootstrap-datetimepicker-directive.js',
       './bower_components/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js',
       './bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
@@ -50,14 +49,19 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      // include only source you want to cover, not test files
+      './src/client/app/**/*.js': ['coverage']
     },
 
-
+    coverageReporter: {
+      type : 'lcov',
+      dir : 'coverage/'
+    },
     // test results reporter to use
     // possible values: 'dots', 'progress', 'spec'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     //reporters: ['spec'],
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
     //plugins: ['karma-chrome-launcher', 'karma-jasmine', 'karma-spec-reporter'],
 
