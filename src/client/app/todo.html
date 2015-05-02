@@ -17,7 +17,9 @@
         <td class="todo-title" title="{{todo.title}}">{{vm.truncate(todo.title, 175)}}</td>
         <td class="todo-notes" title="{{todo.notes}}">{{vm.truncate(todo.notes, 100)}}</td>
         <td class="todo-duedate" title="{{(!todo.done && todo.hasDueDate)?('Due on ' + (todo.dueDateTime | date:'MM/dd/yyyy')):''}}">
-          {{(!todo.done && todo.hasDueDate)?todo.dueMessage:''}}</td>
+          {{(!todo.done && todo.hasDueDate)?todo.dueMessage:''}}
+          <!-- <div>{{todo.createdDateTime}}</div> -->
+          </td>
 
         <td>
           <a class="list-action action-edit" ng-click="vm.setForEdit(todo)" data-toggle="modal"
