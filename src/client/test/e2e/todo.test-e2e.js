@@ -4,11 +4,10 @@
 
 /* jshint maxcomplexity:10 */
 var path = require('path');
-//var todoDAL = require('../../../server/data/todo.js');
 var Q = require('q');
-var mockDataProvider = require('./todo.data.mock.js')();
 var moment = require('moment');
 var TodoPage = require('./todo.page.js');
+var request = require('superagent');
 
 var usersRootUri = 'localhost:3000/api/users';
 
@@ -26,9 +25,6 @@ var urlHelper = {
     return path.join(usersRootUri, userId.toString(), 'todos', todoId.toString());
   }
 };
-
-
-var request = require('superagent');
 
 function appGet(userId, done){
 
@@ -76,35 +72,102 @@ function addTestItems(todos){
   });
 }
 
-var hasClass = function (element, cls) {
+function hasClass(element, cls) {
     return element.getAttribute('class').then(function (classes) {
         return classes.split(' ').indexOf(cls) !== -1;
     });
-};
+}
 
-var cssValue = function (element, prop) {
+function cssValue(element, prop) {
     return element.getCssValue(prop).then(function (cssPropValue) {
         return cssPropValue;
     });
-};
+}
+
+function dueDateTitleCreate(dt){
+  if(dt == null){return null;}
+
+  return 'Due on ' + moment(dt).format('MM/DD/YYYY');
+}
+
+function dueMessage(dueDateTime){
+  var dueString;
+
+  if(dueDateTime == null){return null;}
+
+  dueDateTime.setHours(0,0,0,0);
+
+  var hours = Math.round((dueDateTime - new Date())/(1000*60*60));
+  var days = Math.round((dueDateTime - new Date())/(1000*60*60*24));
+  var plural = '';
+  if(hours >= 0){
+    if(days > 0){
+      dueString = days + ' day' + (days>1?'s':'');
+    }
+    else{
+      dueString = hours + ' hour' + (hours>1?'s':'');
+    }
+  }
+  else{
+    hours*=-1;
+    days*=-1;
+    if(days > 0){
+      dueString = days + ' day' + (days>1?'s':'') + ' overdue';
+    }
+    else{
+      dueString = hours + ' hour' + (hours>1?'s':'') + ' overdue';
+    }
+  }
+
+  return dueString;
+}
+
+function formatDateForInput(dt){
+  if(dt == null){return null;}
+
+  var ret = moment(dt).format('MMDDYYYY');
+  return ret;
+}
+
+function createTestTodoObject(title, notes, dueDaysFromNow){
+  var todo = {};
+  if(dueDaysFromNow != null){
+    todo.dueDateTime = new Date();
+    todo.dueDateTime.setDate(todo.dueDateTime.getDate() + dueDaysFromNow);
+    todo.dueDateTime.setHours(0,0,0,0);
+  }
+
+  todo.title = title;
+  todo.notes = notes;
+
+  return todo;
+}
+
+function uiSubmitTestTodo(page, todo){
+
+  if(!todo){
+    todo = createTestTodoObject('Test New Todo', 'Remember to test me', 1);
+  }
+
+  page.addButton.click();
+  page.editModalFormTitle = todo.title;
+  page.editModalFormNotes = todo.notes;
+  page.editModalFormDueDate = formatDateForInput(todo.dueDateTime);
+  page.editModalSubmitButton.click();
+
+  return todo;
+}
+
 /* Testing todo page functionality */
 describe('Todo Page', function(){
 
-  var testData;
   var page;
   var dbItems = [];
-
-  beforeEach(function(done){
-    testData = mockDataProvider.get();
-    expect(testData).toBeDefined();
-    expect(testData.todoList).toBeDefined();
-    expect(testData.todoList.length).toBeGreaterThan(0);
-    done();
-  });
+  var testUserId = 777;
 
   // get existing items
   beforeEach(function (done) {
-    appGet(testData.userId2)
+    appGet(testUserId)
     .then(function(res){
       dbItems = res.body;
       done();
@@ -126,7 +189,7 @@ describe('Todo Page', function(){
   });
   // verify delete
   beforeEach(function (done) {
-    appGet(testData.userId2)
+    appGet(testUserId)
     .then(function(res){
       expect(res.body).toBeDefined();
       dbItems = res.body;
@@ -137,23 +200,6 @@ describe('Todo Page', function(){
       expect(err).not.toBeDefined();
       done();
     });
-  });
-  // add test data items
-  beforeEach(function (done) {
-    // expect(dbItems.length).toEqual(0);
-    // var todo = testData.todoList[4];
-    // todo._id = null;
-    //
-    // var promises = testData.todoList.map(function(item){
-    //   item._id = null;
-    //   return appCreate(item.userId, item);
-    // });
-    //
-    // Q.all(promises)
-    // .then(function(){
-    //   done();
-    // },done);
-    done();
   });
 
   beforeEach(function () {
@@ -276,91 +322,6 @@ describe('Todo Page', function(){
     expect(pageTodo.dueDateTitle).toEqual(dueDateTitleCreate(todo.dueDateTime));
   });
 
-  var hasClass = function (element, cls) {
-      return element.getAttribute('class').then(function (classes) {
-          return classes.split(' ').indexOf(cls) !== -1;
-      });
-  };
-
-  function dueDateTitleCreate(dt){
-    if(dt == null){return null;}
-
-    return 'Due on ' + moment(dt).format('MM/DD/YYYY');
-  }
-
-  function dueMessage(dueDateTime){
-    var dueString;
-
-    if(dueDateTime == null){return null;}
-
-    dueDateTime.setHours(0,0,0,0);
-
-    var hours = Math.round((dueDateTime - new Date())/(1000*60*60));
-    var days = Math.round((dueDateTime - new Date())/(1000*60*60*24));
-    var plural = '';
-    if(hours >= 0){
-      if(days > 0){
-        dueString = days + ' day' + (days>1?'s':'');
-      }
-      else{
-        dueString = hours + ' hour' + (hours>1?'s':'');
-      }
-    }
-    else{
-      hours*=-1;
-      days*=-1;
-      if(days > 0){
-        dueString = days + ' day' + (days>1?'s':'') + ' overdue';
-      }
-      else{
-        dueString = hours + ' hour' + (hours>1?'s':'') + ' overdue';
-      }
-    }
-
-    return dueString;
-  }
-
-  function formatDateForInput(dt){
-    if(dt == null){return null;}
-
-    var ret = moment(dt).format('MMDDYYYY');
-    // console.log('input date: ' + ret);
-    return ret;
-  }
-
-  function createTestTodoObject(title, notes, dueDaysFromNow){
-    var todo = {};
-    if(dueDaysFromNow != null){
-      todo.dueDateTime = new Date();
-      todo.dueDateTime.setDate(todo.dueDateTime.getDate() + dueDaysFromNow);
-      todo.dueDateTime.setHours(0,0,0,0);
-    }
-    // else{
-    //   // console.log('skipping due date: ' + title);
-    // }
-
-    todo.title = title;
-    todo.notes = notes;
-
-    return todo;
-  }
-
-  function uiSubmitTestTodo(page, todo){
-
-    if(!todo){
-      todo = createTestTodoObject('Test New Todo', 'Remember to test me', 1);
-    }
-
-    page.addButton.click();
-    page.editModalFormTitle = todo.title;
-    page.editModalFormNotes = todo.notes;
-
-    page.editModalFormDueDate = formatDateForInput(todo.dueDateTime);
-
-    page.editModalSubmitButton.click();
-
-    return todo;
-  }
 
   // todoList
   // addButton
@@ -489,7 +450,6 @@ describe('Todo Page', function(){
     expect(todoRow.done.isSelected()).not.toBeFalsy();
   });
 
-
   it('should not show due time of done not-overdue todo', function(){
     // create test todo which is due tomorrow
     var todo = uiSubmitTestTodo(page);
@@ -524,7 +484,6 @@ describe('Todo Page', function(){
     todoRow = page.todoGetByIndex(0);
     expect(todoRow.dueDateTime).toEqual('');
   });
-
 
   it('should change done status when checking row checkbox', function(){
     var todo = uiSubmitTestTodo(page);
@@ -635,21 +594,5 @@ describe('Todo Page', function(){
 
 
   });
-
-  xit('select date with date picker?', function(){
-
-  });
-
-
-
-  // xit('delete module "yes" button should dismiss delete modal and delete the todo item', function(){
-  //   var todo = uiSubmitTestTodo();
-  //   expect(page.todoList.count()).toEqual(1);
-  //
-  //   var todoRow = page.todoGetByIndex(0);
-  //   todoRow.delete.click();
-  //   expect(todoRow.deleteModal.isDisplayed()).toBeTruthy();
-  // });
-
 
 });
