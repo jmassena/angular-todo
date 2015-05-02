@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="todo in vm.todos| orderBy: ['done', vm.dueDateOrderDesc, '-createdDateTime']"
-          ng-class="{overdue: todo.overdue, dueSoon: (todo.dueHours >= 0 && todo.dueHours <= 24), 'text-muted': todo.done}" >
+          ng-class="{overdue: todo.overdue, underdue: (todo.dueHours >= 0 && todo.dueHours <= 24), 'text-muted': todo.done}" >
         <td><input type="checkbox" ng-model="todo.done" ng-change="vm.updateDoneStatus(todo._id)"  /></td>
         <td class="todo-title" title="{{todo.title}}">{{vm.truncate(todo.title, 175)}}</td>
         <td class="todo-notes" title="{{todo.notes}}">{{vm.truncate(todo.notes, 100)}}</td>

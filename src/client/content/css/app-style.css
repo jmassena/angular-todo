@@ -36,8 +36,8 @@ table>tbody>tr:nth-of-type(even).overdue{
   background-color:rgb(255, 220, 220);
 }
 
-table>tbody>tr:nth-of-type(odd).dueSoon,
-table>tbody>tr:nth-of-type(even).dueSoon{
+table>tbody>tr:nth-of-type(odd).underdue,
+table>tbody>tr:nth-of-type(even).underdue{
   background-color:rgb(255, 255, 220);
 }
 

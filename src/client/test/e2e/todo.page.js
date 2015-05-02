@@ -49,7 +49,7 @@ function TodoCells(p, i){
 TodoCells.prototype = Object.create({}, {
 
   row: {get: function(){return this.parent.todoList.get(this.idx);}}
-  ,done: {get:function(){return this.row.all(by.model('todo.done')).first().isSelected();}}
+  ,done: {get:function(){return this.row.all(by.model('todo.done')).first();}}
   ,title: {get:function(){return this.row.all(by.css('.todo-title')).first().getText();}}
   ,notes: {get:function(){return this.row.all(by.css('.todo-notes')).first().getText();}}
   ,dueDateTime: {get:function(){return this.row.all(by.css('.todo-duedate')).first().getText();}}

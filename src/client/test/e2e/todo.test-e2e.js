@@ -264,7 +264,7 @@ describe('Todo Page', function(){
 
   it('should create a new todo item', function(){
 
-    var todo = createTestTodo();
+    var todo = submitTestTodo();
     expect(page.todoList.count()).toEqual(1);
 
     var pageTodo = page.todoGetByIndex(0);
@@ -275,6 +275,12 @@ describe('Todo Page', function(){
     expect(pageTodo.dueDateTime).toMatch(dueMessage(todo.dueDateTime));
     expect(pageTodo.dueDateTitle).toEqual(dueDateTitleCreate(todo.dueDateTime));
   });
+
+  var hasClass = function (element, cls) {
+      return element.getAttribute('class').then(function (classes) {
+          return classes.split(' ').indexOf(cls) !== -1;
+      });
+  };
 
   function dueDateTitleCreate(dt){
     if(dt == null){return null;}
@@ -316,16 +322,24 @@ describe('Todo Page', function(){
     return moment(dt).format('MMDDYYYY');
   }
 
-  function createTestTodo(todo){
+  function createTestTodo(title, notes, dueDaysFromNow){
+    var todo = {};
+    if(dueDaysFromNow != null){
+      todo.dueDateTime = new Date();
+      todo.dueDateTime.setDate(todo.dueDateTime.getDate() + dueDaysFromNow);
+      todo.dueDateTime.setHours(0,0,0,0);
+    }
+
+    todo.title = title;
+    todo.notes = notes;
+
+    return todo;
+  }
+
+  function submitTestTodo(todo){
 
     if(!todo){
-      // create todo if none supplied
-      todo = {};
-      todo.dueDateTime = new Date();
-      todo.dueDateTime.setDate(todo.dueDateTime.getDate() + 1);
-      todo.dueDateTime.setHours(0,0,0,0);
-      todo.title = 'Test New Todo';
-      todo.notes = 'Remember to test me';
+      todo = createTestTodo('Test New Todo', 'Remember to test me', 1);
     }
 
     page.addButton.click();
@@ -361,7 +375,7 @@ describe('Todo Page', function(){
   // ,deleteNo
 
   it('row edit button should show edit modal', function(){
-    var todo = createTestTodo();
+    var todo = submitTestTodo();
     expect(page.todoList.count()).toEqual(1);
 
     var todoRow = page.todoGetByIndex(0);
@@ -370,7 +384,7 @@ describe('Todo Page', function(){
   });
 
   it('row delete button should show delete modal', function(){
-    var todo = createTestTodo();
+    var todo = submitTestTodo();
     expect(page.todoList.count()).toEqual(1);
 
     var todoRow = page.todoGetByIndex(0);
@@ -379,7 +393,7 @@ describe('Todo Page', function(){
   });
 
   it('delete module "no" button should dismiss delete modal', function(){
-    var todo = createTestTodo();
+    var todo = submitTestTodo();
     expect(page.todoList.count()).toEqual(1);
 
     var todoRow = page.todoGetByIndex(0);
@@ -392,7 +406,7 @@ describe('Todo Page', function(){
   });
 
   it('delete module "yes" button should dismiss delete modal and delete the todo item', function(){
-    var todo = createTestTodo();
+    var todo = submitTestTodo();
     expect(page.todoList.count()).toEqual(1);
 
     var todoRow = page.todoGetByIndex(0);
@@ -407,7 +421,7 @@ describe('Todo Page', function(){
 
   it('should show changes after editing', function(){
     // create test todo
-    var todo = createTestTodo();
+    var todo = submitTestTodo();
     expect(page.todoList.count()).toEqual(1);
 
     // get new todo row and click edit button
@@ -444,18 +458,133 @@ describe('Todo Page', function(){
 
   });
 
+  it('should change done status in edit popup', function(){
+    // create test todo
+    var todo = submitTestTodo();
+    expect(page.todoList.count()).toEqual(1);
+
+    // get new todo row and click edit button
+    var todoRow = page.todoGetByIndex(0);
+    expect(todoRow.done.isSelected()).toBeFalsy();
+
+    todoRow.edit.click();
+    expect(page.editModal.isDisplayed()).toBeTruthy();
+    expect(page.editModalFormDone.isSelected()).toBeFalsy();
+
+    page.editModalFormDone.click();
+    page.editModalSubmitButton.click();
+
+    // get edited todo row
+    todoRow = page.todoGetByIndex(0);
+    // validate edits are displayed
+    expect(todoRow.done.isSelected()).not.toBeFalsy();
+  });
+
+
+  it('should not show due time of done not-overdue todo', function(){
+    // create test todo which is due tomorrow
+    var todo = submitTestTodo();
+    expect(page.todoList.count()).toEqual(1);
+
+    // get new todo row and click edit button
+    var todoRow = page.todoGetByIndex(0);
+    expect(todoRow.done.isSelected()).toBeFalsy();
+    expect(todoRow.dueDateTime).not.toEqual('');
+    todoRow.done.click();
+
+    todoRow = page.todoGetByIndex(0);
+    expect(todoRow.dueDateTime).toEqual('');
+
+  });
+
+  it('should not show due time of done overdue todo', function(){
+
+    var todo = createTestTodo('test 1', '', -1);
+    todo = submitTestTodo(todo);
+    expect(page.todoList.count()).toEqual(1);
+
+    // check that new todo has due text and is overdue
+    var todoRow = page.todoGetByIndex(0);
+    expect(todoRow.done.isSelected()).toBeFalsy();
+    expect(todoRow.dueDateTime).toMatch('overdue');
+
+    // set done: true
+    todoRow.done.click();
+
+    // due cell should be blank
+    todoRow = page.todoGetByIndex(0);
+    expect(todoRow.dueDateTime).toEqual('');
+  });
+
+
   it('should change done status when checking row checkbox', function(){
-    var todo = createTestTodo();
+    var todo = submitTestTodo();
     expect(page.todoList.count()).toEqual(1);
 
     var todoRow = page.todoGetByIndex(0);
     expect(todoRow.done.isSelected()).toBeFalsy();
     todoRow.done.click();
     expect(todoRow.done.isSelected()).not.toBeFalsy();
+    todoRow.done.click();
+    expect(todoRow.done.isSelected()).toBeFalsy();
   });
 
+  it('should show yellow background for not done, not overdue items with a due date', function(){
+    // default todo is underdue (due tomorrow)
+    var todo = submitTestTodo();
+    expect(page.todoList.count()).toEqual(1);
+    expect(hasClass(page.todoList.get(0),'underdue')).toBeTruthy();
+
+  });
+
+  it('should show red background for not done, overdue items with a due date', function(){
+
+    // one day overdue
+    var todo = createTestTodo('test 1', '', -1);
+    todo = submitTestTodo(todo);
+    expect(page.todoList.count()).toEqual(1);
+    expect(hasClass(page.todoList.get(0),'overdue')).toBeTruthy();
+
+  });
+
+  xit('should sort items by done status asc, then due date asc (none==max date)', function(){
+
+    var todo = createTestTodo('done,overdue', '', -1);
+    todo = submitTestTodo(todo);
+    // find todo and mark it as done
+    page.todoList.each(function(elem){
+      return elem.getText().then(function(text){
+        if(text === 'done,overdue'){
+          elem 
+        }
+      });
+    })
+
+    var todo = createTestTodo('done,underdue', '', 1);
+    todo = submitTestTodo(todo);
+
+    var todo = createTestTodo('not-done,overdue', '', -1);
+    todo = submitTestTodo(todo);
+
+    var todo = createTestTodo('not-done,underdue', '', 1);
+    todo = submitTestTodo(todo);
+
+    var todo = createTestTodo('not-done,notdue', '', null);
+    todo = submitTestTodo(todo);
+
+    var todo = createTestTodo('done,notdue', '', null);
+    todo = submitTestTodo(todo);
+
+  });
+
+  xit('select date with date picker?', function(){
+
+  });
+
+
+
   // xit('delete module "yes" button should dismiss delete modal and delete the todo item', function(){
-  //   var todo = createTestTodo();
+  //   var todo = submitTestTodo();
   //   expect(page.todoList.count()).toEqual(1);
   //
   //   var todoRow = page.todoGetByIndex(0);
