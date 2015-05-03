@@ -2,12 +2,12 @@
 
 // /Users/justin/Documents/Dev/Ang/Todo/todo/protractor-conf.js
 exports.config = {
-  
+
   allScriptsTimeout: 11000
 
   ,specs: [
     'src/client/test/e2e/*.test-e2e.js'
-    ,{ pattern: 'src/client/test/data/todo.data.mock.js', included: false }
+    // ,{ pattern: 'src/client/test/data/todo.data.mock.js', included: false }
   ]
 
   ,capabilities: {
@@ -20,11 +20,11 @@ exports.config = {
 
   ,framework: 'jasmine2'
 
-  ,onPrepare: function() {
-     var SpecReporter = require('jasmine-spec-reporter');
-     // add jasmine spec reporter
-     jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: true}));
-  }
+  // ,onPrepare: function() {
+  //    var SpecReporter = require('jasmine-spec-reporter');
+  //    // add jasmine spec reporter
+  //    jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: true}));
+  // }
 
   ,jasmineNodeOpts: {
     defaultTimeoutInterval: 10000,

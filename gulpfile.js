@@ -19,27 +19,24 @@ var filePaths = {
 
 // jshint
 gulp.task('jshint-run', function(){
-  gutil.log('jshint completed');
-
-  return gulp.src(filePaths.appJS)
+  return gulp.src('public/ang/**/*.js')
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('jshint-watch', function(){
-  gulp.watch(filePaths.appJS, ['jshint-run']);
-});
+// gulp.task('jshint-watch', function(){
+//   gulp.watch(filePaths.appJS, ['jshint-run']);
+// });
 
 
 // karma
-gulp.task('karma-run', function (done) {
-
+gulp.task('karma-run', ['jshint-run'], function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js'
   }, done);
 });
 
-gulp.task('protractor-run', function(){
+gulp.task('protractor-run', ['jshint-run'], function(){
   return gulp.src([filePaths.e2eTestJS])
     .pipe(protractor({
       'configFile': 'protractor.conf.js'
@@ -54,14 +51,14 @@ gulp.task('protractor-watch', function(){
             , 'src/client/**/*.html'
             , 'src/client/**/*.css'
             ,'./protractor.conf.js']
-  , ['protractor-run']);
+  , ['protractor-run', 'karma-run', 'jshint-run']);
 });
 
 
-// create a default task and just log a message
-gulp.task('running-log', function() {
-  gutil.log('Gulp is running!');
-});
+// // create a default task and just log a message
+// gulp.task('running-log', function() {
+//   gutil.log('Gulp is running!');
+// });
 
 
 gulp.task('default', [
@@ -69,7 +66,5 @@ gulp.task('default', [
   'karma-run',
   'protractor-run',
 
-  'jshint-watch',
-  'protractor-watch',
-
-  'running-log']);
+  //'jshint-watch',
+  'protractor-watch']);
