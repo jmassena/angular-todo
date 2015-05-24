@@ -4,38 +4,40 @@
     <thead>
       <tr>
         <th>Done</th>
-        <th >Title</th>
+        <th>Title</th>
         <th>Notes</th>
         <th>Due</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="todo in vm.todos| orderBy: ['done', vm.dueDateOrderDesc, '-createdDateTime']"
-          ng-class="{overdue: todo.overdue, underdue: (todo.dueHours >= 0 && todo.dueHours <= 24), 'text-muted': todo.done}" >
-        <td><input type="checkbox" ng-model="todo.done" ng-change="vm.updateDoneStatus(todo._id)"  /></td>
+      <tr ng-repeat="todo in vm.todos| orderBy: ['done', vm.dueDateOrderDesc, '-createdDateTime']" ng-class="{overdue: todo.overdue, underdue: (todo.dueHours >= 0 && todo.dueHours <= 24), 'text-muted': todo.done}">
+        <td>
+          <input type="checkbox" ng-model="todo.done" ng-change="vm.updateDoneStatus(todo._id)" />
+        </td>
         <td class="todo-title" title="{{todo.title}}">{{vm.truncate(todo.title, 175)}}</td>
         <td class="todo-notes" title="{{todo.notes}}">{{vm.truncate(todo.notes, 100)}}</td>
         <td class="todo-duedate" title="{{(!todo.done && todo.hasDueDate)?('Due on ' + (todo.dueDateTime | date:'MM/dd/yyyy')):''}}">
           {{(!todo.done && todo.hasDueDate)?todo.dueMessage:''}}
           <!-- <div>{{todo.createdDateTime}}</div> -->
-          </td>
+        </td>
 
         <td>
-          <a class="list-action action-edit" ng-click="vm.setForEdit(todo)" data-toggle="modal"
-          data-target="#todoEdit" href="">
+          <a class="list-action action-edit" ng-click="vm.setForEdit(todo)" data-toggle="modal" data-target="#todoEdit" href="">
             <span class="glyphicon glyphicon-pencil color-edit"></span>
           </a>
 
-          <div class="btn-group delete-confirm" >
+          <div class="btn-group delete-confirm">
             <a class="list-action dropdown-toggle action-delete" data-toggle="dropdown" href="" id="btnDelete">
               <span class="glyphicon glyphicon-remove color-delete"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right delete-modal">
-              <li><span class="confirm-message">Delete?<span><br/>
-                  <button type="button" class="btn btn-default action-delete-no" id="btnDeleteNo">No</button>
-                  <button type="button" class="btn btn-danger action-delete-yes" ng-click="vm.deleteTodo(todo._id)"
-                  id="btnDeleteYes">Yes</button>
+              <li>
+                <span class="confirm-message">Delete?
+                  <span>
+                    <br/>
+                    <button type="button" class="btn btn-default action-delete-no" id="btnDeleteNo">No</button>
+                    <button type="button" class="btn btn-danger action-delete-yes" ng-click="vm.deleteTodo(todo._id)" id="btnDeleteYes">Yes</button>
               </li>
             </ul>
           </div>
@@ -46,98 +48,86 @@
     </tbody>
   </table>
 
+  <button type="button" class="btn btn-primary" id='btnAdd' ng-click="vm.resetFormFlag=true;vm.editMode='create'" data-target="#todoEdit" data-toggle="modal">Add</button>
 
+  <!-- Create/Edit dialog -->
+  <div class="modal" id="todoEdit">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">{{vm.editMode=='edit'?'Edit':'Create'}}</h4>
+        </div>
 
-  <button type="button" class="btn btn-primary" id='btnAdd'
-    ng-click="vm.resetFormFlag=true;vm.editMode='create'"
-    data-target="#todoEdit" data-toggle="modal" >Add</button>
+        <div class="modal-body">
 
-    <!-- Create/Edit dialog -->
-    <div class="modal" id="todoEdit" >
-      <div class="modal-dialog" >
-        <div class="modal-content">
+          <!-- form -->
+          <form name="vm.todoForm" class="validated-form" reset-form-validation="vm.resetFormFlag" scope="vm" novalidate>
 
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-            <h4 class="modal-title">{{vm.editMode=='edit'?'Edit':'Create'}}</h4>
-          </div>
-
-          <div class="modal-body">
-
-
-            <!-- form -->
-            <form name="vm.todoForm" class="validated-form"
-                reset-form-validation="vm.resetFormFlag" scope="vm" novalidate>
-
-              <!-- Title -->
-              <div class="form-group">
-                <label class="control-label" for="editTodoTitle">Title</label>
-                <input type="text" class="form-control" id="editTodoTitle" name="title"
-                ng-model="vm.formData.title" placeholder="title is required" required/>
-                <br />
-                <!-- <div class="form-error-text" ng-show="vm.todoForm.title.$touched">
+            <!-- Title -->
+            <div class="form-group">
+              <label class="control-label" for="editTodoTitle">Title</label>
+              <input type="text" class="form-control" id="editTodoTitle" name="title" ng-model="vm.formData.title" placeholder="title is required" required/>
+              <br />
+              <!-- <div class="form-error-text" ng-show="vm.todoForm.title.$touched">
                   <span ng-show="vm.todoForm.title.$error.required">title is required</span>
                 </div> -->
-                <!-- <span>$pristine: {{vm.todoForm.title.$pristine}}</span><br/>
+              <!-- <span>$pristine: {{vm.todoForm.title.$pristine}}</span><br/>
                 <span>$touched: {{vm.todoForm.title.$touched}}</span><br/>
                 <span>$error.required: {{vm.todoForm.title.$error.required}}</span> -->
-              </div>
+            </div>
 
-              <!-- Notes -->
-              <div class="form-group " >
-                <label class="control-label" for="editTodoNotes" >Notes</label>
-                <input type="text" class="form-control col-lg-1" name="notes"  id="editTodoNotes"
-                  ng-model="vm.formData.notes" />
-              </div>
+            <!-- Notes -->
+            <div class="form-group ">
+              <label class="control-label" for="editTodoNotes">Notes</label>
+              <input type="text" class="form-control col-lg-1" name="notes" id="editTodoNotes" ng-model="vm.formData.notes" />
+            </div>
 
-              <!-- Completed -->
-              <div class="form-group" ng-show="vm.editMode=='edit'">
-                <label class="control-label" for="editTodoDone" >Done</label>
-                <input type="checkbox" class="form-control" name="done"  id="editTodoDone"
-                  ng-model="vm.formData.done" />
-              </div>
+            <!-- Completed -->
+            <div class="form-group" ng-show="vm.editMode=='edit'">
+              <label class="control-label" for="editTodoDone">Done</label>
+              <input type="checkbox" class="form-control" name="done" id="editTodoDone" ng-model="vm.formData.done" />
+            </div>
 
-              <!-- Due Date -->
-              <div class="form-group" >
-                <label class="control-label" for="editTodoDueDate" >Due</label>
-                <!-- <input type='text' class="form-control" name="dueDateTime" id="editTodoDueDate"
+            <!-- Due Date -->
+            <div class="form-group">
+              <label class="control-label" for="editTodoDueDate">Due</label>
+              <!-- <input type='text' class="form-control" name="dueDateTime" id="editTodoDueDate"
                   placeholder="mm/dd/yyyy (optional hour + am/pm i.e. 6 pm)"
                   ng-model-options="{updateOn: 'blur'}"
                   ng-model="vm.formData.dueDateTime"
                   datetimepicker
                   datetimepicker-options="{showClose:true, sideBySide:false, showClear:true, showTodayButton:true, format:'MM/DD/YYYY ha'}" /> -->
 
-                  <!-- TODO: generate min/max dynamically through directive -->
-                  <input type='date' class="form-control" name="dueDateTime" id="editTodoDueDate" min="2015-01-01" max="2017-01-01"
-                    ng-model="vm.formData.dueDateTime"
-                    />
-              </div>
+              <!-- TODO: generate min/max dynamically through directive -->
+              <input type='date' class="form-control" name="dueDateTime" id="editTodoDueDate" min="2015-01-01" max="2017-01-01" ng-model="vm.formData.dueDateTime" />
+            </div>
 
-              <!-- <div>Due: {{vm.formData.dueDateTime | date:'MM/dd/yyyy h:mm a'}}</div> -->
+            <!-- <div>Due: {{vm.formData.dueDateTime | date:'MM/dd/yyyy h:mm a'}}</div> -->
 
-              <!-- Buttons -->
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"
-                ng-click="vm.clearForm();vm.selectedTodoId=null">Cancel</button>
-                <button type="submit" ng-disabled="vm.todoForm.$invalid"  data-dismiss="modal"
-                ng-click="vm.submitTodo()"  class="btn btn-success">Submit</button>
-              </div>
+            <!-- Buttons -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="vm.clearForm();vm.selectedTodoId=null">Cancel</button>
+              <button type="submit" ng-disabled="vm.todoForm.$invalid" data-dismiss="modal" ng-click="vm.submitTodo()" class="btn btn-success">Submit</button>
+            </div>
 
-            </form>
-          </div>
+          </form>
+        </div>
 
-      </div> <!-- content -->
-    </div>  <!-- dialog -->
-  </div>  <!--modal -->
-
+      </div>
+      <!-- content -->
+    </div>
+    <!-- dialog -->
+  </div>
+  <!--modal -->
 
   <script>
-  $('#todoEdit').on('shown.bs.modal', function () {
+    $('#todoEdit').on('shown.bs.modal', function() {
       $('#editTodoTitle').focus();
-  })
+    })
   </script>
 
 </div>

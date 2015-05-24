@@ -1,6 +1,6 @@
 // public/ang/navbar.filters.js
 
-(function(angular){
+(function (angular) {
 
   // angular.model('app')
   //   .filter('navDataDropdown', navDataDropdown);

@@ -41,7 +41,7 @@ app.use(cookieParser());
 require('./routes/routes.js')(app);
 
 app.use('/', express.static('./src/client'));
-app.use('/', express.static('./'));
+// app.use('/', express.static('./'));
 
 console.log('About to crank up node');
 console.log('PORT: ' + port);

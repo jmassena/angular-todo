@@ -1,12 +1,11 @@
-
-module.exports = function(){
+module.exports = function () {
   'use strict';
 
-  return{
+  return {
     addDays: addDays
   };
 
-  function addDays(date, days){
+  function addDays(date, days) {
 
     var newDate = new Date(date);
     newDate.setDate(newDate.getDate + days);

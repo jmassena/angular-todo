@@ -7,7 +7,8 @@
     <button type="button" data-target="#navbar-collapse" data-toggle="collapse" class="navbar-toggle">
       <span class="sr-only">Toggle navigation</span>
       <!-- I think these are where the collapsed items will be placed -->
-      <span ng-repeat="tab in vm.tabs" class="icon-bar"><span>
+      <span ng-repeat="tab in vm.tabs" class="icon-bar">
+        <span>
     </button>
     <a ui-sref="{{vm.brand.sref}}" class="navbar-brand">{{vm.brand.text}}</a>
   </div>
@@ -24,13 +25,12 @@
           {{ddTab.text}} <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li ng-repeat="menuItem in ddTab.items"
-            ng-class="{'dropdown-header': menuItem.type=='header', divider: menuItem.type=='divider'}">
+          <li ng-repeat="menuItem in ddTab.items" ng-class="{'dropdown-header': menuItem.type=='header', divider: menuItem.type=='divider'}">
             {{(menuItem.type!='link')?menuItem.text:''}}
             <a ng-if="menuItem.type=='link'" href="{{menuItem.href||''}}">{{menuItem.text}}</a>
           </li>
-        <ul>
+          <ul>
       </li>
-    </ul>
+      </ul>
   </div>
 </nav>

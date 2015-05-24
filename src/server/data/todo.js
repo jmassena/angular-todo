@@ -1,5 +1,4 @@
-
-module.exports =  (function(){
+module.exports = (function () {
   'use strict';
 
   var mongoose = require('mongoose');
@@ -10,42 +9,43 @@ module.exports =  (function(){
   // which gives an error
   var TodoModel;
 
-  if (mongoose.models.Todo) {
+  if(mongoose.models.Todo) {
 
     // console.log('Using existing todo model');
     TodoModel = mongoose.model('Todo');
-  }
-  else {
+  } else {
 
     // console.log('Creating new todo model');
     var TodoSchema = new mongoose.Schema({
-        userId: {
-          type: Number,
-          index: {unique: false},
-          required: '{PATH} is required'
+      userId: {
+        type: Number,
+        index: {
+          unique: false
         },
-        done: {
-          type: Boolean,
-          default: false
-        },
-        title: {
-          type: String,
-          required: '{PATH} is required',
-          min: 3,
-          max: 50
-        },
-        notes: {
-          type: String,
-          max: 250
-        },
-        dueDateTime: {
-          type: Date
-        },
-        createdDateTime: {
-          type: Date,
-          default: Date.now,
-          required: '{PATH} is required'
-        }
+        required: '{PATH} is required'
+      },
+      done: {
+        type: Boolean,
+        default: false
+      },
+      title: {
+        type: String,
+        required: '{PATH} is required',
+        min: 3,
+        max: 50
+      },
+      notes: {
+        type: String,
+        max: 250
+      },
+      dueDateTime: {
+        type: Date
+      },
+      createdDateTime: {
+        type: Date,
+        default: Date.now,
+        required: '{PATH} is required'
+      }
     });
 
     TodoModel = mongoose.model('Todo', TodoSchema);
@@ -56,17 +56,19 @@ module.exports =  (function(){
   //   return(val != null && Object.prototype.toString.call(val) !== '[object Date]' && !/\S/.test(val));
   // }
 
-  function get(condition){
+  function get(condition) {
 
     return TodoModel.find(condition).exec();
   }
 
-  function getByUserId(userId){
+  function getByUserId(userId) {
 
-    return get({userId: userId});
+    return get({
+      userId: userId
+    });
   }
 
-  function add(userId, todo){
+  function add(userId, todo) {
     // console.log('adding a todo!!');
     todo._id = null;
     todo.userId = userId;
@@ -74,13 +76,16 @@ module.exports =  (function(){
     return newTodo.save();
   }
 
-  function deleteById(userId, todoId){
+  function deleteById(userId, todoId) {
 
-    return TodoModel.findOneAndRemove({_id: todoId, userId: userId}).exec()
-      .then(function(data){
+    return TodoModel.findOneAndRemove({
+        _id: todoId,
+        userId: userId
+      }).exec()
+      .then(function (data) {
         // console.log('delete attempted');
 
-        if(!data){
+        if(!data) {
 
           console.log('delete item not found');
 
@@ -92,12 +97,12 @@ module.exports =  (function(){
       });
   }
 
-  function update(todo){
+  function update(todo) {
 
     var error;
     // console.log('starting data todo function');
 
-    if(!todo._id || !todo.userId){
+    if(!todo._id || !todo.userId) {
 
       error = new Error();
       error.message = 'update operation requires todo object to have _id and userId';
@@ -105,23 +110,26 @@ module.exports =  (function(){
       throw error;
     }
 
-    return TodoModel.findOne({_id: todo._id, userId: todo.userId}).exec()
-      .then(function(dbTodo){
+    return TodoModel.findOne({
+        _id: todo._id,
+        userId: todo.userId
+      }).exec()
+      .then(function (dbTodo) {
 
-        if(!dbTodo){
-            error = new Error();
-            error.message =  'Todo not found with id ' + todo._id + ' for user ' + todo.userId;
-            error.statusCode = 404; // not found
-            throw error;
-          }
+        if(!dbTodo) {
+          error = new Error();
+          error.message = 'Todo not found with id ' + todo._id + ' for user ' + todo.userId;
+          error.statusCode = 404; // not found
+          throw error;
+        }
 
-          mongooseUtils.copyFieldsToModel(todo, dbTodo);
-          //
-          // if(isWhitespaceDateValue(dbTodo.dueDateTime)){
-          //   console.log('deleting dueDateTime');
-          //  dbTodo.dueDateTime = '';
-          // }
-          return dbTodo.save();
+        mongooseUtils.copyFieldsToModel(todo, dbTodo);
+        //
+        // if(isWhitespaceDateValue(dbTodo.dueDateTime)){
+        //   console.log('deleting dueDateTime');
+        //  dbTodo.dueDateTime = '';
+        // }
+        return dbTodo.save();
       });
   }
 

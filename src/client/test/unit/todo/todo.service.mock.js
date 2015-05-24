@@ -1,16 +1,14 @@
-
-
-var todoServiceMock = (function(){
+var todoServiceMock = (function () {
   'use strict';
 
   return {
     get: get
   };
 
-  function get($q){
+  function get($q) {
     /* global todoMockData */
     var mockData = todoMockData.get();
-    var todos = [];// = mockData.todoList;
+    var todos = []; // = mockData.todoList;
 
     return {
       getTodos: getTodos,
@@ -22,19 +20,19 @@ var todoServiceMock = (function(){
       todos: todos
     };
 
-
-    function getMockData(){
+    function getMockData() {
       return mockData;
     }
-    function resetData(){
+
+    function resetData() {
       mockData = todoMockData.get();
       todos = null;
     }
 
-    function getTodos(userId){
+    function getTodos(userId) {
 
       var deferred = $q.defer();
-      var data = mockData.todoList.filter(function(val){
+      var data = mockData.todoList.filter(function (val) {
         return val.userId === userId;
       });
       todos = data;
@@ -57,8 +55,8 @@ var todoServiceMock = (function(){
     function updateTodo(userId, todo) {
       var deferred = $q.defer();
 
-      for(var i = 0; i < todos.length; i++){
-        if(todos[i]._id === todo._Id){
+      for(var i = 0; i < todos.length; i++) {
+        if(todos[i]._id === todo._Id) {
           todos[i] = todo;
           deferred.resolve(todos[i]);
           return deferred.promise;
@@ -72,10 +70,10 @@ var todoServiceMock = (function(){
 
     function deleteTodo(userId, todoId) {
       var deferred = $q.defer();
-      for(var i = 0; i < todos.length; i++){
-        if(todos[i]._id === todoId){
+      for(var i = 0; i < todos.length; i++) {
+        if(todos[i]._id === todoId) {
           deferred.resolve(todos[i]);
-          todos.splice(i,1);
+          todos.splice(i, 1);
           return deferred.promise;
         }
       }

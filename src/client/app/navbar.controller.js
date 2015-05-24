@@ -1,17 +1,17 @@
 // public/ang/navbar.js
 
-
-(function(angular) {
+(function (angular) {
   'use strict';
 
   angular
-      .module('app')
-      .controller('NavBarCtrl', NavBarCtrl);
+    .module('app')
+    .controller('NavBarCtrl', NavBarCtrl);
 
   /* @ngInject */
 
-  NavBarCtrl.$inject = ['$location','navDataService'];
-  function NavBarCtrl($location, navDataService){
+  NavBarCtrl.$inject = ['$location', 'navDataService'];
+
+  function NavBarCtrl($location, navDataService) {
 
     var vm = this;
     // TODO: add navData directly to vm.data property.
@@ -24,36 +24,35 @@
     vm.getDropdownTabs = getDropdownTabs;
     vm.getDropdownTabsCount = getDropdownTabsCount;
 
-
-    function isSelected(tab){
+    function isSelected(tab) {
 
       var path = $location.path().toLowerCase() || '/home';
 
-      if(path.indexOf(tab.sref) === 1){
+      if(path.indexOf(tab.sref) === 1) {
         return true;
       }
 
       return false;
     }
 
-    function getStaticTabs(){
-      var ret = vm.tabs.filter(function(item){
+    function getStaticTabs() {
+      var ret = vm.tabs.filter(function (item) {
         return item.type === 'static';
       });
 
       return ret;
     }
 
-    function getDropdownTabs(){
-      var ret = vm.tabs.filter(function(item){
+    function getDropdownTabs() {
+      var ret = vm.tabs.filter(function (item) {
         return item.type === 'dropdown';
       });
 
       return ret;
     }
 
-    function getDropdownTabsCount(){
-      var len =  getDropdownTabs().length;
+    function getDropdownTabsCount() {
+      var len = getDropdownTabs().length;
       return len;
     }
   }

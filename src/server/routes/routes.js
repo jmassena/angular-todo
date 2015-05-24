@@ -1,6 +1,6 @@
 // routes/routes.js
 
-module.exports = function(app) {
+module.exports = function (app) {
   'use strict';
 
   // mount todo routes on api
@@ -9,7 +9,6 @@ module.exports = function(app) {
   app.use('/', require('./ui/index.js'));
 
   // app.use('/users???', require('./users.js'));
-
 
   // error handling
   //
