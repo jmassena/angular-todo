@@ -1,0 +1,5 @@
+// TODO:
+
+[] get menu from database
+
+[] create login page so we can know the current user and serve menu he is permitted to see allow actions/data he is permitted to do/see.
